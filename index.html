@@ -82,7 +82,7 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .wclose{font-family:var(--display);font-size:13px;background:#000;color:var(--bone);border:0;border-radius:3px;padding:4px 8px;cursor:pointer}
 .wbody{overflow:auto;padding:16px 18px;color:var(--bone);font-size:16px;min-height:0;flex:1}
 .wbody h2{font-family:var(--display);font-size:24px;font-weight:700;color:var(--amber);margin:0 0 6px;letter-spacing:.02em;text-wrap:balance}
-.wbody h3{font-family:var(--display);font-size:18px;font-weight:700;color:var(--bone);margin:0 0 4px;letter-spacing:.02em}
+.wbody h3{font-family:var(--body);font-size:17px;font-weight:600;color:var(--bone);margin:0 0 4px;letter-spacing:0}
 .wbody p{margin:0 0 12px;max-width:62ch}
 .kv{color:var(--dim)}
 .proj{border-top:2px dashed #23353b;padding-block:14px}
@@ -121,7 +121,7 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
     <canvas class="portrait" id="portrait" width="96" height="96" hidden></canvas>
     <div class="dtext">
       <div class="who" id="who"></div>
-      <p class="line" id="line">* Uma história curta sobre quem eu sou. Leva uns 3 minutos.</p>
+      <p class="line" id="line">* Uma história curta sobre quem eu sou. Leva uns 2 minutos.</p>
       <div class="choices" id="choices"></div>
     </div>
     <span class="next" id="nextArrow" aria-hidden="true">▼</span>
@@ -150,19 +150,19 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 const PERFIL = {
   nome: "Lucas Nunes Amaral",
   curto: "Lucas",
-  papel: "técnico de suporte e infraestrutura",
+  papel: "analista de infraestrutura",
   cargo: "Suporte Técnico e Infraestrutura · Microsoft e AWS",
   local: "Guaíba, RS",
-  buscando: "Suporte Técnico Pleno ou Analista de Infraestrutura Júnior",
+  buscando: "Analista de Infraestrutura Júnior/Pleno",
   bio: [
     "Trabalho com infraestrutura e suporte de TI em ambientes Microsoft: Active Directory, Microsoft Entra ID e Microsoft 365, com automação em PowerShell.",
     "Sou certificado AWS Cloud Practitioner e tenho conhecimentos em Azure e em ambientes híbridos, on-premises e nuvem. Meu foco é gestão de identidades, automação e segurança.",
     "Hoje estudo cloud e automação com IA, colocando tudo em prática em projetos próprios."
   ],
   experiencia: [
-    { cargo: "Analista de Suporte (Estágio)", empresa: "Zallpy Digital", periodo: "Ago 2025 – Fev 2026",
+    { cargo: "Analista de Infraestrutura (Estágio)", empresa: "Zallpy Digital", periodo: "Ago 2025 – Fev 2026",
       resumo: "Suporte N1/N2 em ambiente corporativo, com foco em identidade e infraestrutura em endpoints Windows, Linux e macOS.",
-      itens: ["IAM com Active Directory, Entra ID e Microsoft 365", "Troubleshooting de redes (TCP/IP, DNS, DHCP) em ambientes híbridos", "Automação em PowerShell alinhada à ISO/IEC 27001 e TISAX", "Documentação técnica, padronização de ativos e hardening", "Preparação e suporte de MacBooks e do ecossistema Apple", "89% de SLA nos chamados atendidos"] },
+      itens: ["IAM com Active Directory, Entra ID e Microsoft 365", "Troubleshooting de redes (TCP/IP, DNS, DHCP) em ambientes híbridos", "Projeto próprio: Instalação automatizada do Windows e dos aplicativos corporativos com Autounattend.xml e scripts .bat, deixando as máquinas prontas para envio", "Documentação técnica, padronização de ativos e hardening", "Preparação de máquinas Windows, Linux e macOS, como principal responsável pelos MacBooks e pelo ecossistema Apple", "89% de SLA nos chamados atendidos"] },
     { cargo: "Suporte Técnico / Infra (Estágio)", empresa: "Prefeitura Municipal de Guaíba", periodo: "Jul 2024 – Abr 2025",
       resumo: "Suporte presencial e remoto para vários setores da Prefeitura, incluindo saúde, assistência social e escolas.",
       itens: ["Resolução de incidentes de hardware, software e infraestrutura", "Administração de usuários e permissões no Active Directory", "Aplicação e manutenção de políticas de segurança", "Configuração de roteadores e switches", "Monitoramento da infraestrutura com Zabbix", "Treinamento de novos estagiários"] }
@@ -170,10 +170,21 @@ const PERFIL = {
   habilidades: [
     ["Cloud", ["Microsoft Azure", "AWS IAM", "EC2", "S3", "RDS", "Lambda", "Ambientes híbridos"]],
     ["Identidade e Microsoft", ["Entra ID", "Active Directory", "Microsoft 365", "IAM"]],
-    ["Automação", ["PowerShell"]],
+    ["Automação", ["PowerShell", "Batch Script", "n8n"]],
     ["Redes e monitoramento", ["TCP/IP", "DNS", "DHCP", "Roteadores e switches", "Zabbix"]],
     ["Segurança", ["ISO/IEC 27001", "TISAX", "Hardening", "Políticas de segurança"]],
     ["Sistemas e suporte", ["Windows", "Linux", "macOS", "Suporte N1/N2", "Troubleshooting", "Documentação técnica"]]
+  ],
+  projetos: [
+    { nome: "Instalação automatizada do Windows", status: "Concluído · Zallpy Digital",
+      resumo: "Desenvolvimento de solução automatizada de provisionamento de equipamentos Windows utilizando Autounattend.xml e scripts .bat. O processo automatizava a instalação do sistema operacional e dos aplicativos corporativos a partir de arquivos locais, padronizando a configuração dos equipamentos e reduzindo o tempo de preparação com mínima intervenção manual.",
+      tecnologias: ["Windows", "Autounattend.xml", "Batch Script", "Automação"], link: "" },
+    { nome: "Portfólio jogável: Última Luz Acesa", status: "Concluído · este site",
+      resumo: "Uma história interativa que termina no meu portfólio. Feito com HTML, CSS e JavaScript puro, sem frameworks, com os cenários desenhados em canvas e publicado no GitHub Pages.",
+      tecnologias: ["HTML", "CSS", "JavaScript", "Canvas", "GitHub Pages"], link: "https://github.com/Lucas-Amaralz/portfolio" },
+    { nome: "Classificador de chamados com IA", status: "Em breve",
+      resumo: "Uma rede neural que lê o texto de um chamado de suporte e sugere a categoria e a prioridade. Treinada no Google Colab e rodando direto no navegador, com custo zero.",
+      tecnologias: ["Python", "Machine Learning", "TensorFlow.js"], link: "" }
   ],
   certificacoes: [
     ["AWS Certified Cloud Practitioner (CLF-C02)", "Amazon Web Services · válido de 2025 a 2028"],
@@ -187,7 +198,7 @@ const PERFIL = {
   contato: {
     email: "Amlucaz@gmail.com",
     linkedin: "https://www.linkedin.com/in/lucas-amaral-ti",
-    github: "",
+    github: "https://github.com/Lucas-Amaralz",
     curriculo: ""
   }
 };
@@ -197,41 +208,24 @@ const PERFIL = {
    enter: troca de cena antes de mostrar o texto (zoom se houver ponto em ZOOM, senão fade)
    ========================================================= */
 const SCRIPT = {
-  // o mundo antes
-  f1: { text: "* Era uma vez um mundo cheio de cor.", next: "f2" },
-  f2: { text: "* Os campos davam comida para todos, as feiras viviam cheias e cada pessoa tinha um ofício do qual se orgulhava.", next: "f3" },
-  f3: { text: "* Ferreiros, padeiros, artistas, agricultores... todo mundo tinha o seu lugar.", next: "f4" },
-  f4: { text: "* Até que alguém teve uma ideia:\n* \"E se as máquinas fizessem todo o trabalho por nós?\"", next: "m1" },
   // a revolução das máquinas
-  m1: { enter: "fall", text: "* No começo, elas pareciam ajudantes. Carregavam peso, colhiam o trigo, varriam as ruas.", next: "m2" },
-  m2: { text: "* Mas elas aprendiam rápido. Mais rápido do que qualquer pessoa.", next: "m3" },
-  m3: { text: "* Uma a uma, as oficinas fecharam. As fábricas não precisavam mais de gente.", next: "m4" },
-  m4: { text: "* Milhões de pessoas perderam o emprego. Sem salário, as feiras esvaziaram.", next: "m5" },
-  m5: { text: "* A comida ficou escassa e as filas cresceram.\n* E as máquinas continuaram construindo... outras máquinas.", next: "m6" },
-  m6: { text: "* Os livros chamariam aquilo de A Revolução das Máquinas.", next: "i1" },
+  m1: { text: "* Um dia, as máquinas aprenderam a fazer o trabalho de todos.", next: "m2" },
+  m2: { text: "* As oficinas fecharam. Milhões perderam o emprego, e a comida ficou escassa.", next: "m3" },
+  m3: { text: "* Chamaram aquilo de A Revolução das Máquinas.", next: "i1" },
   // o mundo depois
-  i1: { enter: "world", text: "* Em poucos anos, as máquinas tomaram conta de tudo.", next: "i2" },
-  i2: { text: "* As cidades se apagaram, uma por uma.", next: "i3" },
-  i3: { text: "* E muita gente parou de tentar.", next: "i4" },
-  i4: { text: "* Mas lá longe, no fim da estrada...", next: "h1" },
-  h1: { enter: "house", text: "* ...uma luz continuava acesa.", next: "h2" },
-  h2: { text: "* Ali morava um garoto que se recusava a desistir.", next: "h3" },
-  h3: { text: "* O que você faz?", choices: [["Chegar mais perto", "r1"], ["Esperar aqui fora", "h4"]] },
+  i1: { enter: "world", text: "* Em poucos anos, as cidades se apagaram. Quase todo mundo desistiu.", next: "i2" },
+  i2: { text: "* Mas lá longe, no fim da estrada...", next: "h1" },
+  h1: { enter: "house", text: "* ...uma luz continuava acesa.", choices: [["Chegar mais perto", "r1"], ["Esperar aqui fora", "h4"]] },
   h4: { text: "* Você espera. O vento sopra.\n* A luz continua acesa, como se esperasse por você.", choices: [["Chegar mais perto", "r1"]] },
-  // o garoto
-  r1: { enter: "room", who: "kid", text: "Ah! Uma visita. Faz tempo que ninguém aparece por aqui.", next: "r2" },
-  r2: { who: "kid", text: "Desculpa a bagunça. Tô rodando um script aqui.", choices: [["Quem é você?", "r3a"], ["O que você está fazendo?", "r3b"]] },
-  r3a: { who: "kid", reveal: true, text: "Eu sou {curto}, {papel}.", next: "r3a2" },
-  r3a2: { who: "kid", text: "Enquanto as máquinas tomam conta de tudo, eu mantenho os servidores de pé, os acessos no lugar e o que der automatizado.", next: "r6" },
-  r3b: { who: "kid", text: "Automatizando com PowerShell. Se uma tarefa se repete, eu transformo em script.", next: "r3b2" },
-  r3b2: { who: "kid", reveal: true, text: "Ah, foi mal, nem me apresentei. Sou {curto}, {papel}.", next: "r6" },
-  r6: { who: "kid", text: "Sabe, todo mundo diz que não adianta mais. Que as máquinas já venceram.", choices: [["E não venceram?", "r7"], ["Por que você continua?", "r8"]] },
-  r7: { who: "kid", text: "Elas fazem o trabalho, é verdade. Mas alguém precisa entender como elas funcionam, manter tudo de pé e consertar quando quebra.", next: "r9" },
-  r8: { who: "kid", text: "Porque desistir é o único jeito garantido de perder. Cada problema que eu resolvo é um passo a mais.", next: "r9" },
-  r9: { who: "kid", text: "Eu estudo toda noite. Já tirei certificação, já errei muito e vou errar de novo.\nMas parar? Isso não.", next: "r10" },
-  r10: { who: "kid", text: "Se o futuro vai ser das máquinas, eu quero ser quem mantém elas funcionando.", next: "r4" },
-  r4: { who: "kid", text: "Tá tudo guardado aqui no meu computador: quem eu sou, onde trabalhei, minhas certificações e como falar comigo.", choices: [["Mostrar", "r5"], ["Mostrar (com entusiasmo)", "r5b"]] },
-  r5: { who: "kid", text: "Então chega mais perto da tela.", next: "DESKTOP" },
+  // o garoto: confiante, calmo sob pressão, assume o problema e puxa o time junto
+  r1: { enter: "room", who: "kid", text: "Opa! Visita. Chega aí, a porta tá sempre aberta.", next: "r2" },
+  r2: { who: "kid", text: "Só um segundo, tô terminando um script... Pronto. Agora sou todo seu.", choices: [["Que script era esse?", "r3b"]] },
+  r3b: { who: "kid", text: "Um que instala o Windows e todos os programas sozinho. O que levava horas por máquina agora roda enquanto eu resolvo outra coisa.", next: "r3b2" },
+  r3b2: { who: "kid", reveal: true, text: "Ah, nem me apresentei. Prazer, sou {curto}, {papel}.", next: "r6" },
+  r6: { who: "kid", text: "Lá fora todo mundo diz que as máquinas venceram.\nEu prefiro olhar por outro ângulo.", choices: [["E se der errado?", "r8"]] },
+  r8: { who: "kid", text: "Aí eu assumo, conserto e documento pra não acontecer de novo.\nProblema não me assusta. Problema é o meu trabalho.", next: "r9" },
+  r9: { who: "kid", text: "Eu não espero mandarem. Vejo o que precisa ser feito e faço.\nE se o time precisa, eu tô junto.", next: "r4" },
+  r4: { who: "kid", text: "Tá tudo aqui no computador: Quem eu sou, onde trabalhei, meus projetos, certificações e contato.", choices: [["Bora!", "r5b"]] },
   r5b: { who: "kid", text: "Gostei da energia! Chega mais perto da tela.", next: "DESKTOP" }
 };
 
@@ -266,7 +260,6 @@ const STARS = Array.from({ length: 48 }, () => ({ x: rand() * W | 0, y: rand() *
 const BUILDINGS = []; for (let x = -2; x < W;) { const w = 5 + (rand() * 10 | 0); BUILDINGS.push({ x, w, h: 8 + (rand() * 22 | 0), n: rand(), win: rand() }); x += w + (rand() < .3 ? 1 : 0); }
 const TUFTS = Array.from({ length: 34 }, () => ({ x: rand() * W | 0, y: 74 + (rand() * 32 | 0) }));
 const CODE = Array.from({ length: 14 }, () => 4 + (rand() * 22 | 0));
-const FLOWERS = Array.from({ length: 46 }, () => ({ x: rand() * W, k: rand(), c: ["#ff6b8a", "#ffd84a", "#ffffff", "#ff8a3a", "#c88bff"][rand() * 5 | 0] }));
 const QUEUE = [[108, "#6a5a6a", "#d9a87e"], [117, "#5a6a7a", "#b07850"], [126, "#7a6050", "#e8c09a"], [135, "#4a5a5a", "#8a5a3a"], [144, "#6a5048", "#d9a87e"], [153, "#5a5070", "#b07850"], [162, "#585058", "#e8c09a"]];
 
 function stars(t, maxY) {
@@ -291,41 +284,6 @@ function moon(cx, cy) {
   alpha(.5, () => C(cx + 2.5, cy + .5, 5.5, "#c4bca4"));
   C(cx - 2, cy - 1.5, 1.4, "#cbc3ab"); C(cx + 2, cy + 3, 1, "#b8b098"); C(cx - .5, cy + 4, .6, "#b8b098");
 }
-function cloud(x, y, s) {
-  E(x, y + 1.5 * s, 11 * s, 2.5 * s, "#d8ecf8");
-  E(x - 5 * s, y + .5 * s, 5 * s, 3 * s, "#ffffff"); E(x + 5 * s, y + .5 * s, 6 * s, 3 * s, "#ffffff"); E(x, y - 1.5 * s, 5.5 * s, 4 * s, "#ffffff");
-}
-function tree(x, y, s) {
-  R(x - .8 * s, y - 6 * s, 1.6 * s, 6 * s, "#7a5032");
-  C(x - 3 * s, y - 7 * s, 3.5 * s, "#2f8f3d"); C(x + 3 * s, y - 7.5 * s, 3.5 * s, "#33994a"); C(x, y - 9.5 * s, 5 * s, "#2f8f3d");
-  C(x - 1.5 * s, y - 11 * s, 2.2 * s, "#5cc25a");
-}
-function castle(x, y, t) {
-  R(x - 14, y - 20, 6, 20, "#e6d6be"); R(x + 8, y - 20, 6, 20, "#e6d6be");
-  R(x - 12, y - 12, 24, 12, "#efe3cf"); for (let i = 0; i < 8; i++) R(x - 12 + i * 3, y - 14, 2, 2, "#efe3cf");
-  R(x - 4, y - 26, 8, 14, "#f3e9d8");
-  poly("#e0566e", x - 15, y - 20, x - 11, y - 28, x - 7, y - 20); poly("#e0566e", x + 7, y - 20, x + 11, y - 28, x + 15, y - 20); poly("#d9506a", x - 5, y - 26, x, y - 34, x + 5, y - 26);
-  RR(x - 2, y - 6, 4, 6, [2, 2, 0, 0], "#8a5a3a");
-  R(x - 12, y - 16, 2, 3, "#6a7ab0"); R(x + 10, y - 16, 2, 3, "#6a7ab0"); R(x - 1, y - 22, 2, 3, "#6a7ab0");
-  R(x - .2, y - 38, .4, 4, "#6a5a4a");
-  const w = Math.sin(t * 4); poly("#ffd34a", x + .2, y - 38, x + 4.5 + w * .5, y - 37 + w * .4, x + .2, y - 35.6);
-}
-function windmill(x, y, t) {
-  poly("#f4ead6", x - 4, y, x - 2.5, y - 16, x + 2.5, y - 16, x + 4, y);
-  poly("#c9564a", x - 3.4, y - 16, x, y - 20, x + 3.4, y - 16);
-  RR(x - 1, y - 4, 2, 4, [1, 1, 0, 0], "#8a5a3a");
-  for (let k = 0; k < 4; k++) {
-    o.save(); o.translate(x, y - 16.5); o.rotate(t * 1.2 + k * TAU / 4);
-    R(-.4, 0, .8, 11, "#7a5a3a"); R(.4, 3, 2.6, 8, "#fbf4e4"); o.restore();
-  }
-  C(x, y - 16.5, .9, "#5a4030");
-}
-function tent(x, y) {
-  R(x - 7, y - 8, 14, 8, "#f6e7c8");
-  for (let k = 0; k < 4; k++) poly(k % 2 ? "#ffffff" : "#e0566e", x - 8 + k * 4, y - 8, x - 4 + k * 4, y - 8, x, y - 14);
-  R(x - 7, y - 3.5, 14, 1.2, "#a8744a");
-  [["#ff5a5a", -4.5], ["#ffb648", -2], ["#7ad65a", .5], ["#ff5a5a", 3], ["#c88bff", 5]].forEach(([c, dx]) => C(x + dx, y - 4.6, 1, c));
-}
 function person(x, y, shirt, skin, hair, step = 0, slump = 0) {
   R(x - 1.2 + step * .4, y - 2.6, 1, 2.6, "#3a3048"); R(x + .2 - step * .4, y - 2.6, 1, 2.6, "#3a3048");
   RR(x - 1.6, y - 6 + slump, 3.2, 3.6, .8, shirt);
@@ -340,46 +298,46 @@ function giant(x, base, t) {
   R(x - 1, base - 43.5, 6, 1.2, "#ff3b4e"); glow(x + 2, base - 43, 7, "#ff3b4e", .7);
 }
 
+// o garoto (Lucas) sentado na cadeira, de lado, de frente pro monitor.
+// Usado no quarto e, em miniatura, na janela da casa, para as duas cenas baterem.
+function seatedKid(t) {
+  const bob = talking ? (Math.sin(t * 14) > 0 ? .6 : 0) : 0, hy = 44 + bob;
+  const tap = !talking && Math.sin(t * 18) > 0 ? .8 : 0;
+  // cadeira de escritório: encosto, assento, coluna e base com rodinhas
+  RR(49, 47, 7, 40, 2, "#4a3a52"); RR(49.6, 48, 2, 38, 1, "#5a4862");
+  RR(50, 88.4, 30, 3.6, 1.6, "#4a3a52"); R(50.6, 88.6, 28.8, .7, "#5e4c68");
+  R(62.5, 92, 3, 9.5, "#2e2434"); RR(53, 101, 22, 1.8, .9, "#2e2434");
+  [55, 64, 73].forEach(x => C(x, 104, 1.5, "#1a141e"));
+  // pernas: calça jeans e tênis (a perna de trás um pouco mais escura)
+  RR(74, 86, 5, 17, 2.4, "#2f4a70"); RR(72.5, 101.6, 9, 3.2, 1.5, "#d8d8d8"); R(72.5, 104, 9, .8, "#a8a8a8");
+  RR(64, 83.5, 22, 5.6, 2.8, "#3d5f8f");
+  RR(80.5, 86, 5.4, 17, 2.6, "#3d5f8f"); R(80.8, 99, 5, .6, "#2f4a70");
+  RR(79, 101.4, 10.5, 3.6, 1.7, "#f2f2f0"); R(79, 104.2, 10.5, .9, "#bdbdbd"); R(82, 102.2, 3, .5, "#c8c8c8");
+  // moletom preto longo com capuz e cordões
+  RR(57.5, 57, 19, 31, 3.5, "#1c1c22"); RR(57.5, 57, 4, 31, 2, "#141418");
+  RR(64, 78, 11, 6, 2, "#16161b");
+  RR(60, 54.5, 11, 6, 3, "#16161b");
+  R(68, hy + 12, 4, 3.5, "#d4a47c");
+  R(72.2, 59.5, .4, 5, "#d8d8d8"); R(73.6, 59.5, .4, 4.4, "#d8d8d8");
+  // cabeça e cabelo castanho curto (mesmo formato do personagem original)
+  RR(64, hy, 14, 14, 4, "#e2b48a");
+  RR(63, hy - 2, 16, 5, 2.5, "#2a1c18"); RR(63, hy + 2, 5, 10, 2, "#2a1c18"); RR(76, hy + 2, 3, 3, 1.5, "#2a1c18");
+  E(67.8, hy + 7.5, 1.3, 1.8, "#c99a72");
+  // olho, óculos redondo, nariz, bigodinho e boca
+  const blink = (t % 4) < .12;
+  E(75.5, hy + 8, .6, blink ? .15 : .9, "#1a1214");
+  o.strokeStyle = "#1a1a20"; o.lineWidth = .3;
+  o.beginPath(); o.arc(75.8, hy + 8, 1.9, 0, TAU); o.stroke();
+  o.beginPath(); o.moveTo(73.9, hy + 7.7); o.lineTo(68.6, hy + 7.2); o.stroke();
+  poly("#e2b48a", 77.6, hy + 7.4, 79.2, hy + 9.9, 77.6, hy + 10.2);
+  alpha(.9, () => poly("#2a1c18", 75.4, hy + 10.3, 77.9, hy + 10.1, 77.8, hy + 10.6, 75.6, hy + 10.75));
+  if (talking && Math.sin(t * 22) > 0) E(76.8, hy + 11.4, .9, .6, "#7a3a3a");
+  else R(76, hy + 11.2, 2, .6, "#b98a66");
+  glow(79, hy + 7, 7, "#6ff3e0", .2);
+  RR(70, 66, 16, 4, 2, "#1c1c22"); R(84, 66.2, 1.2, 3.6, "#141418"); RR(85, 67 - tap, 4.5, 3, 1.5, "#e2b48a");
+}
+
 const SCENES = {
-  fantasy(t) {
-    vgrad(0, 82, [[0, "#4fb6ec"], [.55, "#9fdcff"], [1, "#ffe4b8"]]);
-    glow(150, 22, 36, "#fff1a0", .8); C(150, 22, 7, "#fff8d8");
-    // arco-íris
-    o.lineWidth = 1.6;
-    alpha(.4, () => ["#ff5a5a", "#ffa24a", "#ffe14a", "#6be36b", "#4ab0ff", "#9b6bff"].forEach((c, i) => { o.strokeStyle = c; o.beginPath(); o.arc(58, 86, 52 - i * 1.6, Math.PI, TAU); o.stroke(); }));
-    [[20, 14, 1], [80, 9, .8], [130, 18, 1.1], [175, 8, .7]].forEach(([x0, y, s], i) => cloud((x0 + t * (2 + i)) % (W + 40) - 20, y, s));
-    // montanhas
-    poly("#8ea4d6", -5, 70, 30, 34, 62, 70); poly("#9fb3e0", 40, 70, 84, 28, 128, 70); poly("#8ea4d6", 110, 70, 160, 38, 200, 70);
-    poly("#ffffff", 30, 34, 24.2, 40, 27, 38.5, 30, 41, 33, 38.5, 35.3, 40);
-    poly("#ffffff", 84, 28, 75.6, 36, 79, 34.5, 82, 37, 86, 34.5, 92.4, 36);
-    poly("#ffffff", 160, 38, 152.2, 43, 155, 42, 158, 44, 162, 42, 166.2, 43);
-    const back = hill(72, 3, .04, 2, .11, 0, "#8fd873");
-    castle(150, back(150) + 1, t);
-    const mid = hill(82, 4, .03, 2, .09, 1.5, "#5cbf52");
-    windmill(34, mid(34) + 1, t);
-    [[70, 1], [86, .8], [100, 1.1], [118, .9]].forEach(([x, s]) => tree(x, mid(x) + 1, s));
-    const front = hill(96, 3, .05, 1.5, .13, 3, "#3f9e44");
-    tent(132, front(132) + 5);
-    for (const f of FLOWERS) {
-      const fy = front(f.x) + 1.5 + f.k * (H - front(f.x) - 2), fx = f.x + Math.sin(t * 2 + f.k * 6) * .3;
-      C(fx, fy, .9, f.c); if (f.c !== "#ffd84a") C(fx, fy, .35, "#ffe96a");
-    }
-    // gente indo e vindo da feira
-    const x1 = 70 + Math.sin(t * .25) * 40, x2 = 100 - Math.sin(t * .2 + 1) * 30;
-    person(x1, front(x1) + 7, "#e05a5a", "#e8c09a", "#5a3020", Math.sin(t * 6));
-    person(x2, front(x2) + 9, "#4a8ae0", "#b07850", "#2a1c18", Math.sin(t * 6 + 1));
-    // pássaros
-    o.strokeStyle = "#2a3a5a"; o.lineWidth = .5;
-    for (let i = 0; i < 4; i++) {
-      const bx = (t * 8 + i * 50) % (W + 20) - 10, by = 20 + i * 5 + Math.sin(t + i) * 2, wg = Math.sin(t * 8 + i) * 1.2;
-      o.beginPath(); o.moveTo(bx - 2, by - wg); o.lineTo(bx, by); o.lineTo(bx + 2, by - wg); o.stroke();
-    }
-    // borboletas
-    ["#ff8ad8", "#ffd84a", "#8ad8ff"].forEach((c, i) => {
-      const bx = 40 + i * 50 + Math.sin(t * .7 + i) * 10, by = 94 + Math.sin(t * 1.3 + i * 2) * 4, wg = .2 + .9 * Math.abs(Math.sin(t * 12 + i));
-      E(bx - .8, by, wg, 1, c); E(bx + .8, by, wg, 1, c);
-    });
-  },
   fall(t) {
     vgrad(0, 76, [[0, "#231d2e"], [.5, "#5a3542"], [1, "#b8603a"]]);
     glow(44, 64, 40, "#ff7a30", .45); alpha(.8, () => C(44, 64, 7, "#ff9a55"));
@@ -482,13 +440,17 @@ const SCENES = {
     R(72, 58, 12, 10, "#120f1d"); R(77.7, 58, .6, 10, "#2b2440");
     // a janela acesa, com o garoto
     glow(114, 64, 28, "#ffb648", .45);
-    R(105, 57, 18, 14, "#1a1426"); R(106, 58, 16, 12, "#f0a040"); R(106, 58, 16, 4, "#ffc56a");
-    // mesmas cores do garoto no quarto: pele, cabelo e camiseta azul
-    RR(108, 66, 9, 4, [1.5, 1.5, 0, 0], "#3d5a80"); RR(108, 66, 2, 4, [1.5, 0, 0, 0], "#2e4766");
-    RR(110, 60.5, 5, 5.5, 1.8, "#e2b48a");
-    RR(109.5, 59.3, 6, 2.4, 1.2, "#2a1c18"); RR(109.5, 60.5, 1.6, 3.6, .7, "#2a1c18");
-    C(113.9, 63, .3, "#1a1214");
-    R(117, 63, 5, 5, "#2a2a2a"); R(118, 64, 3, 3, Math.sin(t * 20) > 0 ? "#9ff6ea" : "#6ff3e0"); glow(119.5, 65.5, 4, "#6ff3e0", .5);
+    R(105, 57, 18, 14, "#1a1426");
+    // pela janela aparece a mesma cena do quarto, em miniatura: ele de lado, na cadeira, de frente pro monitor
+    o.save(); o.beginPath(); o.rect(106, 58, 16, 12); o.clip();
+    o.translate(106 - 52 * .29, 58 - 38 * .29); o.scale(.29, .29);
+    R(40, 30, 80, 50, "#4a3250"); glow(100, 50, 44, "#ffb648", .55);
+    R(70, 70, 50, 4, "#4a3328"); R(70, 70, 50, .8, "#6a4a38");
+    RR(100, 40, 38, 30, 2, "#c9c2ae"); RR(104, 44, 28, 21, 2, "#0a1f24");
+    for (let i = 0; i < 5; i++) R(106, 46 + i * 3, 14, .8, "#6ff3e0");
+    glow(104, 54, 16, "#6ff3e0", .35);
+    seatedKid(t);
+    o.restore();
     R(104, 70, 20, 2, "#3a3050");
   },
   room(t) {
@@ -517,9 +479,11 @@ const SCENES = {
     alpha(.13, () => poly("#ffb648", 151, 50, 136, 71, 172, 71));
     glow(151, 60, 20, "#ffb648", .22);
     RR(146, 69, 10, 2, 1, "#2a2030"); R(150.2, 50, 1.6, 19, "#2a2030"); poly("#4a3a4a", 146, 50, 147.5, 45, 154.5, 45, 156, 50); C(151, 50.5, 1.2, "#ffe0a0");
-    // mesa
-    R(0, 70, W, 4, "#4a3328"); R(0, 70, W, .8, "#6a4a38"); vgrad(74, H, [[0, "#2e201a"], [1, "#1c130f"]]);
-    R(120, 80, 50, .6, "#241812"); RR(143, 85.5, 4, 1, .5, "#6a4a38");
+    // chão e mesa com pernas (o espaço embaixo fica aberto para aparecer a calça e o tênis)
+    vgrad(72, H, [[0, "#241a20"], [1, "#120c10"]]);
+    for (let x = 6; x < W; x += 22) R(x, 74, .4, H - 74, "#1a1216");
+    R(70, 70, W - 70, 4, "#4a3328"); R(70, 70, W - 70, .8, "#6a4a38"); R(70, 74, W - 70, 3, "#3a281f");
+    R(73, 77, 3, H - 77, "#3a281f"); R(186, 77, 3, H - 77, "#3a281f");
     // monitor CRT
     RR(100, 40, 38, 30, 2, "#c9c2ae"); R(132, 41, 5, 28, "#a39b86"); R(112, 70, 14, 2, "#a39b86");
     RR(104, 44, 28, 21, 2, "#0a1f24");
@@ -530,54 +494,24 @@ const SCENES = {
     glow(118, 54, 16, "#6ff3e0", .25);
     C(134.5, 66.5, .7, talking ? "#ffb648" : "#4aba6a");
     RR(82, 69, 22, 3, .8, "#d8d2c0"); R(83, 70, 20, .8, "#b8b2a0");
-    // cadeira
-    RR(52, 52, 6, 40, 1.5, "#3a2a3a"); RR(52, 84, 26, 4, 1, "#3a2a3a"); R(62, 88, 3, 20, "#2a1e2a");
-    // o garoto
-    const bob = talking ? (Math.sin(t * 14) > 0 ? .6 : 0) : 0, hy = 44 + bob;
-    RR(58, 60, 18, 26, 3, "#3d5a80"); RR(58, 60, 4, 26, 2, "#2e4766"); RR(60, 58, 12, 4, 2, "#2e4766");
-    R(68, hy + 12, 4, 4, "#d4a47c");
-    RR(64, hy, 14, 14, 4, "#e2b48a");
-    RR(63, hy - 2, 16, 5, 2.5, "#2a1c18"); RR(63, hy + 2, 5, 10, 2, "#2a1c18"); RR(76, hy + 2, 3, 3, 1.5, "#2a1c18");
-    E(67.8, hy + 7.5, 1.3, 1.8, "#c99a72");
-    const blink = (t % 4) < .12;
-    R(74.2, hy + 5.6, 2.6, .6, "#2a1c18");
-    E(75.5, hy + 8, .6, blink ? .15 : .9, "#1a1214");
-    E(78.4, hy + 8.6, .8, 1, "#e2b48a");
-    alpha(.25, () => C(75.6, hy + 10.2, 1.2, "#ff8a8a"));
-    if (talking && Math.sin(t * 22) > 0) E(76.8, hy + 11.3, 1, .7, "#7a3a3a"); else R(76, hy + 11, 2, .6, "#b98a66");
-    glow(79, hy + 7, 7, "#6ff3e0", .2);
-    const tap = !talking && Math.sin(t * 18) > 0 ? .8 : 0;
-    RR(70, 66, 16, 4, 2, "#3d5a80"); RR(85, 67 - tap, 4.5, 3, 1.5, "#e2b48a");
+    seatedKid(t);
   }
 };
 
-/* Retrato que aparece na caixa de diálogo (desenhado em 24 unidades, 4x de resolução) */
+/* Retrato da caixa de diálogo: um recorte ampliado da cabeça do próprio garoto na cena do quarto,
+   então é sempre o mesmo desenho (cabelo, óculos, bigodinho) e a boca mexe junto quando ele fala */
 const pc = document.getElementById("portrait"), p = pc.getContext("2d");
-function drawPortrait(t) {
-  const P = (x, y, w, h, r, c) => { p.fillStyle = c; p.beginPath(); p.roundRect ? p.roundRect(x, y, w, h, r) : p.rect(x, y, w, h); p.fill(); };
-  p.setTransform(4, 0, 0, 4, 0, 0);
-  const g = p.createLinearGradient(0, 0, 0, 24); g.addColorStop(0, "#10242c"); g.addColorStop(1, "#05080c"); p.fillStyle = g; p.fillRect(0, 0, 24, 24);
-  P(3, 19.5, 18, 6, 4, "#3d5a80"); P(9.5, 17, 5, 3, 1, "#d4a47c");
-  P(4.8, 10, 2, 3, 1, "#d4a47c"); P(17.2, 10, 2, 3, 1, "#d4a47c");
-  P(6, 5.5, 12, 13.5, 4.5, "#e2b48a");
-  P(5, 2.5, 14, 5.5, 3, "#2a1c18"); P(5, 5, 2.2, 7, 1, "#2a1c18"); P(16.8, 5, 2.2, 7, 1, "#2a1c18"); P(8, 6, 5, 2, 1, "#2a1c18");
-  P(8.5, 9.2, 2.6, .6, .3, "#2a1c18"); P(12.9, 9.2, 2.6, .6, .3, "#2a1c18");
-  const blink = (t % 4) < .12;
-  for (const ex of [9, 13.2]) {
-    if (blink) P(ex - .2, 11.4, 2.2, .5, .25, "#1a1214");
-    else { P(ex, 10.4, 1.8, 2.3, .9, "#1a1214"); P(ex + .8, 10.7, .6, .6, .3, "#ffffff"); }
-  }
-  p.globalAlpha = .3; P(7.2, 13.3, 2.2, 1.2, .6, "#ff8a8a"); P(14.6, 13.3, 2.2, 1.2, .6, "#ff8a8a"); p.globalAlpha = 1;
-  const open = talking && Math.sin(t * 22) > 0;
-  if (open) P(10.8, 15.1, 2.4, 1.6, .8, "#7a3a3a"); else P(10.6, 15.6, 2.8, .6, .3, "#b98a66");
-  p.globalAlpha = .12; P(12, 5.5, 6, 13.5, 3, "#6ff3e0"); p.globalAlpha = 1;
+function drawPortrait() {
+  const S = cvs.width / W * cam.z, sx = cvs.width / 2 + (59.5 - cam.x) * S, sy = cvs.height / 2 + (38.5 - cam.y) * S;
+  p.setTransform(1, 0, 0, 1, 0, 0); p.imageSmoothingQuality = "high";
+  p.drawImage(cvs, sx, sy, 24 * S, 24 * S, 0, 0, pc.width, pc.height);
 }
 
 /* =========================================================
    4) CÂMERA, ZOOM E LOOP
    ========================================================= */
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-let scene = "fantasy", cam = { x: 96, y: 54, z: 1 }, fade = 0, talking = false, runId = 0;
+let scene = "fall", cam = { x: 96, y: 54, z: 1 }, fade = 0, talking = false, runId = 0;
 const ZOOM = { house: [151, 84], room: [113, 64], desk: [118, 55] };
 
 function render(now) {
@@ -590,7 +524,7 @@ function render(now) {
     SCENES[scene](t);
     o.setTransform(1, 0, 0, 1, 0, 0);
     if (fade > 0) { o.fillStyle = `rgba(0,0,0,${Math.min(1, fade)})`; o.fillRect(0, 0, cw, ch); }
-    if (!pc.hidden) drawPortrait(t);
+    if (!pc.hidden) drawPortrait();
   }
   requestAnimationFrame(render);
 }
@@ -702,7 +636,7 @@ function done() {
 function mark(i) { sel = i; choiceBtns.forEach((b, k) => b.classList.toggle("on", k === i)); }
 function pick(i) { if (busy || typing) return; blip(440); go(cur.choices[i][1]); }
 
-function begin() { started = true; initAudio(); titleEl.hidden = true; go("f1"); }
+function begin() { started = true; initAudio(); titleEl.hidden = true; go("m1"); }
 function advance() {
   if (!started) return begin();
   if (busy) return;
@@ -730,6 +664,7 @@ const ICONS = [
   { id: "sobre", label: "sobre_mim/", cls: "folder" },
   { id: "exp", label: "experiencia/", cls: "folder" },
   { id: "skills", label: "habilidades/", cls: "folder" },
+  { id: "projetos", label: "projetos/", cls: "folder" },
   { id: "certs", label: "certificacoes/", cls: "folder" },
   { id: "contato", label: "contato.txt", cls: "file" },
   { id: "replay", label: "rever_historia.exe", cls: "exe" }
@@ -745,6 +680,9 @@ const WINS = {
     <p>${esc(x.resumo)}</p><ul>${x.itens.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join(""),
   skills: () => `<h2>Habilidades</h2>` + PERFIL.habilidades.map(([cat, itens]) => `<div class="proj">
     <h3>${esc(cat)}</h3><div class="chips">${itens.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div></div>`).join(""),
+  projetos: () => `<h2>Projetos</h2>` + PERFIL.projetos.map(x => `<div class="proj">
+    <h3>${esc(x.nome)}</h3><p class="kv">${esc(x.status)}</p><p>${esc(x.resumo)}</p>
+    <div class="chips">${x.tecnologias.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>${link("repositório", x.link)}</div>`).join(""),
   certs: () => `<h2>Certificações</h2>` + PERFIL.certificacoes.map(([n, d]) => `<div class="proj"><h3>${esc(n)}</h3><p class="kv">${esc(d)}</p></div>`).join("") +
     `<h2 style="margin-top:18px">Formação e idiomas</h2>` + PERFIL.formacao.map(([n, d]) => `<div class="proj"><h3>${esc(n)}</h3><p class="kv">${esc(d)}</p></div>`).join(""),
   contato: () => `<h2>Contato</h2>
@@ -785,8 +723,8 @@ function openDesktop(skipped) {
 function replay() {
   runId++; closeWin(); deskEl.hidden = true; stageEl.hidden = false; dialogEl.hidden = false; helpEl.hidden = false;
   document.getElementById("btnSkip").hidden = false;
-  scene = "fantasy"; cam = { x: 96, y: 54, z: 1 }; fade = 0; known = false; busy = false;
-  started = true; titleEl.hidden = true; initAudio(); go("f1");
+  scene = "fall"; cam = { x: 96, y: 54, z: 1 }; fade = 0; known = false; busy = false;
+  started = true; titleEl.hidden = true; initAudio(); go("m1");
 }
 
 document.getElementById("btnSkip").addEventListener("click", () => openDesktop(true));
