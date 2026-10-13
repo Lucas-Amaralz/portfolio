@@ -33,7 +33,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .t-only{display:none}
 @media (hover:none) and (pointer:coarse){.k-only{display:none}.t-only{display:inline}}
 body{color:var(--bone);font-family:var(--body);font-size:17px;line-height:1.45}
-.wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:14px 32px;display:flex;flex-direction:column;gap:14px}
+.wrap{max-width:960px;margin:0 auto;padding:14px 16px 32px;display:flex;flex-direction:column;gap:14px}
 
 .bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
 .brand{font-family:var(--display);font-size:15px;letter-spacing:.06em;color:var(--dim)}
@@ -45,8 +45,10 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 
 .stage{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;cursor:pointer;border-radius:6px}
 .stage canvas{width:100%;height:100%;display:block}
-.stage::after,.screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.07) 2px 3px)}
-.title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;pointer-events:none;padding-inline:16px}
+.stage::after,.screen::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.07) 2px 3px)}
+/* navegadores antigos (sem aspect-ratio): mantém a cena em 16:9 pelo truque do padding */
+@supports not (aspect-ratio:16/9){.stage{height:0;padding-top:56.25%}.stage canvas{position:absolute;top:0;left:0}}
+.title{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;pointer-events:none;padding:0 16px}
 .title h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,6.4vw,64px);letter-spacing:.04em;margin:0;color:#fff;text-shadow:0 3px 0 #2a1840,0 0 24px rgba(42,24,64,.6);text-wrap:balance}
 .title p{margin:0;font-size:clamp(14px,2vw,18px);font-weight:600;color:#2a1840;background:rgba(255,255,255,.8);padding:4px 12px;border-radius:4px;animation:blink 1.1s steps(2) infinite}
 @keyframes blink{50%{opacity:0}}
@@ -59,7 +61,7 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .choices{display:flex;flex-wrap:wrap;gap:4px 32px}
 .choice{font-family:var(--body);font-size:clamp(16px,2.1vw,20px);font-weight:500;color:var(--bone);background:none;border:0;padding:2px 0 2px 22px;cursor:pointer;position:relative;text-align:left}
 .choice.on{color:var(--amber)}
-.choice.on::before{content:"";position:absolute;left:2px;top:50%;border-left:10px solid var(--amber);border-block:7px solid transparent;transform:translateY(-50%)}
+.choice.on::before{content:"";position:absolute;left:2px;top:50%;border-left:10px solid var(--amber);border-top:7px solid transparent;border-bottom:7px solid transparent;transform:translateY(-50%)}
 .next{position:absolute;right:16px;bottom:8px;font-size:16px;color:var(--amber);animation:bob .6s steps(2) infinite}
 @keyframes bob{50%{transform:translateY(3px)}}
 .help{font-size:14px;color:var(--dim);margin:0}
@@ -91,7 +93,7 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .wbody h3{font-family:var(--body);font-size:17px;font-weight:600;color:var(--bone);margin:0 0 4px;letter-spacing:0}
 .wbody p{margin:0 0 12px;max-width:62ch}
 .kv{color:var(--dim)}
-.proj{border-top:2px dashed #23353b;padding-block:14px}
+.proj{border-top:2px dashed #23353b;padding:14px 0}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
 .chip{font-size:13px;color:var(--cyan);border:1px solid var(--cyan);border-radius:3px;padding:1px 7px}
 .wbody a{color:var(--cyan)}
@@ -249,7 +251,8 @@ const alpha = (a, fn) => { o.globalAlpha = a; fn(); o.globalAlpha = 1; };
 function vgrad(y0, y1, stops) { const g = o.createLinearGradient(0, y0, 0, y1); stops.forEach(([k, c]) => g.addColorStop(k, c)); o.fillStyle = g; o.fillRect(-1, y0, W + 2, y1 - y0); }
 // luz suave aditiva; c precisa ser hex de 6 dígitos
 function glow(x, y, r, c, a = 1) {
-  const g = o.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, c); g.addColorStop(1, c + "00");
+  const n = parseInt(c.slice(1), 16), clear = `rgba(${n >> 16},${n >> 8 & 255},${n & 255},0)`;
+  const g = o.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, c); g.addColorStop(1, clear);
   o.globalCompositeOperation = "lighter"; o.globalAlpha = a; o.fillStyle = g; o.fillRect(x - r, y - r, r * 2, r * 2);
   o.globalAlpha = 1; o.globalCompositeOperation = "source-over";
 }
@@ -520,9 +523,16 @@ const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let scene = "fall", cam = { x: 96, y: 54, z: 1 }, fade = 0, talking = false, runId = 0;
 const ZOOM = { house: [151, 84], room: [113, 64], desk: [118, 55] };
 
+// A resolução do canvas acompanha o tamanho real da cena na tela (até 1536 px de largura).
+// Em celular pequeno são bem menos pixels por quadro, o que deixa aparelhos fracos rodando liso.
+function fitCanvas() {
+  const w = Math.round(Math.min(1536, Math.max(480, stageEl.clientWidth * Math.min(window.devicePixelRatio || 1, 2))));
+  if (w !== cvs.width) { cvs.width = w; cvs.height = Math.round(w * 9 / 16); }
+}
 function render(now) {
   const t = now / 1000;
   if (!stageEl.hidden) {
+    fitCanvas();
     const cw = cvs.width, ch = cvs.height, s = cw / W * cam.z;
     o.setTransform(1, 0, 0, 1, 0, 0); o.fillStyle = "#000"; o.fillRect(0, 0, cw, ch);
     o.setTransform(s, 0, 0, s, cw / 2 - cam.x * s, ch / 2 - cam.y * s);
@@ -575,7 +585,7 @@ const arrowEl = document.getElementById("nextArrow"), helpEl = document.getEleme
 const deskEl = document.getElementById("desktop");
 let started = false, busy = false, known = false, cur = null, typing = false, typeTimer = null, full = "", sel = 0, choiceBtns = [];
 
-const fill = s => s.replace(/\{(\w+)\}/g, (_, k) => PERFIL[k] ?? "");
+const fill = s => s.replace(/\{(\w+)\}/g, (_, k) => k in PERFIL ? PERFIL[k] : "");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 let actx = null, muted = false;
