@@ -26,6 +26,12 @@
 [hidden]{display:none!important}
 img{max-width:100%}
 html,body{background:var(--ink);margin:0}
+/* celular: sem zoom de toque duplo ao avançar a história, sem fonte aumentando sozinha, sem flash azul ao tocar */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+.stage,.dialog,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+/* textos de teclado só aparecem em computador; no celular aparecem os de toque */
+.t-only{display:none}
+@media (hover:none) and (pointer:coarse){.k-only{display:none}.t-only{display:inline}}
 body{color:var(--bone);font-family:var(--body);font-size:17px;line-height:1.45}
 .wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:14px 32px;display:flex;flex-direction:column;gap:14px}
 
@@ -113,7 +119,7 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
     <canvas id="screen" width="1536" height="864" aria-label="Cena animada"></canvas>
     <div class="title" id="title">
       <h1>ÚLTIMA LUZ ACESA</h1>
-      <p>pressione ENTER ou toque para começar</p>
+      <p><span class="k-only">pressione ENTER ou toque para começar</span><span class="t-only">toque para começar</span></p>
     </div>
   </div>
 
@@ -126,7 +132,7 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
     </div>
     <span class="next" id="nextArrow" aria-hidden="true">▼</span>
   </div>
-  <p class="help" id="help">ENTER, ESPAÇO ou clique para avançar · setas para escolher</p>
+  <p class="help" id="help"><span class="k-only">ENTER, ESPAÇO ou clique para avançar · setas para escolher</span><span class="t-only">Toque na cena ou no texto para avançar</span></p>
 
   <section class="desktop" id="desktop" hidden>
     <div class="bezel">
