@@ -150,13 +150,14 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 const PERFIL = {
   nome: "Lucas Nunes Amaral",
   curto: "Lucas",
-  papel: "analista de infraestrutura e cloud",
-  cargo: "Analista de Infraestrutura e Cloud · Azure e AWS",
+  papel: "técnico de suporte e infraestrutura",
+  cargo: "Suporte Técnico e Infraestrutura · Microsoft e AWS",
   local: "Guaíba, RS",
-  buscando: "Analista de Infraestrutura ou Cloud, Júnior/Pleno",
+  buscando: "Suporte Técnico Pleno ou Analista de Infraestrutura Júnior",
   bio: [
     "Trabalho com infraestrutura e suporte de TI em ambientes Microsoft: Active Directory, Microsoft Entra ID e Microsoft 365, com automação em PowerShell.",
-    "Sou certificado AWS Cloud Practitioner e tenho conhecimentos em Azure e em ambientes híbridos, on-premises e nuvem. Meu foco é gestão de identidades, automação e segurança."
+    "Sou certificado AWS Cloud Practitioner e tenho conhecimentos em Azure e em ambientes híbridos, on-premises e nuvem. Meu foco é gestão de identidades, automação e segurança.",
+    "Hoje estudo cloud e automação com IA, colocando tudo em prática em projetos próprios."
   ],
   experiencia: [
     { cargo: "Analista de Suporte (Estágio)", empresa: "Zallpy Digital", periodo: "Ago 2025 – Fev 2026",
@@ -482,7 +483,11 @@ const SCENES = {
     // a janela acesa, com o garoto
     glow(114, 64, 28, "#ffb648", .45);
     R(105, 57, 18, 14, "#1a1426"); R(106, 58, 16, 12, "#f0a040"); R(106, 58, 16, 4, "#ffc56a");
-    RR(109, 59.5, 7, 3, 1.5, "#2a1612"); RR(110, 61, 5, 5, 1.5, "#3a2018"); RR(108, 66, 9, 4, [1.5, 1.5, 0, 0], "#2c3a55");
+    // mesmas cores do garoto no quarto: pele, cabelo e camiseta azul
+    RR(108, 66, 9, 4, [1.5, 1.5, 0, 0], "#3d5a80"); RR(108, 66, 2, 4, [1.5, 0, 0, 0], "#2e4766");
+    RR(110, 60.5, 5, 5.5, 1.8, "#e2b48a");
+    RR(109.5, 59.3, 6, 2.4, 1.2, "#2a1c18"); RR(109.5, 60.5, 1.6, 3.6, .7, "#2a1c18");
+    C(113.9, 63, .3, "#1a1214");
     R(117, 63, 5, 5, "#2a2a2a"); R(118, 64, 3, 3, Math.sin(t * 20) > 0 ? "#9ff6ea" : "#6ff3e0"); glow(119.5, 65.5, 4, "#6ff3e0", .5);
     R(104, 70, 20, 2, "#3a3050");
   },
