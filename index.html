@@ -97,6 +97,8 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
 .chip{font-size:13px;color:var(--cyan);border:1px solid var(--cyan);border-radius:3px;padding:1px 7px}
 .wbody a{color:var(--cyan)}
+.wbody a.btn{display:inline-block;margin-top:4px;color:var(--bone);text-decoration:none}
+.wbody a.btn:hover{color:var(--ink)}
 .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:10px}
 .mono{background:#111;padding:2px 8px;border-radius:3px;user-select:all;overflow-wrap:anywhere}
 .small{font-size:13px;color:var(--dim)}
@@ -159,11 +161,11 @@ const PERFIL = {
   nome: "Lucas Nunes Amaral",
   curto: "Lucas",
   papel: "analista de infraestrutura",
-  cargo: "Suporte Técnico e Infraestrutura · Microsoft e AWS",
+  cargo: "Analista de Infraestrutura · Microsoft e AWS",
   local: "Guaíba, RS",
-  buscando: "Analista de Infraestrutura Júnior/Pleno",
+  buscando: "Analista de Infraestrutura Júnior",
   bio: [
-    "Trabalho com infraestrutura e suporte de TI em ambientes Microsoft: Active Directory, Microsoft Entra ID e Microsoft 365, com automação em PowerShell.",
+    "Trabalho com infraestrutura e suporte de TI em ambientes Microsoft: Active Directory, Microsoft Entra ID e Microsoft 365, com automação em PowerShell e scripts .bat.",
     "Sou certificado AWS Cloud Practitioner e tenho conhecimentos em Azure e em ambientes híbridos, on-premises e nuvem. Meu foco é gestão de identidades, automação e segurança.",
     "Hoje estudo cloud e automação com IA, colocando tudo em prática em projetos próprios."
   ],
@@ -189,10 +191,7 @@ const PERFIL = {
       tecnologias: ["Windows", "Autounattend.xml", "Batch Script", "Automação"], link: "" },
     { nome: "Portfólio jogável: Última Luz Acesa", status: "Concluído · este site",
       resumo: "Uma história interativa que termina no meu portfólio. Feito com HTML, CSS e JavaScript puro, sem frameworks, com os cenários desenhados em canvas e publicado no GitHub Pages.",
-      tecnologias: ["HTML", "CSS", "JavaScript", "Canvas", "GitHub Pages"], link: "https://github.com/Lucas-Amaralz/portfolio" },
-    { nome: "Classificador de chamados com IA", status: "Em breve",
-      resumo: "Uma rede neural que lê o texto de um chamado de suporte e sugere a categoria e a prioridade. Treinada no Google Colab e rodando direto no navegador, com custo zero.",
-      tecnologias: ["Python", "Machine Learning", "TensorFlow.js"], link: "" }
+      tecnologias: ["HTML", "CSS", "JavaScript", "Canvas", "GitHub Pages"], link: "https://github.com/Lucas-Amaralz/portfolio" }
   ],
   certificacoes: [
     ["AWS Certified Cloud Practitioner (CLF-C02)", "Amazon Web Services · válido de 2025 a 2028"],
@@ -207,7 +206,7 @@ const PERFIL = {
     email: "Amlucaz@gmail.com",
     linkedin: "https://www.linkedin.com/in/lucas-amaral-ti",
     github: "https://github.com/Lucas-Amaralz",
-    curriculo: ""
+    curriculo: "curriculo.pdf"
   }
 };
 
@@ -705,6 +704,7 @@ const link = (label, url) => url ? `<div class="row"><span class="kv">${label}:<
 const WINS = {
   sobre: () => `<h2>${esc(PERFIL.nome)}</h2>
     <p class="kv">${esc(PERFIL.cargo)} · ${esc(PERFIL.local)}</p>
+    ${PERFIL.contato.curriculo ? `<p><a class="btn" href="${esc(PERFIL.contato.curriculo)}" target="_blank" rel="noopener">BAIXAR CURRÍCULO (PDF)</a></p>` : ""}
     ${PERFIL.bio.map(b => `<p>${esc(b)}</p>`).join("")}
     <p><span class="kv">Procurando:</span> ${esc(PERFIL.buscando)}</p>`,
   exp: () => `<h2>Experiência</h2>` + PERFIL.experiencia.map(x => `<div class="proj">
