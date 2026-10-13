@@ -72,7 +72,8 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .bezel{background:var(--beige);border-radius:10px;padding:clamp(10px,3vw,28px);box-shadow:inset -6px -6px 0 var(--beige-d),inset 5px 5px 0 #e2dccb}
 .screen{position:relative;background:radial-gradient(ellipse at center,#0f2830 0%,var(--screen) 70%);border-radius:6px;min-height:560px;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 3px #04090c,inset 0 0 40px rgba(111,243,224,.08)}
 .topbar{display:flex;justify-content:space-between;gap:12px;padding:6px 12px;background:var(--cyan);color:var(--screen);font-family:var(--display);font-size:14px;letter-spacing:.06em}
-.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px 8px;padding:26px 16px;align-content:start;flex:1}
+/* ícones em colunas, de cima para baixo (como no Windows): a primeira coluna nunca fica atrás da janela aberta */
+.icons{display:grid;grid-auto-flow:column;grid-template-rows:repeat(4,auto);grid-auto-columns:minmax(118px,150px);gap:12px 8px;padding:22px 16px;align-content:start;justify-content:start;flex:1}
 .icon{display:flex;flex-direction:column;align-items:center;gap:10px;background:none;border:0;color:var(--bone);font-family:var(--body);font-size:15px;cursor:pointer;padding:8px 4px}
 .icon .lbl{padding:1px 5px;border-radius:3px}
 .icon:hover .lbl,.icon.on .lbl{background:var(--cyan);color:var(--screen)}
@@ -80,6 +81,8 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .ico.folder{background:var(--amber);box-shadow:inset 0 -9px 0 #d98a2a;margin-top:6px}
 .ico.folder::before{content:"";position:absolute;left:0;top:-6px;width:22px;height:6px;background:var(--amber);border-radius:3px 3px 0 0}
 .ico.file{width:38px;height:46px;background:repeating-linear-gradient(to bottom,var(--bone) 0 7px,#9b957f 7px 9px);border:3px solid var(--bone)}
+.ico.pdf{width:38px;height:46px;background:var(--bone);border:3px solid var(--bone);box-shadow:inset 0 -14px 0 #c94a4a}
+.ico.pdf::after{content:"PDF";position:absolute;left:0;right:0;bottom:1px;text-align:center;font-family:var(--body);font-size:10px;font-weight:600;color:#fff}
 .ico.exe{background:#000;border:3px solid var(--cyan);color:var(--cyan);font-family:var(--body);font-size:16px;font-weight:600;display:grid;place-items:center}
 .tip{position:relative;z-index:1;padding:10px 14px;border-top:2px solid rgba(111,243,224,.3);color:var(--bone);font-size:15px}
 .tip b{color:var(--amber);font-weight:600}
@@ -96,10 +99,7 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .proj{border-top:2px dashed #23353b;padding:14px 0}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
 .chip{font-size:13px;color:var(--cyan);border:1px solid var(--cyan);border-radius:3px;padding:1px 7px}
-.wbody a{color:var(--cyan)}
-.wbody a.btn{display:inline-block;margin-top:4px;color:var(--bone);text-decoration:none}
-.wbody a.btn:hover{color:var(--ink)}
-.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:10px}
+.wbody a{color:var(--cyan)}.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:10px}
 .mono{background:#111;padding:2px 8px;border-radius:3px;user-select:all;overflow-wrap:anywhere}
 .small{font-size:13px;color:var(--dim)}
 .wbody ul{margin:0;padding-left:20px;max-width:62ch}
@@ -693,6 +693,7 @@ function onClick() { if (Date.now() - lastTouch > 700) advance(); }
    ========================================================= */
 const ICONS = [
   { id: "sobre", label: "sobre_mim/", cls: "folder" },
+  { id: "cv", label: "curriculo.pdf", cls: "pdf" },
   { id: "exp", label: "experiencia/", cls: "folder" },
   { id: "skills", label: "habilidades/", cls: "folder" },
   { id: "projetos", label: "projetos/", cls: "folder" },
@@ -704,7 +705,6 @@ const link = (label, url) => url ? `<div class="row"><span class="kv">${label}:<
 const WINS = {
   sobre: () => `<h2>${esc(PERFIL.nome)}</h2>
     <p class="kv">${esc(PERFIL.cargo)} · ${esc(PERFIL.local)}</p>
-    ${PERFIL.contato.curriculo ? `<p><a class="btn" href="${esc(PERFIL.contato.curriculo)}" target="_blank" rel="noopener">BAIXAR CURRÍCULO (PDF)</a></p>` : ""}
     ${PERFIL.bio.map(b => `<p>${esc(b)}</p>`).join("")}
     <p><span class="kv">Procurando:</span> ${esc(PERFIL.buscando)}</p>`,
   exp: () => `<h2>Experiência</h2>` + PERFIL.experiencia.map(x => `<div class="proj">
@@ -725,7 +725,7 @@ const iconsEl = document.getElementById("icons"), winEl = document.getElementByI
 ICONS.forEach(ic => {
   const b = document.createElement("button"); b.type = "button"; b.className = "icon"; b.dataset.id = ic.id;
   b.innerHTML = `<span class="ico ${ic.cls}">${ic.cls === "exe" ? "&gt;_" : ""}</span><span class="lbl">${ic.label}</span>`;
-  b.addEventListener("click", () => ic.id === "replay" ? replay() : openWin(ic.id));
+  b.addEventListener("click", () => ic.id === "replay" ? replay() : ic.id === "cv" ? window.open(PERFIL.contato.curriculo, "_blank", "noopener") : openWin(ic.id));
   iconsEl.appendChild(b);
 });
 function openWin(id) {
