@@ -660,8 +660,24 @@ document.addEventListener("keydown", e => {
     mark((sel + d + choiceBtns.length) % choiceBtns.length); blip(520);
   }
 });
-stageEl.addEventListener("click", advance);
-dialogEl.addEventListener("click", advance);
+// Toque e clique avançam a história. No celular o avanço vem direto do toque (pointerup), porque alguns
+// navegadores (ex.: Safari do iPhone) nem sempre geram "click" em áreas que não são botões. O "click"
+// que vem logo depois do toque é ignorado, para não avançar duas vezes; arrastar para rolar a tela não conta.
+let lastTouch = 0, downAt = null;
+function onDown(e) { downAt = { x: e.clientX, y: e.clientY }; }
+function onTouchUp(e) {
+  if (e.pointerType === "mouse" || e.target.closest("button")) return;
+  const moved = downAt && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) > 12;
+  downAt = null;
+  if (moved) return;
+  lastTouch = Date.now(); advance();
+}
+function onClick() { if (Date.now() - lastTouch > 700) advance(); }
+[stageEl, dialogEl].forEach(el => {
+  el.addEventListener("pointerdown", onDown);
+  el.addEventListener("pointerup", onTouchUp);
+  el.addEventListener("click", onClick);
+});
 
 /* =========================================================
    6) O COMPUTADOR (portfólio)
