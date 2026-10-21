@@ -89,6 +89,8 @@ export function areaDeBaixo(titulo: string, botoes: [string, () => void, string?
   }
   area.replaceChildren();
   area.dataset.modo = modo;
+  // na vitrine a área de baixo é só uma lista de nomes: ela encolhe e o jogo ganha altura
+  document.body.classList.toggle('area-compacta', modo === 'vitrine');
   if (titulo) {
     const t = document.createElement('div');
     t.className = 'area-titulo';

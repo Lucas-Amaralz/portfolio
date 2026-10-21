@@ -152,6 +152,7 @@ export class Vitrine extends Phaser.Scene {
     areaDeBaixo(
       'TOQUE NUM PROJETO PARA VER',
       this.pecas.map((p, i) => [p.projeto.nome, () => this.abrirProjeto(i)] as [string, () => void]),
+      'vitrine',
     );
 
     this.selecionar(0, true);
@@ -193,10 +194,16 @@ export class Vitrine extends Phaser.Scene {
     }
     cam.setBounds(0, 0, 512, 341);
     if (emPe()) {
-      // em pé: as duas prateleiras sempre na altura; abre no meio da vitrine e depois segue o escolhido
+      // em pé: as duas prateleiras sempre na altura; abre no meio da vitrine e depois segue o escolhido.
+      // Sobrando altura, a vitrine encosta embaixo: o vazio fica em cima, atrás dos botões fixos,
+      // e o letreiro aparece logo abaixo deles
+      const vistaA = cam.height / cam.zoom;
+      const sobra = Math.max(0, vistaA - 341);
+      cam.setBounds(0, -sobra, 512, 341 + sobra);
+      const y = sobra ? 341 - vistaA / 2 : EM_PE_ALTURA;
       const x = direto ? EM_PE_CENTRO : p.cx;
-      if (direto) cam.centerOn(x, EM_PE_ALTURA);
-      else cam.pan(x, EM_PE_ALTURA, 250, 'Sine.easeOut', true);
+      if (direto) cam.centerOn(x, y);
+      else cam.pan(x, y, 250, 'Sine.easeOut', true);
       return;
     }
     if (direto) cam.centerOn(p.cx, MIRA_Y[p.linha]);

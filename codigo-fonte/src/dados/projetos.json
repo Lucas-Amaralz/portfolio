@@ -1,5 +1,117 @@
 [
   {
+    "id": "ultima",
+    "fonte": "Texto do currículo (seção Projetos); selo pedido por ele.",
+    "nome": "Última Luz Acesa",
+    "curto": "Última Luz Acesa",
+    "etiqueta": "Protótipo da cidade",
+    "area": "Web",
+    "cor": "#ffc46b",
+    "resumo": "História interativa que termina no meu portfólio, feita com HTML, CSS e JavaScript puro e publicada no GitHub Pages.",
+    "selos": [
+      "Protótipo antes da grande cidade",
+      "Projeto pessoal"
+    ],
+    "imagem": "img/ultima-luz.png",
+    "legenda": "A cena final da história, com o portfólio no monitor.",
+    "secoes": [
+      {
+        "titulo": "O que é",
+        "texto": "Meu primeiro portfólio jogável: Uma história curta que termina numa casa com a última luz acesa, onde o portfólio aparece no monitor. Foi o protótipo que virou esta cidade."
+      }
+    ],
+    "ferramentas": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "GitHub Pages"
+    ],
+    "links": [
+      {
+        "texto": "Jogar a Última Luz",
+        "url": "https://lucas-amaralz.github.io/portfolio/ultima-luz/"
+      }
+    ]
+  },
+  {
+    "id": "automacao",
+    "fonte": "Textos copiados do currículo (seção Projetos e experiência na Zallpy Digital).",
+    "nome": "Automação Windows 11",
+    "curto": "Automação Win 11",
+    "etiqueta": "Provisionamento",
+    "area": "Automação",
+    "cor": "#38f0ff",
+    "resumo": "Versão pública, sem dados da empresa, do provisionamento que criei na Zallpy.",
+    "selos": [
+      "Zallpy Digital",
+      "Testado em máquina virtual"
+    ],
+    "imagem": "arte/objeto-automacao.png",
+    "numero": "~3 h → no máximo 1 h",
+    "destaque": "Criei, por iniciativa própria, a automação de provisionamento do Windows 11 (Autounattend.xml, PowerShell e .bat): Instala o sistema, remove o que não é de trabalho e instala os aplicativos corporativos com dois cliques. A preparação de cada máquina caiu de cerca de 3 horas para no máximo 1 hora (até 66% menos tempo).",
+    "secoes": [
+      {
+        "titulo": "A versão pública",
+        "itens": [
+          "Pendrive sem nenhuma credencial (conta temporária com troca obrigatória de senha no primeiro login, e Windows LAPS recomendado para produção).",
+          "Windows enxuto para máquinas fracas.",
+          "Instalação silenciosa de aplicativos.",
+          "Testado em máquina virtual."
+        ]
+      }
+    ],
+    "ferramentas": [
+      "Autounattend.xml",
+      "PowerShell",
+      "Batch Script",
+      "Windows LAPS"
+    ],
+    "links": [
+      {
+        "texto": "Ver a automação no GitHub",
+        "url": "https://github.com/Lucas-Amaralz/Automacao-windows1"
+      }
+    ]
+  },
+  {
+    "id": "magic-witch",
+    "fonte": "Escrito em 2026-10-21 a partir do código do jogo (pasta magic-witch).",
+    "nome": "Magic Witch",
+    "etiqueta": "Jogo de plataforma",
+    "area": "Jogos",
+    "cor": "#b388ff",
+    "resumo": "Um metroidvania em pixel art feito no Godot, com a Maguinha, uma bruxinha que luta com espada mágica e bolas de fogo.",
+    "selos": [
+      "Projeto pessoal",
+      "Código aberto",
+      "Godot 4"
+    ],
+    "imagem": "img/magic-witch.png",
+    "legenda": "A Maguinha lançando bolas de fogo nos Penhascos Mágicos.",
+    "secoes": [
+      {
+        "titulo": "O que eu fiz",
+        "itens": [
+          "Quatro salas com inimigos e um chefe no final, o Espírito Ancestral, que muda de ataque conforme perde vida.",
+          "Gancho mágico para se puxar até as pedras e um escudo que devolve os projéteis para quem atirou.",
+          "Espada que só causa dano no momento do golpe e bolas de fogo em sequência, com a terceira maior.",
+          "Cenário vivo, com borboletas, folhas, pássaros e plantas balançando com o vento."
+        ]
+      }
+    ],
+    "ferramentas": [
+      "Godot 4",
+      "GDScript",
+      "PixelLab"
+    ],
+    "links": [
+      {
+        "texto": "Ver no GitHub",
+        "url": "https://github.com/Lucas-Amaralz/Magic-Witch"
+      }
+    ]
+  },
+  {
     "id": "dps",
     "fonte": "Textos do painel aprovado (interface-projeto.html).",
     "nome": "DPS Meter BDO",
@@ -52,46 +164,6 @@
     ]
   },
   {
-    "id": "automacao",
-    "fonte": "Textos copiados do currículo (seção Projetos e experiência na Zallpy Digital).",
-    "nome": "Automação Windows 11",
-    "curto": "Automação Win 11",
-    "etiqueta": "Provisionamento",
-    "area": "Automação",
-    "cor": "#38f0ff",
-    "resumo": "Versão pública, sem dados da empresa, do provisionamento que criei na Zallpy.",
-    "selos": [
-      "Zallpy Digital",
-      "Testado em máquina virtual"
-    ],
-    "imagem": "arte/objeto-automacao.png",
-    "numero": "~3 h → no máximo 1 h",
-    "destaque": "Criei, por iniciativa própria, a automação de provisionamento do Windows 11 (Autounattend.xml, PowerShell e .bat): Instala o sistema, remove o que não é de trabalho e instala os aplicativos corporativos com dois cliques. A preparação de cada máquina caiu de cerca de 3 horas para no máximo 1 hora (até 66% menos tempo).",
-    "secoes": [
-      {
-        "titulo": "A versão pública",
-        "itens": [
-          "Pendrive sem nenhuma credencial (conta temporária com troca obrigatória de senha no primeiro login, e Windows LAPS recomendado para produção).",
-          "Windows enxuto para máquinas fracas.",
-          "Instalação silenciosa de aplicativos.",
-          "Testado em máquina virtual."
-        ]
-      }
-    ],
-    "ferramentas": [
-      "Autounattend.xml",
-      "PowerShell",
-      "Batch Script",
-      "Windows LAPS"
-    ],
-    "links": [
-      {
-        "texto": "Ver a automação no GitHub",
-        "url": "https://github.com/Lucas-Amaralz/Automacao-windows1"
-      }
-    ]
-  },
-  {
     "id": "portfolio",
     "fonte": "Escrito em 2026-10-21 com fatos do próprio projeto; Lucas pode revisar.",
     "nome": "The City",
@@ -125,40 +197,6 @@
       {
         "texto": "Ver o código no GitHub",
         "url": "https://github.com/Lucas-Amaralz/portfolio"
-      }
-    ]
-  },
-  {
-    "id": "ultima",
-    "fonte": "Texto do currículo (seção Projetos); selo pedido por ele.",
-    "nome": "Última Luz Acesa",
-    "curto": "Última Luz Acesa",
-    "etiqueta": "Protótipo da cidade",
-    "area": "Web",
-    "cor": "#ffc46b",
-    "resumo": "História interativa que termina no meu portfólio, feita com HTML, CSS e JavaScript puro e publicada no GitHub Pages.",
-    "selos": [
-      "Protótipo antes da grande cidade",
-      "Projeto pessoal"
-    ],
-    "imagem": "img/ultima-luz.png",
-    "legenda": "A cena final da história, com o portfólio no monitor.",
-    "secoes": [
-      {
-        "titulo": "O que é",
-        "texto": "Meu primeiro portfólio jogável: Uma história curta que termina numa casa com a última luz acesa, onde o portfólio aparece no monitor. Foi o protótipo que virou esta cidade."
-      }
-    ],
-    "ferramentas": [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "GitHub Pages"
-    ],
-    "links": [
-      {
-        "texto": "Jogar a Última Luz",
-        "url": "https://lucas-amaralz.github.io/portfolio/ultima-luz/"
       }
     ]
   }

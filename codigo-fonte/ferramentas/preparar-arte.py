@@ -343,7 +343,7 @@ criar_objetos()
 print('objetos prontos')
 
 
-def criar_objeto_avulso(origem, nome, fator=10):
+def criar_objeto_avulso(origem, nome, fator=10, media=False):
     """Objeto de vitrine gerado sozinho num fundo magenta (#FF00FF): tira o magenta, corta e reduz."""
     import numpy as np
     img = Image.open(RAIZ / origem).convert('RGBA')
@@ -353,14 +353,33 @@ def criar_objeto_avulso(origem, nome, fator=10):
     a[magenta, 3] = 0
     img = Image.fromarray(a)
     img = img.crop(img.getbbox())
-    img = img.resize((img.width // fator, img.height // fator), Image.NEAREST)
-    # restos roxos da borda do magenta (o objeto não tem roxo)
+    tamanho = (img.width // fator, img.height // fator)
+    if media:
+        # média dos pixels (com a cor pesada pelo alfa) e alfa duro no fim: figura com detalhe pequeno,
+        # como um rosto, embaralha na redução por vizinho mais próximo
+        pm = np.array(img).astype(float)
+        pm[:, :, :3] *= pm[:, :, 3:4] / 255
+        cor = np.array(Image.fromarray(pm.astype('uint8')).resize(tamanho, Image.BOX)).astype(float)[:, :, :3]
+        alfa = np.array(img.split()[3].resize(tamanho, Image.BOX)).astype(float)
+        cor = np.where(alfa[:, :, None] > 0, cor * 255 / np.maximum(alfa[:, :, None], 1), 0)
+        img = Image.fromarray(np.dstack([np.clip(cor, 0, 255), np.where(alfa > 110, 255, 0)]).astype('uint8'), 'RGBA')
+    else:
+        img = img.resize(tamanho, Image.NEAREST)
+    # restos do magenta na borda: só pixels arroxeados encostados no transparente (o objeto pode ter roxo
+    # de verdade no meio, como o chapéu e os cristais da Maguinha); duas passadas pegam a borda dupla
     a = np.array(img)
-    r, g, b = (a[:, :, i].astype(int) for i in range(3))
-    a[(r > 90) & (b > 90) & (g < r - 40) & (g < b - 40), 3] = 0
+    for _ in range(2):
+        r, g, b = (a[:, :, i].astype(int) for i in range(3))
+        roxo = (r > 90) & (b > 90) & (g < r - 40) & (g < b - 40)
+        vazio = a[:, :, 3] == 0
+        perto = np.zeros_like(vazio)
+        perto[1:, :] |= vazio[:-1, :]; perto[:-1, :] |= vazio[1:, :]
+        perto[:, 1:] |= vazio[:, :-1]; perto[:, :-1] |= vazio[:, 1:]
+        a[roxo & perto, 3] = 0
     img = Image.fromarray(a)
     img.save(SAIDA / f'objeto-{nome}.png')
 
 
 criar_objeto_avulso('objeto-ultima-bruto.png', 'ultima')
+criar_objeto_avulso('objeto-magic-witch-bruto.png', 'magic-witch', fator=12, media=True)
 print('objeto da Última Luz pronto')

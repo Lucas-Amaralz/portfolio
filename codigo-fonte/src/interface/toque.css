@@ -44,3 +44,10 @@ body.em-pe .joystick { top: auto; translate: none; bottom: max(12px, env(safe-ar
 body.em-pe .joystick .pino { width: 46%; height: 46%; margin: -23% 0 0 -23%; }
 body.em-pe .acao { top: auto; translate: none; bottom: max(20px, env(safe-area-inset-bottom));
   width: min(76px, 10dvh); height: min(76px, 10dvh); font-size: 18px; }
+
+/* vitrine em pé: a área de baixo é só a lista de projetos, então encolhe (74% jogo, 26% botões) */
+body.em-pe.area-compacta #jogo { height: 74dvh; }
+body.em-pe.area-compacta .area-baixo { top: 74dvh; gap: 8px; padding-top: 10px; }
+.area-baixo[data-modo="vitrine"] .area-botoes { flex: none; grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 40px; max-height: none; gap: 6px; }
+.area-baixo[data-modo="vitrine"] .area-botoes button { font-size: 10px; line-height: 1.2; min-height: 40px; padding: 2px 4px; }
