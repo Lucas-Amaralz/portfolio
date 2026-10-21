@@ -114,11 +114,11 @@
 .hud { position: fixed; z-index: 5; top: max(12px, env(safe-area-inset-top)); right: 12px; left: 112px;
   display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; pointer-events: none; }
 .hud > * { pointer-events: auto; }
-.hud-botao { font: 14px Silkscreen, monospace; color: var(--ciano); background: rgb(10 11 26 / .9); border: 2px solid var(--ciano);
-  border-radius: 4px; padding: 8px 12px; cursor: pointer; }
+.hud-botao { font: 12px Silkscreen, monospace; color: var(--ciano); background: rgb(10 11 26 / .9); border: 2px solid var(--ciano);
+  border-radius: 4px; padding: 6px 10px; cursor: pointer; }
 .hud-botao:hover { background: #10304a; }
-.hud-som { display: grid; place-items: center; width: 44px; padding: 0; }
-.hud-som svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hud-som { display: grid; place-items: center; width: 36px; padding: 0; }
+.hud-som svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .hud-som[aria-pressed="false"] { color: var(--suave); border-color: var(--suave); } /* desligado: apagado, mas visível */
 /* abertura e "Apenas ver": dos botões fixos só fica o de som (dá para desligar a música em qualquer tela),
    no canto esquerdo e por cima de tudo; à direita ficam o "Pular" e o ESC dos painéis */
@@ -139,7 +139,8 @@ body.com-menu .hud { z-index: 40; left: 12px; right: auto; }
 
 /* ---------- Celular (toque) ---------- */
 @media (pointer: coarse) {
-  .hud-botao { font-size: 13px; min-height: 44px; padding: 8px 12px; }
+  .hud-botao { font-size: 11px; min-height: 38px; padding: 6px 10px; }
+  .hud-som { width: 38px; }
 }
 /* celular deitado: pouca altura, então os painéis usam a tela toda */
 @media (max-height: 520px) and (orientation: landscape) {

@@ -115,6 +115,7 @@ export function cartao(itens: Item[], i: number, onde: string, voltarPara: strin
       const it = itens[n];
       painel.style.setProperty('--cor', it.cor);
       painel.replaceChildren();
+      painel.scrollTop = 0; // Próximo/Anterior: o projeto novo começa do topo, não do ponto em que o outro estava
 
       const topo = el('div', 'topo');
       const cab = el('div');

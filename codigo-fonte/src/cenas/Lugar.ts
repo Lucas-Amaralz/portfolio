@@ -23,8 +23,6 @@ interface Camada {
   base: number;
 }
 
-const DICA_TOQUE = 'TOQUE ONDE QUER IR, OU ARRASTE O CÍRCULO';
-
 const dentro = (r: Ret, x: number, y: number) => x >= r[0] && x < r[2] && y >= r[1] && y < r[3];
 const centro = (r: Ret) => [(r[0] + r[2]) / 2, (r[1] + r[3]) / 2] as const;
 
@@ -282,7 +280,8 @@ export class Lugar extends Phaser.Scene {
   // Celular em pé: botões com o nome dos lugares desta cena; quem não joga não precisa andar
   private mostrarAtalhos() {
     const botoes = (this.dados.atalhos ?? []).map((a) => [a.texto, () => this.irPorAtalho(a)] as [string, () => void]);
-    areaDeBaixo(DICA_TOQUE, botoes, 'cena');
+    // sem título: os botões com o nome dos lugares já dizem o que fazer, e a altura é pouca
+    areaDeBaixo('', botoes, 'cena');
   }
 
   // O Lucas anda sozinho até a porta ou a coisa do atalho e usa ao chegar (como no toque)
