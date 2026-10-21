@@ -90,6 +90,13 @@ export class Mapa extends Phaser.Scene {
     cam.setZoom(zoom);
     const sobraL = Math.max(0, width / zoom - LARGURA) / 2;
     const sobraA = Math.max(0, height / zoom - ALTURA) / 2;
+    if (emPe()) {
+      // em pé, o mapa encosta embaixo: a sobra de altura fica em cima, atrás dos botões fixos,
+      // e a torre do Currículo (no topo do mapa) não fica escondida por eles
+      cam.setBounds(-sobraL, -2 * sobraA, LARGURA + 2 * sobraL, ALTURA + 2 * sobraA);
+      cam.centerOn(LARGURA / 2, ALTURA - height / zoom / 2);
+      return;
+    }
     cam.setBounds(-sobraL, -sobraA, LARGURA + 2 * sobraL, ALTURA + 2 * sobraA);
     cam.centerOn(LARGURA / 2, ALTURA / 2);
   }
