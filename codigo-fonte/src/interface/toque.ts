@@ -27,7 +27,7 @@ function criar() {
   caixa.className = 'toque-controles';
   caixa.innerHTML =
     '<div class="joystick" aria-hidden="true"><div class="pino"></div></div>' +
-    '<button type="button" class="acao" aria-label="Interagir">E</button>';
+    '<button type="button" class="acao" aria-label="Ver o que está perto">Ver</button>';
   document.body.append(caixa);
 
   const base = caixa.querySelector<HTMLElement>('.joystick')!;
@@ -78,8 +78,9 @@ export function mostrarControles(ligar: boolean) {
 
 let area: HTMLElement | null = null;
 
-// Troca o que aparece na área de baixo; `botoes` são [texto, ação, classe extra]
-export function areaDeBaixo(titulo: string, botoes: [string, () => void, string?][] = []) {
+// Troca o que aparece na área de baixo; `botoes` são [texto, ação, classe extra].
+// `modo` ajusta o layout no CSS ('cena': botões em cima e joystick embaixo).
+export function areaDeBaixo(titulo: string, botoes: [string, () => void, string?][] = [], modo = '') {
   if (!ehToque) return;
   if (!area) {
     area = document.createElement('div');
@@ -87,6 +88,7 @@ export function areaDeBaixo(titulo: string, botoes: [string, () => void, string?
     document.body.append(area);
   }
   area.replaceChildren();
+  area.dataset.modo = modo;
   if (titulo) {
     const t = document.createElement('div');
     t.className = 'area-titulo';

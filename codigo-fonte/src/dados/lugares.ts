@@ -64,6 +64,16 @@ export interface Lugar {
   npcs: Npc[];
   placas?: Placa[];
   chuva?: boolean; // lugar ao ar livre: chove (a arte já tem chão molhado)
+  atalhos?: Atalho[];
+}
+
+// Botão da área de baixo (celular em pé): o Lucas anda sozinho até lá e usa, sem precisar do joystick.
+// `porta` = destino da porta; `acao` = a mesma ação da interação; `mapa` = volta ao mapa.
+export interface Atalho {
+  texto: string;
+  porta?: string;
+  acao?: string;
+  mapa?: true;
 }
 
 const frades = [25, 283, 527, 705].map((cx): Ret => [cx - 5, 288, cx + 5, 298]);
@@ -96,6 +106,7 @@ const LUGARES_768: Record<string, Lugar> = {
     ],
     interacoes: [],
     npcs: [],
+    atalhos: [{ texto: 'Entrar na loja', porta: 'loja-projetos' }, { texto: 'Voltar ao mapa', mapa: true }],
   },
 
   'loja-projetos': {
@@ -129,6 +140,11 @@ const LUGARES_768: Record<string, Lugar> = {
     ],
     // vendedor no chão, ao lado da vitrine, pronto para apresentá-la
     npcs: [{ textura: 'vendedor', x: 478, y: 252, olhando: 'baixo' }],
+    atalhos: [
+      { texto: 'Ver a vitrine', acao: 'vitrine' },
+      { texto: 'Falar com o vendedor', acao: 'vendedor' },
+      { texto: 'Sair da loja', porta: 'rua-projetos' },
+    ],
   },
 
   // Trilha da Carreira (bairro Experiência): um prédio por emprego, da esquerda para a direita
@@ -159,6 +175,12 @@ const LUGARES_768: Record<string, Lugar> = {
       { area: [590, 298, 740, 330], toque: [580, 170, 762, 300], acao: 'lote', olhandoPara: 'cima', aviso: true, avisoEm: [614, 220] },
     ],
     npcs: [],
+    atalhos: [
+      { texto: 'Prefeitura', acao: 'experiencia:prefeitura' },
+      { texto: 'Zallpy', acao: 'experiencia:zallpy' },
+      { texto: 'Próximo capítulo', acao: 'lote' },
+      { texto: 'Voltar ao mapa', mapa: true },
+    ],
     placas: [
       { texto: 'PREFEITURA', x: 217, y: 175, largura: 100, cor: '#ffc46b', fundo: '#1a1205' },
       { texto: 'ZALLPY', x: 435, y: 171, largura: 50, cor: '#d8ff9a' },

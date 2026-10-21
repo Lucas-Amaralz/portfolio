@@ -27,9 +27,15 @@ body.em-pe .area-baixo { position: fixed; left: 0; right: 0; top: 60dvh; bottom:
 .area-botoes .principal { color: #0a0b1a; background: #38f0ff; border-color: #38f0ff; }
 .area-botoes .seta { font-size: 22px; }
 body.em-pe .toque-controles { inset: 60dvh 0 0 0; }
-body.em-pe .joystick { left: 28px; bottom: auto; top: 50%; translate: 0 -50%; width: 150px; height: 150px; }
-body.em-pe .acao { right: 36px; bottom: auto; top: 50%; translate: 0 -50%; width: 92px; height: 92px; font-size: 32px; }
 body.em-pe .dica { display: none; }
 /* em pé não cabem 4 botões no topo: o Contato fica dentro do Menu, e Mapa/Voltar ficam menores */
-body.em-pe .hud-contato { display: none; }
+body.em-pe .hud-contato, body.em-pe .hud-som { display: none; }
 body.em-pe #btn-mapa, body.em-pe #btn-voltar { font-size: 13px; padding: 8px 12px; min-height: 44px; }
+
+/* botão de ação com a palavra "Ver" (quem não joga não sabe o que é "E") */
+.acao { font-size: 18px; }
+/* cena em pé: atalhos com o nome dos lugares em cima; joystick e "Ver" menores, embaixo */
+.area-baixo[data-modo="cena"] .area-botoes { flex: none; grid-auto-rows: 46px; max-height: none; }
+.area-baixo[data-modo="cena"] .area-botoes button { font-size: 12px; min-height: 46px; }
+body.em-pe .joystick { top: auto; translate: none; bottom: max(14px, env(safe-area-inset-bottom)); width: 116px; height: 116px; }
+body.em-pe .acao { top: auto; translate: none; bottom: max(30px, env(safe-area-inset-bottom)); width: 84px; height: 84px; font-size: 20px; }

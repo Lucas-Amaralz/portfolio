@@ -107,12 +107,8 @@ export class Vitrine extends Phaser.Scene {
       const zona = this.add.zone(ex, topo, ETIQUETA_L, ey + ETIQUETA_A - topo).setOrigin(0);
       zona.setInteractive({ useHandCursor: true });
       zona.on('pointerover', (p: Phaser.Input.Pointer) => !p.wasTouch && this.selecionar(i));
-      // no toque, o 1º toque num vizinho só o escolhe (a câmera vai até ele) e o 2º abre
-      zona.on('pointerdown', (p: Phaser.Input.Pointer) => {
-        if (p.wasTouch && i !== this.atual) return this.selecionar(i);
-        this.selecionar(i);
-        this.abrir();
-      });
+      // um toque ou clique já abre (antes o 1º toque só escolhia, e quem não joga achava que não funcionou)
+      zona.on('pointerdown', () => this.abrirProjeto(i));
     }
 
     this.seta = this.add.triangle(0, 0, 0, 0, 8, 0, 4, 5, 0xffffff).setOrigin(0.5, 1).setDepth(6);
@@ -141,11 +137,11 @@ export class Vitrine extends Phaser.Scene {
       dica(null);
     });
     dica(DICA, DICA_TOQUE);
-    areaDeBaixo('LOJA DE PROJETOS', [
-      ['◀', () => this.selecionar(this.atual - 1), 'seta'],
-      ['Abrir', () => this.abrir(), 'principal'],
-      ['▶', () => this.selecionar(this.atual + 1), 'seta'],
-    ]);
+    // em pé: um botão por projeto, com o nome; tocou, abre (a mãe dele se perdeu nas setas)
+    areaDeBaixo(
+      'TOQUE NUM PROJETO PARA VER',
+      this.pecas.map((p, i) => [p.projeto.nome, () => this.abrirProjeto(i)] as [string, () => void]),
+    );
 
     this.selecionar(0, true);
     cam.fadeIn(200, 0, 0, 0);
@@ -222,6 +218,11 @@ export class Vitrine extends Phaser.Scene {
     g.fillStyle(0x0b0a1c, 1).fillRoundedRect(x0, y0, ETIQUETA_L, ETIQUETA_A, 3);
     if (sel) g.fillStyle(c, 0.14).fillRoundedRect(x0, y0, ETIQUETA_L, ETIQUETA_A, 3);
     g.lineStyle(1, c, sel ? 1 : 0.45).strokeRoundedRect(x0 + 0.5, y0 + 0.5, ETIQUETA_L - 1, ETIQUETA_A - 1, 3);
+  }
+
+  private abrirProjeto(i: number) {
+    this.selecionar(i);
+    this.abrir();
   }
 
   private async abrir() {

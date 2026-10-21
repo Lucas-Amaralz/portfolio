@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import {
   LUGARES,
   type Chegada,
+  type Atalho,
   type Interacao,
   type Lugar as DadosLugar,
   type Placa,
@@ -12,7 +13,7 @@ import { Jogador, LINHA, criarAnimacoes, posicionarPersonagem } from '../jogador
 import { cartao, dialogo, type Item } from '../interface/interface';
 import EXPERIENCIAS from '../dados/experiencias.json';
 import { zoomInteiro } from '../zoom';
-import { areaDeBaixo, mostrarControles } from '../interface/toque';
+import { areaDeBaixo, ehToque, mostrarControles } from '../interface/toque';
 import { chuva } from '../efeitos';
 
 interface Camada {
@@ -22,7 +23,7 @@ interface Camada {
   base: number;
 }
 
-const DICA_TOQUE = 'JOYSTICK PARA ANDAR · E PARA INTERAGIR';
+const DICA_TOQUE = 'TOQUE ONDE QUER IR, OU ARRASTE O CÍRCULO';
 
 const dentro = (r: Ret, x: number, y: number) => x >= r[0] && x < r[2] && y >= r[1] && y < r[3];
 const centro = (r: Ret) => [(r[0] + r[2]) / 2, (r[1] + r[3]) / 2] as const;
@@ -112,7 +113,7 @@ export class Lugar extends Phaser.Scene {
     // botão de ação do celular
     window.addEventListener('acao-toque', usar);
     mostrarControles(true);
-    areaDeBaixo(DICA_TOQUE);
+    this.mostrarAtalhos();
     this.events.once('shutdown', () => {
       window.removeEventListener('acao-toque', usar);
       mostrarControles(false);
@@ -275,7 +276,25 @@ export class Lugar extends Phaser.Scene {
     for (const a of this.avisos) a.setVisible(true);
     document.getElementById('btn-mapa')!.hidden = false;
     mostrarControles(true);
-    areaDeBaixo(DICA_TOQUE); // a vitrine troca a área de baixo; ao voltar, é a da cena de novo
+    this.mostrarAtalhos(); // a vitrine troca a área de baixo; ao voltar, é a da cena de novo
+  }
+
+  // Celular em pé: botões com o nome dos lugares desta cena; quem não joga não precisa andar
+  private mostrarAtalhos() {
+    const botoes = (this.dados.atalhos ?? []).map((a) => [a.texto, () => this.irPorAtalho(a)] as [string, () => void]);
+    areaDeBaixo(DICA_TOQUE, botoes, 'cena');
+  }
+
+  // O Lucas anda sozinho até a porta ou a coisa do atalho e usa ao chegar (como no toque)
+  private irPorAtalho(a: Atalho) {
+    if (this.saindo || this.ocupado) return;
+    if (a.mapa) return this.voltarAoMapa();
+    const porta = a.porta ? this.dados.portas.find((p) => p.destino === a.porta) : undefined;
+    const coisa = a.acao ? this.dados.interacoes.find((i) => i.acao === a.acao) : undefined;
+    this.portaAlvo = porta ?? null;
+    this.interacaoAlvo = coisa ?? null;
+    const alvo = porta?.area ?? coisa?.area;
+    if (alvo) this.jogador.irAte(...centro(alvo));
   }
 
   private async interagir(coisa: Interacao) {
@@ -349,7 +368,8 @@ export class Lugar extends Phaser.Scene {
       this.interacaoAlvo = null;
     }
 
-    const perto = this.portaParaTecla() ?? this.interacaoParaTecla();
+    // no celular não há tecla E (o botão "Ver" faz o papel dela)
+    const perto = !ehToque && (this.portaParaTecla() ?? this.interacaoParaTecla());
     this.tecla.setVisible(!!perto);
     if (perto) this.tecla.setPosition(Math.round(x), Math.round(y) - 54);
   }

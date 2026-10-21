@@ -170,8 +170,9 @@ export function cartao(itens: Item[], i: number, onde: string, voltarPara: strin
       corpo.append(lado, texto);
 
       const rodape = el('div', 'rodape');
-      const ant = el('button', 'seta', '◀');
-      const prox = el('button', 'seta', '▶');
+      // escrito por extenso: só a seta não diz o que faz para quem não joga
+      const ant = el('button', 'seta', '‹ Anterior');
+      const prox = el('button', 'seta', 'Próximo ›');
       ant.type = prox.type = 'button';
       ant.setAttribute('aria-label', 'Anterior');
       prox.setAttribute('aria-label', 'Próximo');

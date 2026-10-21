@@ -116,8 +116,9 @@
   .cartao .resumo { font-size: 15px; }
   .cartao .selos { gap: 6px; margin-top: 8px; }
   .cartao .selo { font-size: 12px; padding: 2px 8px; }
-  .cartao .rodape { position: sticky; bottom: 0; z-index: 1; background: var(--painel); flex-wrap: nowrap; gap: 8px;
+  .cartao .rodape { position: sticky; bottom: 0; z-index: 1; background: var(--painel); flex-wrap: wrap; gap: 8px;
     padding: 10px 12px max(10px, env(safe-area-inset-bottom)); }
-  .cartao .seta { flex: none; padding: 8px 10px; font-size: 12px; }
-  .cartao .botao { flex: 1 1 0; min-width: 0; text-align: center; font-size: 13px; line-height: 1.25; padding: 9px 6px; }
+  /* duas linhas: Anterior/Próximo em cima, os links embaixo */
+  .cartao .seta { flex: 1 1 calc(50% - 4px); padding: 9px 10px; font-size: 12px; }
+  .cartao .botao { flex: 1 1 calc(50% - 4px); min-width: 0; text-align: center; font-size: 13px; line-height: 1.25; padding: 9px 6px; }
 }

@@ -23,7 +23,7 @@ const BAIRROS_1536: Record<string, Bairro> = {
   certificacoes: {
     nome: 'Certificações',
     area: [30, 30, 175, 168], // o farol
-    placa: [120, 182],
+    placa: [150, 196], // para dentro do mapa: no canto, o dedo não alcançava
     rota: [CRUZAMENTO, [160, 400], [160, 200]],
     painel: 'certificacoes',
   },
@@ -37,7 +37,7 @@ const BAIRROS_1536: Record<string, Bairro> = {
   curriculo: {
     nome: 'Currículo',
     area: [1050, 20, 1190, 345], // a torre do telão
-    placa: [1120, 44], // abaixo da borda: em telas em que o mapa corta um pouco em cima, o nome aparece inteiro
+    placa: [1090, 84], // para dentro do mapa e abaixo dos botões fixos: no canto, o dedo não alcançava
     rota: [CRUZAMENTO, [980, 400], [1120, 400]],
     painel: 'curriculo',
   },

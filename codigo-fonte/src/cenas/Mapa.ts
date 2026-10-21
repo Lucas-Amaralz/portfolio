@@ -5,6 +5,7 @@ import { abrirPainel, type TipoPainel } from '../interface/paineis';
 import { abertura } from '../interface/abertura';
 import { areaDeBaixo, emPe } from '../interface/toque';
 import { chuva, luzesDoMapa } from '../efeitos';
+import { densidade } from '../zoom';
 
 const LARGURA = 512;
 const ALTURA = 341;
@@ -55,7 +56,7 @@ export class Mapa extends Phaser.Scene {
     this.scale.on('resize', this.ajustarZoom, this);
     // celular em pé: os bairros também viram botões grandes embaixo do mapa
     areaDeBaixo(
-      'ESCOLHA PARA ONDE IR',
+      'TOQUE NO MAPA OU NUM BOTÃO ABAIXO',
       Object.entries(BAIRROS).map(([id, b]) => [b.nome, () => this.irPara(id)] as [string, () => void]),
     );
     this.events.once('shutdown', () => this.scale.off('resize', this.ajustarZoom, this));
@@ -90,7 +91,7 @@ export class Mapa extends Phaser.Scene {
     const sobraL = Math.max(0, width / zoom - LARGURA) / 2;
     const sobraA = Math.max(0, height / zoom - ALTURA) / 2;
     cam.setBounds(-sobraL, -sobraA, LARGURA + 2 * sobraL, ALTURA + 2 * sobraA);
-    cam.centerOn(emPe() && this.pino ? this.pino.x : LARGURA / 2, ALTURA / 2);
+    cam.centerOn(LARGURA / 2, ALTURA / 2);
   }
 
   private arrastar(p: Phaser.Input.Pointer) {
@@ -131,12 +132,14 @@ export class Mapa extends Phaser.Scene {
       .setDepth(11);
   }
 
+  // A placa aceita toque numa área com folga de 24 px de tela para cada lado (o dedo é maior que o texto)
   private bairroEm(x: number, y: number): string | null {
-    for (const [id, b] of Object.entries(BAIRROS)) {
-      if (dentro(b.area, x, y)) return id;
-      const placa = this.placas[id].texto.getBounds();
+    const folga = (24 * densidade()) / this.cameras.main.zoom;
+    for (const id of Object.keys(BAIRROS)) {
+      const placa = Phaser.Geom.Rectangle.Inflate(this.placas[id].texto.getBounds(), folga, folga);
       if (placa.contains(x, y)) return id;
     }
+    for (const [id, b] of Object.entries(BAIRROS)) if (dentro(b.area, x, y)) return id;
     return null;
   }
 
@@ -155,13 +158,12 @@ export class Mapa extends Phaser.Scene {
     this.input.setDefaultCursor('pointer');
   }
 
-  // Clique escolhe o bairro. No toque, o primeiro toque só acende e mostra o nome; o segundo escolhe.
+  // Clique ou toque escolhe o bairro de uma vez (antes, no toque, o 1º só acendia e parecia não funcionar)
   private clicar(p: Phaser.Input.Pointer) {
     if (this.ocupado) return;
     if (p.getDistance() > 6) return; // foi arrasto, não clique
     const id = this.bairroEm(p.worldX, p.worldY);
     if (!id) return this.acender(null);
-    if (p.wasTouch && id !== this.sobMouse) return this.acender(id);
     this.acender(id);
     this.irPara(id);
   }
