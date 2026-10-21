@@ -1,5 +1,5 @@
 import './paineis.css';
-import { capturarTeclas, el } from './interface';
+import { capturarTeclas, cartao, el, type Item } from './interface';
 import { escolherBairro, irParaBairro, pausarCenas } from '../navegacao';
 import { CERTIFICACOES, COMPETENCIAS, CONTATOS, FORMACAO, PDF, PERFIL } from '../dados/curriculo';
 import EXPERIENCIAS from '../dados/experiencias.json';
@@ -112,26 +112,27 @@ function telao(fechar: Fechar) {
 
   const direita = el('div', 'coluna');
   const exp = el('div', 'lista');
-  for (const e of EXPERIENCIAS) {
-    const b = botao('', 'item', () => fechar('bairro:experiencia'));
+  // no modo leitura (abertura: "apenas ver"), o item abre o cartão em vez de levar para dentro do jogo
+  EXPERIENCIAS.forEach((e, i) => {
+    const b = botao('', 'item', () => fechar(leitura ? `cartao:experiencias:${i}` : 'bairro:experiencia'));
     b.style.setProperty('--cor', e.cor);
     b.append(el('b', '', e.nome), el('span', '', e.resumo), el('small', '', e.selos[0]));
     exp.append(b);
-  }
+  });
   const proj = el('div', 'lista');
-  for (const p of PROJETOS) {
-    const b = botao('', 'item', () => fechar('bairro:projetos'));
+  PROJETOS.forEach((p, i) => {
+    const b = botao('', 'item', () => fechar(leitura ? `cartao:projetos:${i}` : 'bairro:projetos'));
     b.style.setProperty('--cor', p.cor);
     b.append(el('b', '', p.nome), el('span', '', `${p.etiqueta} · ${p.area}`));
     proj.append(b);
-  }
+  });
   const cert = el('ul');
   cert.append(...CERTIFICACOES.map((c) => el('li', '', `${c.nome} – ${c.quem} – ${c.quando}`)));
   const form = el('ul');
   form.append(...FORMACAO.map((f) => el('li', '', [f.nome, f.onde, f.quando].filter(Boolean).join(' – '))));
   direita.append(
-    secao('Experiência', exp, el('p', 'dica-item', 'Clique para visitar a Trilha da Carreira')),
-    secao('Projetos', proj, el('p', 'dica-item', 'Clique para ir à loja de Projetos')),
+    secao('Experiência', exp, el('p', 'dica-item', leitura ? 'Toque para ver os detalhes' : 'Clique para visitar a Trilha da Carreira')),
+    secao('Projetos', proj, el('p', 'dica-item', leitura ? 'Toque para ver os detalhes' : 'Clique para ir à loja de Projetos')),
     secao('Certificações', cert),
     secao('Formação e idiomas', form),
   );
@@ -236,6 +237,13 @@ export async function abrirPainel(tipo: TipoPainel): Promise<boolean> {
     const [classe, rotulo, titulo, montar] = PAINEIS[atual];
     acao = await modal(classe, rotulo, titulo, montar);
     atual = acao?.startsWith('painel:') ? (acao.slice(7) as TipoPainel) : null;
+    // cartão aberto do telão (modo leitura): ao fechar o cartão, o telão volta
+    if (acao?.startsWith('cartao:')) {
+      const [, lista, i] = acao.split(':');
+      const itens = (lista === 'projetos' ? PROJETOS : EXPERIENCIAS) as Item[];
+      await cartao(itens, Number(i), lista === 'projetos' ? 'PROJETOS' : 'EXPERIÊNCIA', 'ao currículo');
+      atual = 'curriculo';
+    }
   }
   if (acao?.startsWith('bairro:')) {
     irParaBairro(acao.slice(7));
@@ -243,6 +251,17 @@ export async function abrirPainel(tipo: TipoPainel): Promise<boolean> {
   }
   retomar();
   return false;
+}
+
+// Currículo para quem não quer jogar: projetos e experiências abrem o cartão ali mesmo
+let leitura = false;
+export async function abrirResumo() {
+  leitura = true;
+  try {
+    await abrirPainel('curriculo');
+  } finally {
+    leitura = false;
+  }
 }
 
 // ---------- Menu de entrada ----------

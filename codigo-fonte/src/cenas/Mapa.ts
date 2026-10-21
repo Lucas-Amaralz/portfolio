@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 import { BAIRROS, BAIRRO_INICIAL, type Bairro } from '../dados/bairros';
 import type { Ret } from '../dados/lugares';
-import { abrirPainel, menu, type TipoPainel } from '../interface/paineis';
+import { abrirPainel, type TipoPainel } from '../interface/paineis';
+import { abertura } from '../interface/abertura';
 import { areaDeBaixo, emPe } from '../interface/toque';
 import { chuva, luzesDoMapa } from '../efeitos';
 
@@ -59,10 +60,10 @@ export class Mapa extends Phaser.Scene {
     );
     this.events.once('shutdown', () => this.scale.off('resize', this.ajustarZoom, this));
     cam.fadeIn(250, 0, 0, 0);
-    // a primeira vez que o mapa aparece, o menu de entrada abre por cima dele
+    // a primeira vez que o mapa aparece, a abertura (apresentação + Jogar / Apenas ver) fica por cima dele
     if (!this.registry.get('menuVisto')) {
       this.registry.set('menuVisto', true);
-      this.time.delayedCall(300, () => menu());
+      this.time.delayedCall(300, () => abertura());
     }
 
     this.input.on('pointermove', (p: Phaser.Input.Pointer) => {
