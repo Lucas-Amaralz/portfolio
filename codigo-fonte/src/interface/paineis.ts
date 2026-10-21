@@ -276,7 +276,7 @@ function mostrarMenu() {
     tela.setAttribute('role', 'dialog');
     tela.setAttribute('aria-label', 'Menu');
     const lado = el('div', 'menu-lado');
-    const titulo = el('h1', '', 'Cidade do Lucas');
+    const titulo = el('h1', '', 'The City');
     const lista = el('div', 'menu-lista');
     const botoes = ITENS_MENU.map(([id, texto], i) => {
       const b = botao(texto, 'menu-item', () => escolher(id));

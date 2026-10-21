@@ -1,4 +1,4 @@
-# Cidade do Lucas: jogo
+# The City: jogo
 
 Portfólio jogável em Phaser 3 + TypeScript + Vite. Etapa 1: a rua da loja de Projetos e o interior da loja.
 
