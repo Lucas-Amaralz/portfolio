@@ -1,0 +1,104 @@
+{
+  "rua-projetos": [
+    {
+      "chave": "rua-projetos-poste-esq",
+      "x": 80,
+      "y": 105,
+      "base": 199
+    },
+    {
+      "chave": "rua-projetos-poste-dir",
+      "x": 409,
+      "y": 105,
+      "base": 199
+    },
+    {
+      "chave": "rua-projetos-banco",
+      "x": 108,
+      "y": 164,
+      "base": 196
+    },
+    {
+      "chave": "rua-projetos-vaso-esq",
+      "x": 52,
+      "y": 163,
+      "base": 200
+    },
+    {
+      "chave": "rua-projetos-vaso-dir",
+      "x": 431,
+      "y": 155,
+      "base": 200
+    },
+    {
+      "chave": "rua-projetos-frade-1",
+      "x": 12,
+      "y": 175,
+      "base": 199
+    },
+    {
+      "chave": "rua-projetos-frade-2",
+      "x": 184,
+      "y": 175,
+      "base": 199
+    },
+    {
+      "chave": "rua-projetos-frade-3",
+      "x": 347,
+      "y": 175,
+      "base": 199
+    },
+    {
+      "chave": "rua-projetos-frade-4",
+      "x": 465,
+      "y": 175,
+      "base": 199
+    }
+  ],
+  "loja-projetos": [
+    {
+      "chave": "loja-projetos-planta-esq",
+      "x": 16,
+      "y": 212,
+      "base": 288
+    },
+    {
+      "chave": "loja-projetos-planta-dir",
+      "x": 463,
+      "y": 160,
+      "base": 293
+    }
+  ],
+  "trilha": [
+    {
+      "chave": "trilha-poste-1",
+      "x": 28,
+      "y": 256,
+      "base": 348
+    },
+    {
+      "chave": "trilha-poste-2",
+      "x": 304,
+      "y": 256,
+      "base": 348
+    },
+    {
+      "chave": "trilha-poste-3",
+      "x": 618,
+      "y": 256,
+      "base": 348
+    },
+    {
+      "chave": "trilha-totem-prefeitura",
+      "x": 198,
+      "y": 264,
+      "base": 306
+    },
+    {
+      "chave": "trilha-totem-zallpy",
+      "x": 415,
+      "y": 264,
+      "base": 306
+    }
+  ]
+}

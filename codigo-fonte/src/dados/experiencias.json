@@ -1,0 +1,52 @@
+[
+  {
+    "id": "prefeitura",
+    "fonte": "Textos copiados do currículo (curriculo-sem-telefone.html), como no popup aprovado (interface-popup.html).",
+    "nome": "Prefeitura Municipal de Guaíba",
+    "placa": "Prefeitura",
+    "cor": "#ffc46b",
+    "resumo": "Suporte Técnico / Infraestrutura (Estágio)",
+    "selos": ["Jul 2024 – Abr 2025"],
+    "imagem": "arte/predio-prefeitura.png",
+    "secoes": [
+      {
+        "titulo": "O que eu fazia",
+        "itens": [
+          "Suporte presencial e remoto a diversos setores da Prefeitura, incluindo saúde, assistência social e escolas.",
+          "Administração de usuários, grupos e permissões no Active Directory, políticas de segurança e configuração de roteadores e switches.",
+          "Manutenção de máquinas, cabeamento estruturado e configuração de impressoras na rede, com manutenção em casos simples.",
+          "Acompanhamento dos alertas do Zabbix: quando um equipamento ou link caía, entrava em contato com o setor para identificar a causa e acionar a solução.",
+          "Treinamento de 3 novos estagiários."
+        ]
+      }
+    ],
+    "ferramentas": ["Active Directory", "Roteadores e switches", "Cabeamento estruturado", "Zabbix", "Políticas de segurança", "Suporte N1/N2"],
+    "links": []
+  },
+  {
+    "id": "zallpy",
+    "fonte": "Textos do currículo, corrigidos por ele em 2026-10-21: não cuidava dos desligamentos, só do desvínculo do Apple ID nos desligamentos.",
+    "nome": "Zallpy Digital",
+    "placa": "Zallpy",
+    "cor": "#8be31f",
+    "resumo": "Analista de Infraestrutura (Estágio)",
+    "selos": ["Ago 2025 – Fev 2026"],
+    "imagem": "arte/predio-zallpy.png",
+    "numero": "Automação Windows 11",
+    "destaque": "Criei, por iniciativa própria, a automação de provisionamento do Windows 11 (Autounattend.xml, PowerShell e .bat): instala o sistema, remove o que não é de trabalho e instala os aplicativos corporativos com dois cliques. A preparação de cada máquina caiu de cerca de 3 horas para no máximo 1 hora (até 66% menos tempo).",
+    "secoes": [
+      {
+        "titulo": "O que eu fazia",
+        "itens": [
+          "Gestão de identidades e acessos no Active Directory, Entra ID e Microsoft 365: entradas, grupos, licenças e permissões.",
+          "Atendimento de chamados N1/N2 em Windows, Linux e macOS.",
+          "Principal responsável pelo ecossistema Apple: preparação e suporte dos MacBooks da empresa e desvínculo do Apple ID nos desligamentos.",
+          "Rotinas de segurança seguindo a ISO/IEC 27001 e o TISAX: hardening, padronização de ativos e documentação técnica.",
+          "Troubleshooting de rede (TCP/IP, DNS, DHCP) em ambiente híbrido."
+        ]
+      }
+    ],
+    "ferramentas": ["PowerShell", "Batch Script", "Autounattend.xml", "Active Directory", "Microsoft Entra ID", "Microsoft 365", "macOS", "ISO/IEC 27001", "TISAX"],
+    "links": [{ "texto": "Ver a automação no GitHub", "url": "https://github.com/Lucas-Amaralz/Automacao-windows1" }]
+  }
+]

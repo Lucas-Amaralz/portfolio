@@ -1,0 +1,165 @@
+[
+  {
+    "id": "dps",
+    "fonte": "Textos do painel aprovado (interface-projeto.html).",
+    "nome": "DPS Meter BDO",
+    "etiqueta": "Medidor de dano",
+    "area": "Redes",
+    "cor": "#ff4fd8",
+    "resumo": "Medidor de dano para Black Desert Online. Lê o tráfego de rede do jogo, sem mexer nele, e mostra ao vivo quanto dano cada pessoa do grupo está causando.",
+    "selos": [
+      "Encerrado na v1.4.1",
+      "Projeto pessoal",
+      "Código aberto"
+    ],
+    "imagem": "img/dps-meter.png",
+    "legenda": "A janela do meter durante uma luta (nomes de demonstração).",
+    "secoes": [
+      {
+        "titulo": "O problema",
+        "texto": "O jogo não mostra quanto dano cada jogador causa, então não dá para saber quem está rendendo numa luta em grupo."
+      },
+      {
+        "titulo": "O que eu fiz",
+        "itens": [
+          "Capturei o tráfego de rede do jogo e descobri, por análise das capturas, o formato das mensagens de vida, dano e grupo.",
+          "Janela ao vivo com o ranking do grupo, nos modos Caça, Chefe e PvP, e histórico das lutas.",
+          "Programa .exe com atualização automática pelo GitHub."
+        ]
+      },
+      {
+        "titulo": "Por que encerrei",
+        "texto": "Testando com cada pessoa batendo sozinha, provei que o jogo não envia o dano de todos. O meu dano e o total do grupo são confiáveis; a divisão entre os outros, não. Documentei o limite e encerrei o projeto."
+      }
+    ],
+    "infra": "Análise de tráfego de rede, diagnóstico com testes controlados, empacotamento e distribuição de software, e documentação honesta de limites.",
+    "ferramentas": [
+      "Python",
+      "Scapy + Npcap",
+      "Tkinter",
+      "PyInstaller",
+      "GitHub Releases"
+    ],
+    "links": [
+      {
+        "texto": "Ver o código no GitHub",
+        "url": "https://github.com/Lucas-Amaralz/DPS-Meter-BDO"
+      },
+      {
+        "texto": "Site do projeto",
+        "url": "https://lucas-amaralz.github.io/DPS-Meter-BDO"
+      }
+    ]
+  },
+  {
+    "id": "automacao",
+    "fonte": "Textos copiados do currículo (seção Projetos e experiência na Zallpy Digital).",
+    "nome": "Automação Windows 11",
+    "curto": "Automação Win 11",
+    "etiqueta": "Provisionamento",
+    "area": "Automação",
+    "cor": "#38f0ff",
+    "resumo": "Versão pública, sem dados da empresa, do provisionamento que criei na Zallpy.",
+    "selos": [
+      "Zallpy Digital",
+      "Testado em máquina virtual"
+    ],
+    "imagem": "arte/objeto-automacao.png",
+    "numero": "~3 h → no máximo 1 h",
+    "destaque": "Criei, por iniciativa própria, a automação de provisionamento do Windows 11 (Autounattend.xml, PowerShell e .bat): instala o sistema, remove o que não é de trabalho e instala os aplicativos corporativos com dois cliques. A preparação de cada máquina caiu de cerca de 3 horas para no máximo 1 hora (até 66% menos tempo).",
+    "secoes": [
+      {
+        "titulo": "A versão pública",
+        "itens": [
+          "Pendrive sem nenhuma credencial (conta temporária com troca obrigatória de senha no primeiro login, e Windows LAPS recomendado para produção).",
+          "Windows enxuto para máquinas fracas.",
+          "Instalação silenciosa de aplicativos.",
+          "Testado em máquina virtual."
+        ]
+      }
+    ],
+    "ferramentas": [
+      "Autounattend.xml",
+      "PowerShell",
+      "Batch Script",
+      "Windows LAPS"
+    ],
+    "links": [
+      {
+        "texto": "Ver a automação no GitHub",
+        "url": "https://github.com/Lucas-Amaralz/Automacao-windows1"
+      }
+    ]
+  },
+  {
+    "id": "portfolio",
+    "fonte": "Escrito em 2026-10-21 com fatos do próprio projeto; Lucas pode revisar.",
+    "nome": "Portfólio Cidade",
+    "etiqueta": "Este jogo",
+    "area": "Web",
+    "cor": "#a879ff",
+    "resumo": "A cidade que você está explorando: cada bairro guarda uma parte do meu currículo.",
+    "selos": [
+      "Projeto pessoal",
+      "Código aberto"
+    ],
+    "imagem": "arte/objeto-portfolio.png",
+    "secoes": [
+      {
+        "titulo": "O que eu fiz",
+        "itens": [
+          "Jogo em Phaser 3 com TypeScript e Vite: colisão, câmera que segue o personagem e toque para andar no celular.",
+          "Arte gerada por IA e preparada por scripts em Python: redução sem perder o neon e recorte dos objetos.",
+          "Painéis em HTML por cima do jogo, legíveis em qualquer tela e com teclado.",
+          "Teste automático no navegador (Edge headless) a cada etapa."
+        ]
+      }
+    ],
+    "ferramentas": [
+      "Phaser 3",
+      "TypeScript",
+      "Vite",
+      "Python (Pillow)"
+    ],
+    "links": [
+      {
+        "texto": "Ver o código no GitHub",
+        "url": "https://github.com/Lucas-Amaralz/portfolio"
+      }
+    ]
+  },
+  {
+    "id": "ultima",
+    "fonte": "Texto do currículo (seção Projetos); selo pedido por ele.",
+    "nome": "Última Luz Acesa",
+    "curto": "Última Luz Acesa",
+    "etiqueta": "Protótipo da cidade",
+    "area": "Web",
+    "cor": "#ffc46b",
+    "resumo": "História interativa que termina no meu portfólio, feita com HTML, CSS e JavaScript puro e publicada no GitHub Pages.",
+    "selos": [
+      "Protótipo antes da grande cidade",
+      "Projeto pessoal"
+    ],
+    "imagem": "img/ultima-luz.png",
+    "legenda": "A cena final da história, com o portfólio no monitor.",
+    "secoes": [
+      {
+        "titulo": "O que é",
+        "texto": "Meu primeiro portfólio jogável: uma história curta que termina numa casa com a última luz acesa, onde o portfólio aparece no monitor. Foi o protótipo que virou esta cidade."
+      }
+    ],
+    "ferramentas": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "GitHub Pages"
+    ],
+    "links": [
+      {
+        "texto": "Jogar a Última Luz",
+        "url": "https://lucas-amaralz.github.io/portfolio/ultima-luz/"
+      }
+    ]
+  }
+]

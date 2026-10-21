@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Cidade do Lucas</title>
+    <meta name="description" content="Portfólio jogável de Lucas Nunes Amaral, Analista de Infraestrutura Júnior: uma cidade em pixel art em que cada bairro guarda uma parte do currículo." />
+    <link rel="icon" type="image/png" href="arte/rosto.png" />
+    <!-- prévia do link no LinkedIn, WhatsApp etc. (Open Graph) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lucas-amaralz.github.io/portfolio/" />
+    <meta property="og:title" content="Lucas Nunes Amaral · Cidade do Lucas" />
+    <meta property="og:description" content="Analista de Infraestrutura Júnior. Explore a cidade: currículo, experiência, projetos e contato." />
+    <meta property="og:image" content="https://lucas-amaralz.github.io/portfolio/img/preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <style>
+      html, body { margin: 0; height: 100%; background: #0b0d1a; overflow: hidden; }
+      #jogo { width: 100vw; height: 100dvh; touch-action: none; }
+      canvas { image-rendering: pixelated; display: block; }
+      @font-face { font-family: Silkscreen; src: url(fontes/Silkscreen-Regular.ttf); }
+      #btn-mapa, #btn-voltar {
+        position: fixed; top: max(12px, env(safe-area-inset-top)); left: 12px;
+        font: 16px Silkscreen, monospace; color: #ffc46b; background: rgba(26, 18, 5, 0.9);
+        border: 2px solid #ffc46b; border-radius: 4px; padding: 8px 14px; cursor: pointer;
+      }
+      #btn-mapa:hover, #btn-voltar:hover { background: #3a2a0c; }
+      #btn-mapa[hidden], #btn-voltar[hidden] { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="jogo"></div>
+    <button id="btn-mapa" hidden title="Voltar ao mapa (M)">Mapa</button>
+    <button id="btn-voltar" hidden title="Voltar à loja (ESC)">Voltar</button>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
