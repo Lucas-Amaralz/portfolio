@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import DADOS from '../dados/projetos.json';
 import { cartao, dica, type Item } from '../interface/interface';
-import { zoomInteiro } from '../zoom';
+import { densidade, zoomInteiro } from '../zoom';
 
 // A vitrine da loja de Projetos vista pelo vidro: duas prateleiras com 4 pedestais cada.
 // Cada projeto de projetos.json ocupa um pedestal, na ordem do arquivo (em cima da esquerda
@@ -26,7 +26,7 @@ const ETIQUETA_A = 22;
 const MIRA_Y = [95, 185];
 // a moldura da vitrine inteira; quando ela cabe na tela, a câmera fica parada no centro dela
 const MOLDURA = { x: 40, y: 0, l: 432, a: 290 };
-const ESPACO_DICA = 56; // px de tela livres embaixo para a dica de controles
+const ESPACO_DICA = 56; // px de CSS livres embaixo para a dica de controles (x densidade = px do jogo)
 const POR_LINHA = COLUNAS.length;
 const VAGAS = POR_LINHA * TAMPO.length;
 const DICA = '<b>← → ↑ ↓</b> escolher · <b>E</b> abrir · <b>ESC</b> voltar à loja';
@@ -149,13 +149,13 @@ export class Vitrine extends Phaser.Scene {
   // Onde nem 2x cabe (celular), fica no zoom das outras cenas e a câmera segue o escolhido.
   private zoomVitrine() {
     const { width, height } = this.scale.gameSize;
-    const cabe = Math.floor(Math.min(width / MOLDURA.l, (height - ESPACO_DICA) / MOLDURA.a));
+    const cabe = Math.floor(Math.min(width / MOLDURA.l, (height - ESPACO_DICA * densidade()) / MOLDURA.a));
     return cabe >= 2 ? cabe : zoomInteiro(this);
   }
 
   private cabeInteira() {
     const cam = this.cameras.main;
-    return cam.width / cam.zoom >= MOLDURA.l && (cam.height - ESPACO_DICA) / cam.zoom >= MOLDURA.a;
+    return cam.width / cam.zoom >= MOLDURA.l && (cam.height - ESPACO_DICA * densidade()) / cam.zoom >= MOLDURA.a;
   }
 
   private ajustar() {

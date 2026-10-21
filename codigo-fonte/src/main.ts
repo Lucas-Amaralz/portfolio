@@ -5,9 +5,17 @@ import { Mapa } from './cenas/Mapa';
 import { Vitrine } from './cenas/Vitrine';
 import { iniciarBotoesFixos } from './interface/paineis';
 import { definirJogo } from './navegacao';
+import { densidade } from './zoom';
 
 // ?debug na URL mostra os corpos de colisão
 const debug = new URLSearchParams(location.search).has('debug');
+
+// área do jogo em pixels reais da tela
+function tamanho() {
+  const area = document.getElementById('jogo')!;
+  const d = densidade();
+  return { width: Math.round(area.clientWidth * d), height: Math.round(area.clientHeight * d) };
+}
 
 async function iniciar() {
   const fonte = new FontFace('Silkscreen', 'url(fontes/Silkscreen-Regular.ttf)');
@@ -23,7 +31,8 @@ async function iniciar() {
     backgroundColor: '#0b0d1a',
     pixelArt: true,
     roundPixels: true,
-    scale: { mode: Phaser.Scale.RESIZE, width: '100%', height: '100%' },
+    // tamanho em pixels reais da tela; o canvas é mostrado reduzido (zoom 1/densidade) no tamanho de CSS
+    scale: { mode: Phaser.Scale.NONE, ...tamanho(), zoom: 1 / densidade() },
     physics: { default: 'arcade', arcade: { debug } },
     input: { activePointers: 1 },
     scene: [Carregar, Mapa, Lugar, Vitrine],
@@ -32,7 +41,11 @@ async function iniciar() {
   iniciarBotoesFixos();
   // se a aba abriu em segundo plano ou a janela mudou de tamanho sem aviso, o canvas pode
   // ficar com o tamanho antigo; refaz a medida sempre que a área do jogo muda ou a aba volta
-  const refazer = () => jogo.scale.refresh();
+  const refazer = () => {
+    jogo.scale.setZoom(1 / densidade());
+    const { width, height } = tamanho();
+    jogo.scale.resize(width, height);
+  };
   new ResizeObserver(refazer).observe(document.getElementById('jogo')!);
   document.addEventListener('visibilitychange', () => !document.hidden && refazer());
   // ?teste expõe o jogo para os scripts de teste automático
