@@ -10,15 +10,13 @@ import { irParaMapa, pausarCenas } from '../navegacao';
 
 
 const FALAS = [
-  'Olá! Eu sou o Lucas, Analista de Infraestrutura Júnior.',
-  'Quero te apresentar meu projeto pessoal: um portfólio que você pode jogar, numa cidade em que cada bairro guarda uma parte da minha carreira.',
-  'No telão do centro está o meu currículo; na loja, os meus projetos; no parque, as empresas em que trabalhei; no farol, as certificações; e na torre de rádio, o meu contato.',
-  'Construí a cidade do zero com Phaser e TypeScript, preparei a arte gerada por IA com scripts em Python, e ela funciona tanto no computador quanto no celular.',
+  'Oi! Eu sou o Lucas e trabalho com infraestrutura de TI. Que bom que você passou por aqui.',
+  'Em vez de um portfólio comum, eu montei uma cidade. Em cada canto dela tem um pedaço da minha carreira.',
   ehToque
-    ? 'Para andar, toque nos botões de baixo ou em qualquer lugar da cidade.'
-    : 'Para a melhor experiência, ande com WASD ou as setas e use E para interagir.',
+    ? 'Foi o jeito que encontrei de mostrar o que eu sei fazer. Para andar, é só tocar onde você quer ir.'
+    : 'Foi o jeito que encontrei de mostrar o que eu sei fazer. Para andar, use WASD ou as setas, e o E para interagir.',
 ];
-const PERGUNTA = 'Deseja jogar e se aventurar pela cidade?';
+const PERGUNTA = 'E aí, quer dar uma volta pela cidade?';
 
 // As falas aparecem sempre que a página abre (o botão Pular está ali para quem tem pressa).
 // Só a volta pelo botão Início ou depois do "Apenas ver" vai direto para a pergunta.
