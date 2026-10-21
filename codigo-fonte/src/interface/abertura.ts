@@ -2,6 +2,7 @@ import './abertura.css';
 import { capturarTeclas, el } from './interface';
 import { abrirResumo } from './paineis';
 import { ehToque } from './toque';
+import { irParaMapa, pausarCenas } from '../navegacao';
 
 // Abertura: o Lucas, de costas, olhando a cidade, se apresenta numa caixa de diálogo (toque passa a fala)
 // e no fim pergunta se a pessoa quer jogar ou só ver o currículo e os projetos.
@@ -13,7 +14,7 @@ const FALAS = [
   'Olá! Eu sou o Lucas, Analista de Infraestrutura Júnior.',
   'Quero te apresentar meu projeto pessoal: um portfólio que você pode jogar, numa cidade em que cada bairro guarda uma parte da minha carreira.',
   ehToque
-    ? 'Para a melhor experiência no jogo, deite o celular.'
+    ? 'Para andar, toque nos botões de baixo ou em qualquer lugar da cidade.'
     : 'Para a melhor experiência, ande com WASD ou as setas e use E para interagir.',
 ];
 const PERGUNTA = 'Deseja jogar e se aventurar pela cidade?';
@@ -44,6 +45,14 @@ export async function abertura() {
     await abrirResumo();
   }
   document.body.classList.remove('com-menu');
+}
+
+// Botão "Início" do topo: o jogo para por baixo, a abertura volta (direto na pergunta) e JOGAR leva ao mapa
+export async function voltarAoInicio() {
+  const retomar = pausarCenas();
+  await abertura();
+  retomar();
+  irParaMapa();
 }
 
 function mostrar(pularFalas: boolean) {

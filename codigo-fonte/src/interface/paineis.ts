@@ -1,12 +1,13 @@
 import './paineis.css';
 import { capturarTeclas, cartao, el, type Item } from './interface';
-import { escolherBairro, irParaBairro, pausarCenas } from '../navegacao';
+import { irParaBairro, pausarCenas } from '../navegacao';
 import { CERTIFICACOES, COMPETENCIAS, CONTATOS, FORMACAO, PDF, PERFIL } from '../dados/curriculo';
 import EXPERIENCIAS from '../dados/experiencias.json';
 import PROJETOS from '../dados/projetos.json';
 import { botaoSom } from '../som';
+import { voltarAoInicio } from './abertura';
 
-// Painéis em HTML: telão do Currículo, Contato, Certificações, Expansão Futura, Controles e o menu de entrada.
+// Painéis em HTML: telão do Currículo, Contato, Certificações, Expansão Futura e Controles.
 // Um painel fecha com uma "ação": outro painel ('painel:contato'), um bairro ('bairro:projetos') ou nada.
 
 export type TipoPainel = 'curriculo' | 'contato' | 'certificacoes' | 'expansao' | 'controles';
@@ -264,96 +265,13 @@ export async function abrirResumo() {
   }
 }
 
-// ---------- Menu de entrada ----------
-
-const ITENS_MENU: [string, string][] = [
-  ['jogar', 'Explorar a cidade'],
-  ['curriculo', 'Currículo'],
-  ['projetos', 'Projetos'],
-  ['experiencia', 'Experiência'],
-  ['certificacoes', 'Certificações'],
-  ['contato', 'Contato'],
-  ['controles', 'Controles'],
-];
-
-// Menu de entrada (e do botão Menu): o jogo de baixo fica parado enquanto ele está aberto
-export async function menu() {
-  const retomar = pausarCenas();
-  for (;;) {
-    const escolha = await mostrarMenu();
-    if (escolha === 'jogar') return retomar();
-    if (escolha === 'projetos' || escolha === 'experiencia') {
-      retomar();
-      return escolherBairro(escolha);
-    }
-    if (await abrirPainel(escolha as TipoPainel)) return; // foi para outro lugar
-  }
-}
-
-function mostrarMenu() {
-  return new Promise<string>((resolver) => {
-    const tela = el('div', 'ui menu');
-    tela.setAttribute('role', 'dialog');
-    tela.setAttribute('aria-label', 'Menu');
-    const lado = el('div', 'menu-lado');
-    const titulo = el('h1', '', 'The City');
-    const lista = el('div', 'menu-lista');
-    const botoes = ITENS_MENU.map(([id, texto], i) => {
-      const b = botao(texto, 'menu-item', () => escolher(id));
-      b.onmouseenter = () => marcar(i);
-      lista.append(b);
-      return b;
-    });
-    // topo (título e quem é), janela para a cidade com o Lucas olhando, e a lista de opções.
-    // No PC, topo e janela não têm caixa própria (display: contents) e o Lucas fica no canto da tela.
-    const topo = el('div', 'menu-topo');
-    const quem = el('div', 'menu-quem');
-    quem.append(el('b', '', PERFIL.nome), el('span', '', PERFIL.cargo));
-    topo.append(titulo, el('div', 'menu-sub', 'Portfólio interativo'), quem);
-    const janela = el('div', 'menu-janela');
-    const lucas = el('div', 'menu-lucas');
-    lucas.setAttribute('aria-hidden', 'true');
-    lucas.style.backgroundImage = 'url(arte/lucas.png)';
-    janela.append(lucas);
-    lado.append(topo, janela, lista);
-    tela.append(lado, el('div', 'menu-dica', 'Setas e Enter para escolher'));
-    document.body.append(tela);
-    document.body.classList.add('com-menu');
-
-    let ativo = 0;
-    function marcar(i: number) {
-      ativo = (i + botoes.length) % botoes.length;
-      botoes.forEach((b, j) => b.classList.toggle('ativa', j === ativo));
-    }
-    marcar(0);
-    botoes[0].focus({ preventScroll: true });
-
-    const soltar = capturarTeclas((ev) => {
-      const k = ev.key.toLowerCase();
-      if (['arrowup', 'w'].includes(k)) marcar(ativo - 1);
-      if (['arrowdown', 's'].includes(k)) marcar(ativo + 1);
-      if (['enter', ' ', 'e'].includes(k)) {
-        ev.preventDefault();
-        escolher(ITENS_MENU[ativo][0]);
-      }
-      if (k === 'escape') escolher('jogar');
-    });
-    function escolher(id: string) {
-      soltar();
-      tela.remove();
-      document.body.classList.remove('com-menu');
-      resolver(id);
-    }
-  });
-}
-
 // ---------- Botões fixos (Currículo e Contato em qualquer lugar) ----------
 
 export function iniciarBotoesFixos() {
   const hud = el('div', 'hud');
   hud.append(
     botaoSom('hud-botao hud-som'),
-    botao('Menu', 'hud-botao', () => menu()),
+    botao('Início', 'hud-botao', () => voltarAoInicio()),
     botao('Currículo', 'hud-botao', () => abrirPainel('curriculo')),
     botao('Contato', 'hud-botao hud-contato', () => abrirPainel('contato')),
   );

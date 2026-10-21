@@ -1,7 +1,7 @@
 import type Phaser from 'phaser';
 import { BAIRROS } from './dados/bairros';
 
-// Os painéis em HTML (menu, telão, contato) levam o jogador a outros lugares sem passar pelo mapa
+// Os painéis em HTML (abertura, telão, contato) levam o jogador a outros lugares sem passar pelo mapa
 let jogo: Phaser.Game;
 const CENAS = ['Vitrine', 'Lugar', 'Mapa'];
 
@@ -18,11 +18,11 @@ export function irParaBairro(id: string) {
   jogo.scene.start('Lugar', destino);
 }
 
-// No mapa, o pino anda até o bairro; em outro lugar, vai direto
-export function escolherBairro(id: string) {
-  const mapa = jogo.scene.getScene('Mapa') as Phaser.Scene & { irPara(id: string): void };
-  if (jogo.scene.isActive('Mapa')) mapa.irPara(id);
-  else irParaBairro(id);
+// Volta ao mapa (botão Início -> Jogar); se já está nele, só deixa como está
+export function irParaMapa() {
+  if (jogo.scene.isActive('Mapa') || jogo.scene.isPaused('Mapa')) return;
+  for (const c of CENAS) if (jogo.scene.isActive(c) || jogo.scene.isPaused(c)) jogo.scene.stop(c);
+  jogo.scene.start('Mapa');
 }
 
 // Enquanto um painel está aberto, a cena de baixo para (o Lucas não segue andando por baixo)
