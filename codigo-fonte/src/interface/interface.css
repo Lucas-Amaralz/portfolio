@@ -89,3 +89,16 @@
 @media (hover: none) { .dica .teclado { display: none; } }
 @media (hover: hover) { .dica .toque { display: none; } }
 @media (prefers-reduced-motion: reduce) { .cartao, .dialogo { animation: none; } }
+
+/* celular deitado: cartão e diálogo usam a altura toda */
+@media (max-height: 520px) and (orientation: landscape) {
+  .cartao { top: 8px; translate: -50% 0; max-height: calc(100dvh - 16px); }
+  .cartao .topo { padding: 10px 16px 8px; }
+  .cartao h1 { font-size: 19px; }
+  .cartao .corpo { padding: 12px 16px; grid-template-columns: 200px minmax(0, 1fr); gap: 16px; }
+  .cartao .rodape { padding: 8px 16px; }
+  .dialogo { bottom: 8px; padding: 10px 14px 12px; }
+  .dialogo .fala { font-size: 15px; min-height: 0; margin-bottom: 8px; }
+  .dialogo button { min-height: 44px; }
+  .dica { bottom: 6px; }
+}

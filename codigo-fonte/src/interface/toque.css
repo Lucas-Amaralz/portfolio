@@ -1,0 +1,27 @@
+/* Controles de celular (joystick e botão de ação) e aviso "gire o celular". */
+.toque-controles { position: fixed; inset: 0; z-index: 8; pointer-events: none; }
+.toque-controles[hidden] { display: none; }
+.joystick { position: absolute; left: max(22px, env(safe-area-inset-left)); bottom: max(22px, env(safe-area-inset-bottom));
+  width: 128px; height: 128px; border-radius: 50%; pointer-events: auto; touch-action: none;
+  background: radial-gradient(circle, rgb(56 240 255 / .10), rgb(10 11 26 / .45) 70%);
+  border: 2px solid rgb(56 240 255 / .45); box-shadow: 0 0 18px rgb(56 240 255 / .15); }
+.joystick .pino { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%;
+  background: rgb(56 240 255 / .35); border: 2px solid #38f0ff; box-shadow: 0 0 12px rgb(56 240 255 / .4); }
+.acao { position: absolute; right: max(26px, env(safe-area-inset-right)); bottom: max(34px, env(safe-area-inset-bottom));
+  width: 76px; height: 76px; border-radius: 50%; pointer-events: auto; touch-action: manipulation;
+  font: 26px Silkscreen, monospace; color: #ffc46b; background: rgb(26 18 5 / .75); border: 3px solid #ffc46b;
+  box-shadow: 0 0 16px rgb(255 196 107 / .3); }
+.acao:active { background: #3a2a0c; scale: .94; }
+
+.girar { display: none; }
+@media (orientation: portrait) and (pointer: coarse) {
+  body.em-cena .girar { position: fixed; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 14px; padding: 24px; text-align: center; background: rgb(8 9 22 / .96); color: #e6e8f5; }
+  body.em-cena .toque-controles { display: none; }
+  .girar p { margin: 0; font: 18px Silkscreen, monospace; color: #38f0ff; }
+  .girar small { color: #a3a8c8; font: 14px system-ui, sans-serif; }
+  .girar .celular { width: 54px; height: 92px; border: 3px solid #38f0ff; border-radius: 10px; animation: girar 1.6s ease-in-out infinite; }
+  @keyframes girar { 0%, 30% { rotate: 0deg; } 60%, 100% { rotate: -90deg; } }
+  #btn-mapa, #btn-voltar { z-index: 6; }
+}
+@media (prefers-reduced-motion: reduce) { .girar .celular { animation: none; rotate: -90deg; } }

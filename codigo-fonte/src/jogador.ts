@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { joystick } from './interface/toque';
 import type { Direcao } from './dados/lugares';
 
 // Linhas da folha de sprites (4x4 quadros de 48px)
@@ -79,9 +80,13 @@ export class Jogador {
     if (t.D.isDown || t.RIGHT.isDown) vx += 1;
     if (t.W.isDown || t.UP.isDown) vy -= 1;
     if (t.S.isDown || t.DOWN.isDown) vy += 1;
+    if (!vx && !vy && (joystick.x || joystick.y)) {
+      vx = joystick.x;
+      vy = joystick.y;
+    }
 
     if (vx || vy) {
-      this.alvo = null; // teclado manda
+      this.alvo = null; // teclado ou joystick mandam
     } else if (this.alvo) {
       const dx = this.alvo.x - this.sprite.x;
       const dy = this.alvo.y - this.sprite.y;
@@ -113,8 +118,9 @@ export class Jogador {
     this.sprite.setVelocity((vx / len) * VELOCIDADE, (vy / len) * VELOCIDADE);
 
     if (vx || vy) {
-      if (vy) this.olhando = vy < 0 ? 'cima' : 'baixo';
-      if (vx && !vy) this.olhando = vx < 0 ? 'esquerda' : 'direita';
+      // olha para o eixo mais forte (na diagonal do teclado, para cima/baixo)
+      if (Math.abs(vy) >= Math.abs(vx)) this.olhando = vy < 0 ? 'cima' : 'baixo';
+      else this.olhando = vx < 0 ? 'esquerda' : 'direita';
       this.sprite.anims.play(`lucas-${this.olhando}`, true);
     } else {
       this.sprite.anims.stop();

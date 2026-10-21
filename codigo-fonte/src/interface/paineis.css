@@ -150,3 +150,24 @@
   .hud-botao { font-size: 12px; padding: 7px 9px; }
 }
 @media (prefers-reduced-motion: reduce) { .painel, .menu { animation: none; } }
+
+/* ---------- Celular (toque) ---------- */
+@media (pointer: coarse) {
+  .hud-botao { font-size: 13px; min-height: 44px; padding: 8px 12px; }
+}
+/* celular deitado: pouca altura, então o menu vira 2 colunas e os painéis usam a tela toda */
+@media (max-height: 520px) and (orientation: landscape) {
+  .menu { align-items: flex-start; padding-top: 14px; }
+  .menu h1 { font-size: 30px; }
+  .menu-sub { margin: 6px 0 12px; font-size: 11px; }
+  .menu-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 520px; gap: 6px; }
+  .menu-item { font-size: 14px; padding: 9px 12px; min-height: 44px; }
+  .menu-quem { margin-top: 10px; font-size: 13px; }
+  .menu-lucas { width: 144px; height: 144px; right: 10%; bottom: 6%; background-position: 0 -432px; background-size: 576px 576px; }
+  .menu-dica { display: none; }
+  .painel, .telao { top: 8px; translate: -50% 0; max-height: calc(100dvh - 16px); }
+  .painel-topo { padding: 10px 16px 8px; }
+  .painel h1 { font-size: 18px; }
+  .painel-corpo { padding: 12px 16px 14px; }
+  .telao .perfil { padding-bottom: 10px; margin-bottom: 10px; }
+}

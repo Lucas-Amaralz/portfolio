@@ -12,6 +12,7 @@ import { Jogador, LINHA, criarAnimacoes, posicionarPersonagem } from '../jogador
 import { cartao, dialogo, type Item } from '../interface/interface';
 import EXPERIENCIAS from '../dados/experiencias.json';
 import { zoomInteiro } from '../zoom';
+import { emCena, mostrarControles } from '../interface/toque';
 
 interface Camada {
   chave: string;
@@ -84,12 +85,22 @@ export class Lugar extends Phaser.Scene {
     this.events.once('shutdown', () => this.scale.off('resize', this.ajustarZoom, this));
     cam.fadeIn(200, 0, 0, 0);
 
-    this.input.keyboard!.on('keydown-E', () => {
-      if (this.ocupado) return;
+    const usar = () => {
+      if (this.ocupado || this.saindo || !this.scene.isActive()) return;
       const porta = this.portaParaTecla();
       if (porta) return this.entrar(porta);
       const coisa = this.interacaoParaTecla();
       if (coisa) this.interagir(coisa);
+    };
+    this.input.keyboard!.on('keydown-E', usar);
+    // botão de ação do celular
+    window.addEventListener('acao-toque', usar);
+    mostrarControles(true);
+    emCena(true);
+    this.events.once('shutdown', () => {
+      window.removeEventListener('acao-toque', usar);
+      mostrarControles(false);
+      emCena(false);
     });
     this.input.on('pointerdown', (p: Phaser.Input.Pointer) => this.tocar(p.worldX, p.worldY));
 
@@ -223,12 +234,14 @@ export class Lugar extends Phaser.Scene {
     this.tecla.setVisible(false);
     for (const a of this.avisos) a.setVisible(false);
     document.getElementById('btn-mapa')!.hidden = true;
+    mostrarControles(false);
   }
 
   private liberar() {
     this.ocupado = false;
     for (const a of this.avisos) a.setVisible(true);
     document.getElementById('btn-mapa')!.hidden = false;
+    mostrarControles(true);
   }
 
   private async interagir(coisa: Interacao) {
