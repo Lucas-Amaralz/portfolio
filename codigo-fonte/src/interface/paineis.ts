@@ -4,6 +4,7 @@ import { escolherBairro, irParaBairro, pausarCenas } from '../navegacao';
 import { CERTIFICACOES, COMPETENCIAS, CONTATOS, FORMACAO, PDF, PERFIL } from '../dados/curriculo';
 import EXPERIENCIAS from '../dados/experiencias.json';
 import PROJETOS from '../dados/projetos.json';
+import { botaoSom } from '../som';
 
 // Painéis em HTML: telão do Currículo, Contato, Certificações, Expansão Futura, Controles e o menu de entrada.
 // Um painel fecha com uma "ação": outro painel ('painel:contato'), um bairro ('bairro:projetos') ou nada.
@@ -284,16 +285,19 @@ function mostrarMenu() {
       lista.append(b);
       return b;
     });
-    lado.append(
-      titulo,
-      el('div', 'menu-sub', 'Portfólio interativo'),
-      lista,
-      el('p', 'menu-quem', `${PERFIL.nome} · ${PERFIL.cargo}`),
-    );
+    // topo (título e quem é), janela para a cidade com o Lucas olhando, e a lista de opções.
+    // No PC, topo e janela não têm caixa própria (display: contents) e o Lucas fica no canto da tela.
+    const topo = el('div', 'menu-topo');
+    const quem = el('div', 'menu-quem');
+    quem.append(el('b', '', PERFIL.nome), el('span', '', PERFIL.cargo));
+    topo.append(titulo, el('div', 'menu-sub', 'Portfólio interativo'), quem);
+    const janela = el('div', 'menu-janela');
     const lucas = el('div', 'menu-lucas');
     lucas.setAttribute('aria-hidden', 'true');
     lucas.style.backgroundImage = 'url(arte/lucas.png)';
-    tela.append(lado, lucas, el('div', 'menu-dica', 'Setas e Enter para escolher'));
+    janela.append(lucas);
+    lado.append(topo, janela, lista);
+    tela.append(lado, el('div', 'menu-dica', 'Setas e Enter para escolher'));
     document.body.append(tela);
     document.body.classList.add('com-menu');
 
@@ -329,6 +333,7 @@ function mostrarMenu() {
 export function iniciarBotoesFixos() {
   const hud = el('div', 'hud');
   hud.append(
+    botaoSom('hud-botao hud-som'),
     botao('Menu', 'hud-botao', () => menu()),
     botao('Currículo', 'hud-botao', () => abrirPainel('curriculo')),
     botao('Contato', 'hud-botao hud-contato', () => abrirPainel('contato')),

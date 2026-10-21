@@ -3,6 +3,7 @@ import { BAIRROS, BAIRRO_INICIAL, type Bairro } from '../dados/bairros';
 import type { Ret } from '../dados/lugares';
 import { abrirPainel, menu, type TipoPainel } from '../interface/paineis';
 import { areaDeBaixo, emPe } from '../interface/toque';
+import { chuva, luzesDoMapa } from '../efeitos';
 
 const LARGURA = 512;
 const ALTURA = 341;
@@ -39,6 +40,8 @@ export class Mapa extends Phaser.Scene {
 
     for (const [id, b] of Object.entries(BAIRROS)) this.placas[id] = this.criarPlaca(b);
     this.criarTitulo();
+    luzesDoMapa(this);
+    chuva(this, LARGURA, ALTURA, 9); // abaixo das placas, para os nomes continuarem fáceis de ler
 
     const atual = BAIRROS[this.bairroAtual()];
     const [px, py] = atual.rota[atual.rota.length - 1];

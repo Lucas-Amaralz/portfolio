@@ -63,6 +63,7 @@ export interface Lugar {
   interacoes: Interacao[];
   npcs: Npc[];
   placas?: Placa[];
+  chuva?: boolean; // lugar ao ar livre: chove (a arte já tem chão molhado)
 }
 
 const frades = [25, 283, 527, 705].map((cx): Ret => [cx - 5, 288, cx + 5, 298]);
@@ -70,6 +71,7 @@ const frades = [25, 283, 527, 705].map((cx): Ret => [cx - 5, 288, cx + 5, 298]);
 const LUGARES_768: Record<string, Lugar> = {
   'rua-projetos': {
     fundo: 'rua-projetos',
+    chuva: true,
     largura: 768,
     altura: 512,
     bloqueios: [
@@ -132,6 +134,7 @@ const LUGARES_768: Record<string, Lugar> = {
   // Trilha da Carreira (bairro Experiência): um prédio por emprego, da esquerda para a direita
   trilha: {
     fundo: 'trilha',
+    chuva: true,
     escala: 1,
     cameraY: 85, // mostra os prédios inteiros, com o Lucas no calçadão
     largura: 768,

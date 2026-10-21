@@ -13,6 +13,7 @@ import { cartao, dialogo, type Item } from '../interface/interface';
 import EXPERIENCIAS from '../dados/experiencias.json';
 import { zoomInteiro } from '../zoom';
 import { areaDeBaixo, mostrarControles } from '../interface/toque';
+import { chuva } from '../efeitos';
 
 interface Camada {
   chave: string;
@@ -57,6 +58,7 @@ export class Lugar extends Phaser.Scene {
     for (const c of camadas) this.add.image(c.x, c.y, c.chave).setOrigin(0).setDepth(c.base);
 
     for (const placa of this.dados.placas ?? []) this.escreverPlaca(placa);
+    if (this.dados.chuva) chuva(this, largura, altura, 9000); // por cima de tudo, menos os avisos e a tecla E
 
     for (const npc of this.dados.npcs) {
       criarAnimacoes(this, npc.textura);
