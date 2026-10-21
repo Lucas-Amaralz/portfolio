@@ -91,8 +91,10 @@ export class Jogador {
     if (t.W.isDown || t.UP.isDown) vy -= 1;
     if (t.S.isDown || t.DOWN.isDown) vy += 1;
     if (!vx && !vy && (joystick.x || joystick.y)) {
-      vx = joystick.x;
-      vy = joystick.y;
+      // joystick: só a direção (anda sempre na velocidade cheia, como no teclado)
+      const forca = Math.hypot(joystick.x, joystick.y);
+      vx = joystick.x / forca;
+      vy = joystick.y / forca;
     }
 
     if (vx || vy) {
@@ -102,18 +104,31 @@ export class Jogador {
       // segue o caminho ponto a ponto; cada trecho é reto (horizontal ou vertical)
       while (this.caminho.length) {
         const [px, py] = this.caminho[0];
-        if (Math.abs(px - this.sprite.x) > 1.5 || Math.abs(py - this.sprite.y) > 1.5) break;
+        if (Math.abs(px - this.sprite.x) > 0.75 || Math.abs(py - this.sprite.y) > 0.75) break;
         this.caminho.shift();
       }
       const ponto = this.caminho[0];
       if (!ponto) {
         this.alvo = null;
       } else {
-        const dx = ponto[0] - this.sprite.x;
-        const dy = ponto[1] - this.sprite.y;
-        vx = Math.abs(dx) > 1.5 ? Math.sign(dx) : 0;
-        vy = Math.abs(dy) > 1.5 ? Math.sign(dy) : 0;
+        let dx = ponto[0] - this.sprite.x;
+        let dy = ponto[1] - this.sprite.y;
+        // Perto do ponto (menos de um passo), ele é colocado em cima dele. Sem isso passava do ponto,
+        // voltava e passava de novo, virando de um lado para o outro ("girando"): a física anda em passos
+        // fixos e a tela pode atualizar em outro ritmo, então frear pela velocidade não fecha a conta.
+        const passo = (VELOCIDADE * Math.max(delta, 1000 / 60) * 2) / 1000;
         const corpo = this.sprite.body;
+        if (dx !== 0 && Math.abs(dx) <= passo) {
+          corpo.reset(ponto[0], this.sprite.y);
+          dx = 0;
+        }
+        if (dx === 0 && dy !== 0 && Math.abs(dy) <= passo) {
+          corpo.reset(this.sprite.x, ponto[1]);
+          dy = 0;
+        }
+        // um eixo de cada vez, como num RPG de grade: ele sempre olha para onde está andando
+        if (dx !== 0) vx = Math.sign(dx);
+        else if (dy !== 0) vy = Math.sign(dy);
         if (corpo.deltaAbsX() < 0.1 && corpo.deltaAbsY() < 0.1) this.parado += delta;
         else this.parado = 0;
         if (this.parado > 400) {
@@ -124,7 +139,8 @@ export class Jogador {
       }
     }
 
-    const len = Math.hypot(vx, vy) || 1;
+    // na diagonal do teclado não anda mais rápido; perto do ponto do caminho, anda só o que falta
+    const len = Math.max(1, Math.hypot(vx, vy));
     this.sprite.setVelocity((vx / len) * VELOCIDADE, (vy / len) * VELOCIDADE);
 
     if (vx || vy) {

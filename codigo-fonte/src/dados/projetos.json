@@ -172,6 +172,7 @@
     "cor": "#a879ff",
     "resumo": "A cidade que você está explorando: Cada bairro guarda uma parte do meu currículo.",
     "selos": [
+      "Ajustado para mobile",
       "Projeto pessoal",
       "Código aberto"
     ],
@@ -181,6 +182,7 @@
         "titulo": "O que eu fiz",
         "itens": [
           "Jogo em Phaser 3 com TypeScript e Vite: Colisão, câmera que segue o personagem e toque para andar no celular.",
+          "Ajustado para mobile: No celular em pé, o jogo fica em cima e os controles embaixo, com botões com o nome de cada lugar para quem não quer andar, joystick e caminho automático que desvia dos obstáculos.",
           "Arte gerada por IA e preparada por scripts em Python: Redução sem perder o neon e recorte dos objetos.",
           "Painéis em HTML por cima do jogo, legíveis em qualquer tela e com teclado.",
           "Teste automático no navegador (Edge headless) a cada etapa."
