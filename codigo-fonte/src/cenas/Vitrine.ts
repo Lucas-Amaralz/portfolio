@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import DADOS from '../dados/projetos.json';
 import { cartao, dica, type Item } from '../interface/interface';
 import { densidade, zoomInteiro } from '../zoom';
-import { areaDeBaixo, emPe } from '../interface/toque';
+import { areaDeBaixo, emPe, mostrarControles } from '../interface/toque';
 
 // A vitrine da loja de Projetos vista pelo vidro: duas prateleiras com 4 pedestais cada.
 // Cada projeto de projetos.json ocupa um pedestal, na ordem do arquivo (em cima da esquerda
@@ -27,6 +27,10 @@ const ETIQUETA_A = 22;
 const MIRA_Y = [95, 185];
 // a moldura da vitrine inteira; quando ela cabe na tela, a câmera fica parada no centro dela
 const MOLDURA = { x: 40, y: 0, l: 432, a: 290 };
+// celular em pé: quanto da vitrine aparece na largura, e onde a câmera mira
+const EM_PE_LARGURA = 300;
+const EM_PE_CENTRO = 260; // meio entre o 1º e o 4º pedestal
+const EM_PE_ALTURA = 150; // as duas prateleiras
 const ESPACO_DICA = 56; // px de CSS livres embaixo para a dica de controles (x densidade = px do jogo)
 const POR_LINHA = COLUNAS.length;
 const VAGAS = POR_LINHA * TAMPO.length;
@@ -108,7 +112,8 @@ export class Vitrine extends Phaser.Scene {
       zona.setInteractive({ useHandCursor: true });
       zona.on('pointerover', (p: Phaser.Input.Pointer) => !p.wasTouch && this.selecionar(i));
       // um toque ou clique já abre (antes o 1º toque só escolhia, e quem não joga achava que não funcionou)
-      zona.on('pointerdown', () => this.abrirProjeto(i));
+      // abre ao soltar sem ter arrastado: assim dá para arrastar a vitrine com o dedo sem abrir nada
+      zona.on('pointerup', (p: Phaser.Input.Pointer) => p.getDistance() < 10 && this.abrirProjeto(i));
     }
 
     this.seta = this.add.triangle(0, 0, 0, 0, 8, 0, 4, 5, 0xffffff).setOrigin(0.5, 1).setDepth(6);
@@ -117,6 +122,11 @@ export class Vitrine extends Phaser.Scene {
     cam.setZoom(zoom);
     cam.setBackgroundColor('#0a0b1a'); // cobre a loja (pausada por baixo) quando a tela é maior que a vitrine
     this.scale.on('resize', this.ajustar, this);
+    // quando a vitrine não cabe inteira, arrasta para os lados com o dedo ou o mouse
+    this.input.on('pointermove', (p: Phaser.Input.Pointer) => {
+      if (!p.isDown || this.aberto || this.cabeInteira()) return;
+      cam.scrollX -= (p.x - p.prevPosition.x) / cam.zoom;
+    });
     this.events.once('shutdown', () => this.scale.off('resize', this.ajustar, this));
 
     const kb = this.input.keyboard!;
@@ -137,6 +147,7 @@ export class Vitrine extends Phaser.Scene {
       dica(null);
     });
     dica(DICA, DICA_TOQUE);
+    mostrarControles(false); // joystick e "Ver" são da cena andável; aqui só os botões dos projetos
     // em pé: um botão por projeto, com o nome; tocou, abre (a mãe dele se perdeu nas setas)
     areaDeBaixo(
       'TOQUE NUM PROJETO PARA VER',
@@ -152,7 +163,9 @@ export class Vitrine extends Phaser.Scene {
   private zoomVitrine() {
     const { width, height } = this.scale.gameSize;
     // celular em pé: 2 pedestais por vez, grandes; as setas da área de baixo passam de um em um
-    if (emPe()) return Math.max(1, Math.floor(width / 190));
+    // celular em pé: uns 3 projetos e meio por vez, com as duas prateleiras na altura. O zoom aqui pode
+    // ser quebrado: na tela de alta densidade do celular a diferença no pixel não aparece.
+    if (emPe()) return width / EM_PE_LARGURA;
     const cabe = Math.floor(Math.min(width / MOLDURA.l, (height - ESPACO_DICA * densidade()) / MOLDURA.a));
     return cabe >= 2 ? cabe : zoomInteiro(this);
   }
@@ -179,6 +192,13 @@ export class Vitrine extends Phaser.Scene {
       return;
     }
     cam.setBounds(0, 0, 512, 341);
+    if (emPe()) {
+      // em pé: as duas prateleiras sempre na altura; abre no meio da vitrine e depois segue o escolhido
+      const x = direto ? EM_PE_CENTRO : p.cx;
+      if (direto) cam.centerOn(x, EM_PE_ALTURA);
+      else cam.pan(x, EM_PE_ALTURA, 250, 'Sine.easeOut', true);
+      return;
+    }
     if (direto) cam.centerOn(p.cx, MIRA_Y[p.linha]);
     else cam.pan(p.cx, MIRA_Y[p.linha], 250, 'Sine.easeOut', true);
   }
