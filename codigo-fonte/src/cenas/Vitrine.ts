@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import DADOS from '../dados/projetos.json';
 import { cartao, dica, type Item } from '../interface/interface';
 import { densidade, zoomInteiro } from '../zoom';
+import { areaDeBaixo, emPe } from '../interface/toque';
 
 // A vitrine da loja de Projetos vista pelo vidro: duas prateleiras com 4 pedestais cada.
 // Cada projeto de projetos.json ocupa um pedestal, na ordem do arquivo (em cima da esquerda
@@ -140,6 +141,11 @@ export class Vitrine extends Phaser.Scene {
       dica(null);
     });
     dica(DICA, DICA_TOQUE);
+    areaDeBaixo('LOJA DE PROJETOS', [
+      ['◀', () => this.selecionar(this.atual - 1), 'seta'],
+      ['Abrir', () => this.abrir(), 'principal'],
+      ['▶', () => this.selecionar(this.atual + 1), 'seta'],
+    ]);
 
     this.selecionar(0, true);
     cam.fadeIn(200, 0, 0, 0);
@@ -149,6 +155,8 @@ export class Vitrine extends Phaser.Scene {
   // Onde nem 2x cabe (celular), fica no zoom das outras cenas e a câmera segue o escolhido.
   private zoomVitrine() {
     const { width, height } = this.scale.gameSize;
+    // celular em pé: 2 pedestais por vez, grandes; as setas da área de baixo passam de um em um
+    if (emPe()) return Math.max(1, Math.floor(width / 190));
     const cabe = Math.floor(Math.min(width / MOLDURA.l, (height - ESPACO_DICA * densidade()) / MOLDURA.a));
     return cabe >= 2 ? cabe : zoomInteiro(this);
   }
@@ -222,6 +230,7 @@ export class Vitrine extends Phaser.Scene {
     dica(null);
     const ultimo = await cartao(this.pecas.map((p) => p.projeto), this.atual, 'LOJA DE PROJETOS', 'à vitrine');
     this.aberto = false;
+    if (!this.scene.isActive() && !this.scene.isPaused()) return; // a vitrine já fechou (foi para outro lugar)
     dica(DICA, DICA_TOQUE);
     this.selecionar(ultimo);
   }

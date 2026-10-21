@@ -6,7 +6,7 @@ export const densidade = () => Math.min(window.devicePixelRatio || 1, 3);
 
 // Quanto do mundo aparece no mínimo. Em pé (celular), conta a largura: a cena é deitada.
 const VISTA_DEITADA = [400, 267];
-const VISTA_EM_PE = [300, 200];
+const VISTA_EM_PE = [240, 340]; // celular em pé: a cena enche a altura da parte de cima
 // celular deitado: câmera mais longe, quase a cena inteira (ele pediu)
 const VISTA_TOQUE = [520, 330];
 const toque = matchMedia('(pointer: coarse)').matches;

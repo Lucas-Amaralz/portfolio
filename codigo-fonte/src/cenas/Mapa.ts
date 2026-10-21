@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { BAIRROS, BAIRRO_INICIAL, type Bairro } from '../dados/bairros';
 import type { Ret } from '../dados/lugares';
 import { abrirPainel, menu, type TipoPainel } from '../interface/paineis';
+import { areaDeBaixo, emPe } from '../interface/toque';
 
 const LARGURA = 512;
 const ALTURA = 341;
@@ -48,6 +49,11 @@ export class Mapa extends Phaser.Scene {
     const cam = this.cameras.main;
     this.ajustarZoom();
     this.scale.on('resize', this.ajustarZoom, this);
+    // celular em pé: os bairros também viram botões grandes embaixo do mapa
+    areaDeBaixo(
+      'ESCOLHA PARA ONDE IR',
+      Object.entries(BAIRROS).map(([id, b]) => [b.nome, () => this.irPara(id)] as [string, () => void]),
+    );
     this.events.once('shutdown', () => this.scale.off('resize', this.ajustarZoom, this));
     cam.fadeIn(250, 0, 0, 0);
     // a primeira vez que o mapa aparece, o menu de entrada abre por cima dele
@@ -72,12 +78,15 @@ export class Mapa extends Phaser.Scene {
   private ajustarZoom() {
     const { width, height } = this.scale.gameSize;
     const cam = this.cameras.main;
-    const zoom = Math.max(1, Math.floor(Math.min(width / LARGURA, height / ALTURA) / 0.92));
+    // em pé, o mapa enche a altura e arrasta para os lados
+    const zoom = emPe()
+      ? Math.max(1, Math.floor(height / ALTURA))
+      : Math.max(1, Math.floor(Math.min(width / LARGURA, height / ALTURA) / 0.92));
     cam.setZoom(zoom);
     const sobraL = Math.max(0, width / zoom - LARGURA) / 2;
     const sobraA = Math.max(0, height / zoom - ALTURA) / 2;
     cam.setBounds(-sobraL, -sobraA, LARGURA + 2 * sobraL, ALTURA + 2 * sobraA);
-    cam.centerOn(LARGURA / 2, ALTURA / 2);
+    cam.centerOn(emPe() && this.pino ? this.pino.x : LARGURA / 2, ALTURA / 2);
   }
 
   private arrastar(p: Phaser.Input.Pointer) {
@@ -155,7 +164,10 @@ export class Mapa extends Phaser.Scene {
 
   // público: o menu também escolhe bairros
   irPara(id: string) {
+    if (this.ocupado) return;
     this.ocupado = true;
+    // em pé o mapa não cabe inteiro: a câmera acompanha o pino
+    if (emPe()) this.cameras.main.startFollow(this.pino, false, 0.12, 0.12);
     const de = BAIRROS[this.bairroAtual()].rota;
     const para = BAIRROS[id].rota;
     // volta até o cruzamento e segue a rota nova (o cruzamento aparece nas duas)
@@ -177,6 +189,7 @@ export class Mapa extends Phaser.Scene {
 
   private chegar(id: string) {
     const { destino, painel } = BAIRROS[id];
+    this.cameras.main.stopFollow();
     if (!destino) return this.mostrarPainel(painel ?? 'expansao');
     const cam = this.cameras.main;
     cam.pan(this.pino.x, this.pino.y - 10, 600, 'Sine.easeInOut');

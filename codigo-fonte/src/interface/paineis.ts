@@ -331,7 +331,7 @@ export function iniciarBotoesFixos() {
   hud.append(
     botao('Menu', 'hud-botao', () => menu()),
     botao('Currículo', 'hud-botao', () => abrirPainel('curriculo')),
-    botao('Contato', 'hud-botao', () => abrirPainel('contato')),
+    botao('Contato', 'hud-botao hud-contato', () => abrirPainel('contato')),
   );
   document.body.append(hud);
 }

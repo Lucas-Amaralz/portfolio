@@ -1,4 +1,4 @@
-/* Controles de celular (joystick e botão de ação) e aviso "gire o celular". */
+/* Controles de celular: joystick e botão de ação; em pé, a tela se divide em jogo (em cima) e controles (embaixo). */
 .toque-controles { position: fixed; inset: 0; z-index: 8; pointer-events: none; }
 .toque-controles[hidden] { display: none; }
 .joystick { position: absolute; left: max(22px, env(safe-area-inset-left)); bottom: max(22px, env(safe-area-inset-bottom));
@@ -13,15 +13,23 @@
   box-shadow: 0 0 16px rgb(255 196 107 / .3); }
 .acao:active { background: #3a2a0c; scale: .94; }
 
-.girar { display: none; }
-@media (orientation: portrait) and (pointer: coarse) {
-  body.em-cena .girar { position: fixed; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 14px; padding: 24px; text-align: center; background: rgb(8 9 22 / .96); color: #e6e8f5; }
-  body.em-cena .toque-controles { display: none; }
-  .girar p { margin: 0; font: 18px Silkscreen, monospace; color: #38f0ff; }
-  .girar small { color: #a3a8c8; font: 14px system-ui, sans-serif; }
-  .girar .celular { width: 54px; height: 92px; border: 3px solid #38f0ff; border-radius: 10px; animation: girar 1.6s ease-in-out infinite; }
-  @keyframes girar { 0%, 30% { rotate: 0deg; } 60%, 100% { rotate: -90deg; } }
-  #btn-mapa, #btn-voltar { z-index: 6; }
-}
-@media (prefers-reduced-motion: reduce) { .girar .celular { animation: none; rotate: -90deg; } }
+/* ---------- Em pé: jogo em cima (60%), área de controle embaixo (40%) ---------- */
+.area-baixo { display: none; }
+body.em-pe #jogo { height: 60dvh; }
+body.em-pe .area-baixo { position: fixed; left: 0; right: 0; top: 60dvh; bottom: 0; z-index: 3; display: flex; flex-direction: column;
+  gap: 12px; padding: 14px 16px max(16px, env(safe-area-inset-bottom)); background: #0d0f22; border-top: 2px solid #2a2e57; }
+.area-titulo { font: 12px Silkscreen, monospace; color: #a3a8c8; letter-spacing: .04em; text-align: center; }
+.area-botoes { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 10px; max-height: 260px; }
+.area-botoes.tres { grid-template-columns: 1fr 1.4fr 1fr; max-height: 84px; }
+.area-botoes button { min-height: 52px; font: 14px Silkscreen, monospace; color: #e6e8f5; background: #161935;
+  border: 2px solid #2a2e57; border-radius: 12px; touch-action: manipulation; }
+.area-botoes button:active { border-color: #38f0ff; background: #10304a; }
+.area-botoes .principal { color: #0a0b1a; background: #38f0ff; border-color: #38f0ff; }
+.area-botoes .seta { font-size: 22px; }
+body.em-pe .toque-controles { inset: 60dvh 0 0 0; }
+body.em-pe .joystick { left: 28px; bottom: auto; top: 50%; translate: 0 -50%; width: 150px; height: 150px; }
+body.em-pe .acao { right: 36px; bottom: auto; top: 50%; translate: 0 -50%; width: 92px; height: 92px; font-size: 32px; }
+body.em-pe .dica { display: none; }
+/* em pé não cabem 4 botões no topo: o Contato fica dentro do Menu, e Mapa/Voltar ficam menores */
+body.em-pe .hud-contato { display: none; }
+body.em-pe #btn-mapa, body.em-pe #btn-voltar { font-size: 13px; padding: 8px 12px; min-height: 44px; }

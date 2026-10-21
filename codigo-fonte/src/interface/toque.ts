@@ -1,9 +1,20 @@
 import './toque.css';
 
-// Controles de celular: joystick no canto esquerdo e botão de ação (o mesmo que a tecla E) no direito.
-// Só aparecem em telas de toque e só nas cenas em que o Lucas anda.
+// Celular. Deitado: joystick e botão de ação (o mesmo que a tecla E) por cima da cena.
+// Em pé: o jogo fica na parte de cima e os controles numa área própria embaixo, como num Game Boy;
+// essa área muda conforme a tela: bairros no mapa, joystick nas cenas, setas na vitrine.
 
 export const ehToque = matchMedia('(pointer: coarse)').matches;
+
+// celular em pé: o CSS divide a tela (body.em-pe) e as cenas escolhem o zoom por isso
+export const emPe = () => ehToque && window.innerHeight > window.innerWidth;
+function marcarPosicao() {
+  document.body.classList.toggle('em-pe', emPe());
+}
+if (ehToque) {
+  marcarPosicao();
+  window.addEventListener('resize', marcarPosicao);
+}
 
 // direção do joystick, de -1 a 1 em cada eixo (0, 0 = solto)
 export const joystick = { x: 0, y: 0 };
@@ -63,16 +74,35 @@ export function mostrarControles(ligar: boolean) {
   if (!ligar) joystick.x = joystick.y = 0;
 }
 
-// Aviso "gire o celular": aparece pelo CSS só em pé, em tela de toque, dentro das cenas
-let aviso: HTMLElement | null = null;
-export function emCena(sim: boolean) {
+// ---------- Área de baixo (só em pé) ----------
+
+let area: HTMLElement | null = null;
+
+// Troca o que aparece na área de baixo; `botoes` são [texto, ação, classe extra]
+export function areaDeBaixo(titulo: string, botoes: [string, () => void, string?][] = []) {
   if (!ehToque) return;
-  if (!aviso) {
-    aviso = document.createElement('div');
-    aviso.className = 'girar';
-    aviso.innerHTML =
-      '<div class="celular" aria-hidden="true"></div><p>Gire o celular para jogar</p><small>O mapa e os painéis funcionam em pé</small>';
-    document.body.append(aviso);
+  if (!area) {
+    area = document.createElement('div');
+    area.className = 'area-baixo';
+    document.body.append(area);
   }
-  document.body.classList.toggle('em-cena', sim);
+  area.replaceChildren();
+  if (titulo) {
+    const t = document.createElement('div');
+    t.className = 'area-titulo';
+    t.textContent = titulo;
+    area.append(t);
+  }
+  if (!botoes.length) return;
+  const grade = document.createElement('div');
+  grade.className = botoes.length === 3 ? 'area-botoes tres' : 'area-botoes';
+  for (const [texto, acao, classe] of botoes) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = texto;
+    if (classe) b.className = classe;
+    b.onclick = acao;
+    grade.append(b);
+  }
+  area.append(grade);
 }

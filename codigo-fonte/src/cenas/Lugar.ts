@@ -12,7 +12,7 @@ import { Jogador, LINHA, criarAnimacoes, posicionarPersonagem } from '../jogador
 import { cartao, dialogo, type Item } from '../interface/interface';
 import EXPERIENCIAS from '../dados/experiencias.json';
 import { zoomInteiro } from '../zoom';
-import { emCena, mostrarControles } from '../interface/toque';
+import { areaDeBaixo, mostrarControles } from '../interface/toque';
 
 interface Camada {
   chave: string;
@@ -20,6 +20,8 @@ interface Camada {
   y: number;
   base: number;
 }
+
+const DICA_TOQUE = 'JOYSTICK PARA ANDAR · E PARA INTERAGIR';
 
 const dentro = (r: Ret, x: number, y: number) => x >= r[0] && x < r[2] && y >= r[1] && y < r[3];
 const centro = (r: Ret) => [(r[0] + r[2]) / 2, (r[1] + r[3]) / 2] as const;
@@ -96,11 +98,10 @@ export class Lugar extends Phaser.Scene {
     // botão de ação do celular
     window.addEventListener('acao-toque', usar);
     mostrarControles(true);
-    emCena(true);
+    areaDeBaixo(DICA_TOQUE);
     this.events.once('shutdown', () => {
       window.removeEventListener('acao-toque', usar);
       mostrarControles(false);
-      emCena(false);
     });
     this.input.on('pointerdown', (p: Phaser.Input.Pointer) => this.tocar(p.worldX, p.worldY));
 
@@ -242,6 +243,7 @@ export class Lugar extends Phaser.Scene {
     for (const a of this.avisos) a.setVisible(true);
     document.getElementById('btn-mapa')!.hidden = false;
     mostrarControles(true);
+    areaDeBaixo(DICA_TOQUE); // a vitrine troca a área de baixo; ao voltar, é a da cena de novo
   }
 
   private async interagir(coisa: Interacao) {

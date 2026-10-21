@@ -102,3 +102,8 @@
   .dialogo button { min-height: 44px; }
   .dica { bottom: 6px; }
 }
+
+/* acima dos botões fixos (z 5) e dos controles de toque (z 8): nada fica por cima de um cartão aberto */
+.dialogo { z-index: 15; }
+.cartao-fundo { z-index: 20; }
+.cartao { z-index: 21; }
