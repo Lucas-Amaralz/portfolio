@@ -31,6 +31,8 @@
   --screen:#0a1a20;
   --display:'Pixelify Sans','Trebuchet MS',sans-serif;
   --body:'IBM Plex Mono',Consolas,'Courier New',monospace;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);       /* entradas: começa rápido */
+  --ease-in-out:cubic-bezier(0.77,0,0.175,1);   /* movimento na tela */
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -50,12 +52,14 @@ body{color:var(--bone);font-family:var(--body);font-size:17px;line-height:1.45}
 .brand{font-family:var(--display);font-size:15px;letter-spacing:.06em;color:var(--dim)}
 .brand b{color:var(--bone);font-weight:700}
 .ctrls{display:flex;flex-wrap:wrap;gap:8px}
-.btn{font-family:var(--display);font-size:14px;letter-spacing:.05em;color:var(--bone);background:transparent;border:2px solid var(--bone);border-radius:4px;padding:6px 12px;cursor:pointer}
-.btn:hover{background:var(--bone);color:var(--ink)}
+.btn{font-family:var(--display);font-size:14px;letter-spacing:.05em;color:var(--bone);background:transparent;border:2px solid var(--bone);border-radius:4px;padding:6px 12px;cursor:pointer;transition:transform 160ms var(--ease-out),background-color 160ms ease,color 160ms ease}
+.btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--bone);color:var(--ink)}}
 button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 
 .stage{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;cursor:pointer;border-radius:6px}
 .stage canvas{width:100%;height:100%;display:block}
+.stage::before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 55%,rgba(0,0,0,.42) 100%)}
 .stage::after,.screen::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.07) 2px 3px)}
 /* navegadores antigos (sem aspect-ratio): mantém a cena em 16:9 pelo truque do padding */
 @supports not (aspect-ratio:16/9){.stage{height:0;padding-top:56.25%}.stage canvas{position:absolute;top:0;left:0}}
@@ -65,14 +69,18 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 @keyframes blink{50%{opacity:0}}
 
 .dialog{position:relative;border:3px solid var(--bone);border-radius:8px;background:#05060b;padding:16px 20px 26px;min-height:170px;display:flex;gap:16px;align-items:flex-start;cursor:pointer}
-.portrait{width:84px;height:84px;flex:none;border:2px solid var(--dim);border-radius:6px;background:#000}
+.portrait{width:84px;height:84px;flex:none;border:2px solid var(--dim);border-radius:6px;background:#000;animation:pop 200ms var(--ease-out)}
+@keyframes pop{from{opacity:0;transform:scale(.95)}}
 .dtext{min-width:0;flex:1;display:flex;flex-direction:column;gap:8px}
 .who{font-family:var(--display);font-size:15px;letter-spacing:.1em;color:var(--amber);min-height:18px}
 .line{font-size:clamp(16px,2.1vw,20px);white-space:pre-wrap;margin:0;min-height:2.9em}
 .choices{display:flex;flex-wrap:wrap;gap:4px 32px}
-.choice{font-family:var(--body);font-size:clamp(16px,2.1vw,20px);font-weight:500;color:var(--bone);background:none;border:0;padding:2px 0 2px 22px;cursor:pointer;position:relative;text-align:left}
+.choice{font-family:var(--body);font-size:clamp(16px,2.1vw,20px);font-weight:500;color:var(--bone);background:none;border:0;padding:2px 0 2px 22px;cursor:pointer;position:relative;text-align:left;transition:color 120ms ease,transform 160ms var(--ease-out);animation:rise 260ms var(--ease-out) both}
+.choice:active{transform:scale(.97)}
 .choice.on{color:var(--amber)}
-.choice.on::before{content:"";position:absolute;left:2px;top:50%;border-left:10px solid var(--amber);border-top:7px solid transparent;border-bottom:7px solid transparent;transform:translateY(-50%)}
+.choice::before{content:"";position:absolute;left:2px;top:50%;border-left:10px solid var(--amber);border-top:7px solid transparent;border-bottom:7px solid transparent;transform:translate(-6px,-50%);opacity:0;transition:transform 160ms var(--ease-out),opacity 120ms ease}
+.choice.on::before{transform:translate(0,-50%);opacity:1}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}}
 .next{position:absolute;right:16px;bottom:8px;font-size:16px;color:var(--amber);animation:bob .6s steps(2) infinite}
 @keyframes bob{50%{transform:translateY(3px)}}
 .help{font-size:14px;color:var(--dim);margin:0}
@@ -81,13 +89,19 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 /* ---------- o computador do garoto ---------- */
 .desktop{display:flex;flex-direction:column;gap:12px}
 .bezel{background:var(--beige);border-radius:10px;padding:clamp(10px,3vw,28px);box-shadow:inset -6px -6px 0 var(--beige-d),inset 5px 5px 0 #e2dccb}
+.boot .screen{animation:crt 620ms var(--ease-out) both}
+@keyframes crt{0%{transform:scaleY(.008) scaleX(.6);filter:brightness(3)}45%{transform:scaleY(.008) scaleX(1);filter:brightness(3)}100%{transform:none;filter:none}}
 .screen{position:relative;background:radial-gradient(ellipse at center,#0f2830 0%,var(--screen) 70%);border-radius:6px;min-height:560px;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 3px #04090c,inset 0 0 40px rgba(111,243,224,.08)}
 .topbar{display:flex;justify-content:space-between;gap:12px;padding:6px 12px;background:var(--cyan);color:var(--screen);font-family:var(--display);font-size:14px;letter-spacing:.06em}
 /* ícones em colunas, de cima para baixo (como no Windows): a primeira coluna nunca fica atrás da janela aberta */
 .icons{display:grid;grid-auto-flow:column;grid-template-rows:repeat(4,auto);grid-auto-columns:minmax(118px,150px);gap:12px 8px;padding:22px 16px;align-content:start;justify-content:start;flex:1}
-.icon{display:flex;flex-direction:column;align-items:center;gap:10px;background:none;border:0;color:var(--bone);font-family:var(--body);font-size:15px;cursor:pointer;padding:8px 4px}
+.icon{display:flex;flex-direction:column;align-items:center;gap:10px;background:none;border:0;color:var(--bone);font-family:var(--body);font-size:15px;cursor:pointer;padding:8px 4px;transition:transform 160ms var(--ease-out)}
+.icon .ico{transition:transform 200ms var(--ease-out)}
+.icon:active{transform:scale(.96)}
 .icon .lbl{padding:1px 5px;border-radius:3px}
-.icon:hover .lbl,.icon.on .lbl{background:var(--cyan);color:var(--screen)}
+.icon.on .lbl{background:var(--cyan);color:var(--screen)}
+@media (hover:hover) and (pointer:fine){.icon:hover .lbl{background:var(--cyan);color:var(--screen)}.icon:hover .ico{transform:translateY(-3px)}}
+.boot .icon{animation:rise 320ms var(--ease-out) both}
 .ico{position:relative;width:52px;height:40px;border-radius:3px}
 .ico.folder{background:var(--amber);box-shadow:inset 0 -9px 0 #d98a2a;margin-top:6px}
 .ico.folder::before{content:"";position:absolute;left:0;top:-6px;width:22px;height:6px;background:var(--amber);border-radius:3px 3px 0 0}
@@ -98,10 +112,13 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .tip{position:relative;z-index:1;padding:10px 14px;border-top:2px solid rgba(111,243,224,.3);color:var(--bone);font-size:15px}
 .tip b{color:var(--amber);font-weight:600}
 
-.win{position:absolute;top:46px;right:16px;bottom:58px;width:min(600px,calc(100% - 32px));background:#05070a;border:3px solid var(--bone);border-radius:6px;display:flex;flex-direction:column;z-index:2;box-shadow:8px 8px 0 rgba(0,0,0,.5);overflow:hidden}
+.win{position:absolute;top:46px;right:16px;bottom:58px;width:min(600px,calc(100% - 32px));background:#05070a;border:3px solid var(--bone);border-radius:6px;display:flex;flex-direction:column;z-index:2;box-shadow:8px 8px 0 rgba(0,0,0,.5);overflow:hidden;transition:transform 220ms var(--ease-out),opacity 220ms var(--ease-out)}
+.win.closed{transform:scale(.96);opacity:0;pointer-events:none;transition-duration:140ms}
+.win.opening{transform:scale(.96);opacity:0;transition:none}
 @media (max-width:640px){.win{left:8px;right:8px;width:auto;top:40px;bottom:8px}}
 .wtitle{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bone);color:#000;font-family:var(--display);font-size:14px;letter-spacing:.04em;padding:4px 4px 4px 10px}
-.wclose{font-family:var(--display);font-size:13px;background:#000;color:var(--bone);border:0;border-radius:3px;padding:4px 8px;cursor:pointer}
+.wclose{font-family:var(--display);font-size:13px;background:#000;color:var(--bone);border:0;border-radius:3px;padding:4px 8px;cursor:pointer;transition:transform 160ms var(--ease-out)}
+.wclose:active{transform:scale(.94)}
 .wbody{overflow:auto;padding:16px 18px;color:var(--bone);font-size:16px;min-height:0;flex:1}
 .wbody h2{font-family:var(--display);font-size:24px;font-weight:700;color:var(--amber);margin:0 0 6px;letter-spacing:.02em;text-wrap:balance}
 .wbody h3{font-family:var(--body);font-size:17px;font-weight:600;color:var(--bone);margin:0 0 4px;letter-spacing:0}
@@ -116,7 +133,14 @@ button:focus-visible{outline:2px dashed var(--amber);outline-offset:3px}
 .wbody ul{margin:0;padding-left:20px;max-width:62ch}
 .wbody li{margin-bottom:3px}
 .proj .kv{margin-bottom:6px}
-@media (prefers-reduced-motion:reduce){.title p,.next{animation:none}}
+@media (prefers-reduced-motion:reduce){
+  .title p,.next{animation:none}
+  .portrait,.choice,.boot .icon{animation:fadein 200ms ease both}
+  .boot .screen{animation:fadein 300ms ease both}
+  .win,.win.closed,.win.opening{transform:none}
+  .icon:hover .ico{transform:none}
+}
+@keyframes fadein{from{opacity:0}}
 </style>
 </head>
 <body>
@@ -176,33 +200,36 @@ const PERFIL = {
   local: "Guaíba, RS",
   buscando: "Analista de Infraestrutura Júnior",
   bio: [
-    "Trabalho com infraestrutura e suporte de TI em ambientes Microsoft: Active Directory, Microsoft Entra ID e Microsoft 365, com automação em PowerShell e scripts .bat.",
+    "Trabalho com infraestrutura e suporte de TI em ambientes Microsoft: Active Directory, Microsoft Entra ID e Microsoft 365, com automação em PowerShell e scripts .bat. São quase um ano e meio de experiência, numa empresa de tecnologia e numa prefeitura.",
     "Sou certificado AWS Cloud Practitioner e tenho conhecimentos em Azure e em ambientes híbridos, on-premises e nuvem. Meu foco é gestão de identidades, automação e segurança.",
-    "Hoje estudo cloud e automação com IA, colocando tudo em prática em projetos próprios."
+    "Formado em Análise e Desenvolvimento de Sistemas e com inglês avançado (C1). Hoje estudo cloud e automação com IA, colocando tudo em prática em projetos próprios."
   ],
   experiencia: [
     { cargo: "Analista de Infraestrutura (Estágio)", empresa: "Zallpy Digital", periodo: "Ago 2025 – Fev 2026",
       resumo: "Suporte N1/N2 em ambiente corporativo, com foco em identidade e infraestrutura em endpoints Windows, Linux e macOS.",
-      itens: ["IAM com Active Directory, Entra ID e Microsoft 365", "Troubleshooting de redes (TCP/IP, DNS, DHCP) em ambientes híbridos", "Projeto próprio: Instalação automatizada do Windows e dos aplicativos corporativos com Autounattend.xml e scripts .bat, deixando as máquinas prontas para envio", "Documentação técnica, padronização de ativos e hardening", "Preparação de máquinas Windows, Linux e macOS, como principal responsável pelos MacBooks e pelo ecossistema Apple", "89% de SLA nos chamados atendidos"] },
+      itens: ["Projeto próprio: Automação da instalação do Windows 11 e dos aplicativos corporativos, que reduziu a preparação de cada máquina de cerca de 3 horas para no máximo 1 hora", "Gestão de identidades e acessos no Active Directory, Entra ID e Microsoft 365: Entradas, desligamentos, grupos, licenças e permissões", "Principal responsável pelo ecossistema Apple: Preparação e suporte dos MacBooks da empresa", "Rotinas de segurança seguindo a ISO/IEC 27001 e o TISAX: Hardening, padronização de ativos e documentação técnica", "Troubleshooting de redes (TCP/IP, DNS, DHCP) em ambiente híbrido", "Suporte a usuários do Citrix e das ferramentas dos times de desenvolvimento"] },
     { cargo: "Suporte Técnico / Infra (Estágio)", empresa: "Prefeitura Municipal de Guaíba", periodo: "Jul 2024 – Abr 2025",
       resumo: "Suporte presencial e remoto para vários setores da Prefeitura, incluindo saúde, assistência social e escolas.",
-      itens: ["Resolução de incidentes de hardware, software e infraestrutura", "Administração de usuários e permissões no Active Directory", "Aplicação e manutenção de políticas de segurança", "Configuração de roteadores e switches", "Monitoramento da infraestrutura com Zabbix", "Treinamento de novos estagiários"] }
+      itens: ["Resolução de incidentes de hardware, software e rede, presencial e remoto", "Instalação, configuração e manutenção de impressoras", "Instalação e configuração de antivírus nas máquinas", "Suporte aos usuários do ERP IPM (sistema de gestão pública)", "Administração de usuários, grupos e permissões no Active Directory e aplicação de políticas de segurança", "Configuração de roteadores e switches", "Acompanhamento dos alertas do Zabbix: Quando um equipamento ou link caía, entrava em contato com o setor para identificar a causa e acionar a solução", "Treinamento de 3 novos estagiários"] }
   ],
   habilidades: [
-    ["Cloud", ["Microsoft Azure", "AWS IAM", "EC2", "S3", "RDS", "Lambda", "Ambientes híbridos"]],
+    ["Cloud", ["AWS (IAM, EC2, S3)", "Microsoft Azure (fundamentos)", "Ambientes híbridos"]],
     ["Identidade e Microsoft", ["Entra ID", "Active Directory", "Microsoft 365", "IAM"]],
-    ["Automação", ["PowerShell", "Batch Script", "n8n"]],
+    ["Automação", ["PowerShell", "Batch Script", "Autounattend.xml", "n8n", "Git e GitHub"]],
     ["Redes e monitoramento", ["TCP/IP", "DNS", "DHCP", "Roteadores e switches", "Zabbix"]],
     ["Segurança", ["ISO/IEC 27001", "TISAX", "Hardening", "Políticas de segurança"]],
-    ["Sistemas e suporte", ["Windows", "Linux", "macOS", "Suporte N1/N2", "Troubleshooting", "Documentação técnica"]]
+    ["Sistemas e suporte", ["Windows 10 e 11", "Linux", "macOS", "Suporte N1/N2", "Impressoras", "Antivírus", "ERP IPM", "Citrix", "Troubleshooting", "Documentação técnica"]]
   ],
   projetos: [
-    { nome: "Instalação automatizada do Windows", status: "Concluído · Zallpy Digital",
-      resumo: "Desenvolvimento de solução automatizada de provisionamento de equipamentos Windows utilizando Autounattend.xml e scripts .bat. O processo automatizava a instalação do sistema operacional e dos aplicativos corporativos a partir de arquivos locais, padronizando a configuração dos equipamentos e reduzindo o tempo de preparação com mínima intervenção manual.",
-      tecnologias: ["Windows", "Autounattend.xml", "Batch Script", "Automação"], link: "https://github.com/Lucas-Amaralz/Automacao-windows1" },
+    { nome: "Automação do Windows 11: De 3 horas para 1 hora", status: "Concluído · Zallpy Digital",
+      resumo: "Criei por iniciativa própria um pendrive que instala o Windows 11 sem perguntas, deixa o sistema enxuto para uso corporativo e instala os aplicativos da empresa com dois cliques. A preparação de cada máquina caiu de cerca de 3 horas para no máximo 1 hora. Nenhuma senha fica no pendrive: A conta temporária exige senha nova no primeiro login, e o projeto recomenda o Windows LAPS para a senha do administrador local em produção.",
+      tecnologias: ["Windows 11", "Autounattend.xml", "PowerShell", "Batch Script", "Segurança"], link: "https://github.com/Lucas-Amaralz/Automacao-windows1" },
     { nome: "Portfólio jogável: Última Luz Acesa", status: "Concluído · este site",
       resumo: "Uma história interativa que termina no meu portfólio. Feito com HTML, CSS e JavaScript puro, sem frameworks, com os cenários desenhados em canvas e publicado no GitHub Pages.",
-      tecnologias: ["HTML", "CSS", "JavaScript", "Canvas", "GitHub Pages"], link: "https://github.com/Lucas-Amaralz/portfolio" }
+      tecnologias: ["HTML", "CSS", "JavaScript", "Canvas", "GitHub Pages"], link: "https://github.com/Lucas-Amaralz/portfolio" },
+    { nome: "DPS Meter BDO: Análise passiva de tráfego de rede", status: "Encerrado · projeto de estudo",
+      resumo: "Medidor de dano para o jogo Black Desert que só lê cópias do tráfego de rede (Npcap), sem mexer no jogo. Descobri o formato das mensagens por engenharia reversa, montei uma janela sobre o jogo que nunca rouba o teclado e um .exe com atualização automática pelo GitHub. Num teste controlado, com cada jogador batendo sozinho, provei que o jogo não envia o dano de todos ao computador de cada um e encerrei o projeto, explicando o motivo no repositório.",
+      tecnologias: ["Python", "Npcap", "Scapy", "TCP/IP", "Windows", "PyInstaller", "GitHub Releases"], link: "https://github.com/Lucas-Amaralz/DPS-Meter-BDO" }
   ],
   certificacoes: [
     ["AWS Certified Cloud Practitioner (CLF-C02)", "Amazon Web Services · válido de 2025 a 2028"],
@@ -243,7 +270,7 @@ const SCRIPT = {
   r6: { who: "kid", text: "Lá fora todo mundo diz que as máquinas venceram.\nEu prefiro olhar por outro ângulo.", choices: [["E se der errado?", "r8"]] },
   r8: { who: "kid", text: "Aí eu assumo, conserto e documento pra não acontecer de novo.\nProblema não me assusta. Problema é o meu trabalho.", next: "r9" },
   r9: { who: "kid", text: "Eu não espero mandarem. Vejo o que precisa ser feito e faço.\nE se o time precisa, eu tô junto.", next: "r4" },
-  r4: { who: "kid", text: "Tá tudo aqui no computador: Quem eu sou, onde trabalhei, meus projetos, certificações e contato.", choices: [["Bora!", "r5b"]] },
+  r4: { who: "kid", text: "Quer me conhecer melhor? Tá tudo aqui no computador, é só abrir as pastas.", choices: [["Bora!", "r5b"]] },
   r5b: { who: "kid", text: "Gostei da energia! Chega mais perto da tela.", next: "DESKTOP" }
 };
 
@@ -279,6 +306,7 @@ const STARS = Array.from({ length: 48 }, () => ({ x: rand() * W | 0, y: rand() *
 const BUILDINGS = []; for (let x = -2; x < W;) { const w = 5 + (rand() * 10 | 0); BUILDINGS.push({ x, w, h: 8 + (rand() * 22 | 0), n: rand(), win: rand() }); x += w + (rand() < .3 ? 1 : 0); }
 const TUFTS = Array.from({ length: 34 }, () => ({ x: rand() * W | 0, y: 74 + (rand() * 32 | 0) }));
 const CODE = Array.from({ length: 14 }, () => 4 + (rand() * 22 | 0));
+const DUST = Array.from({ length: 14 }, () => ({ x: 140 + rand() * 30, y: 50 + rand() * 20, s: .15 + rand() * .35, p: rand() * 6.28 }));
 const QUEUE = [[108, "#6a5a6a", "#d9a87e"], [117, "#5a6a7a", "#b07850"], [126, "#7a6050", "#e8c09a"], [135, "#4a5a5a", "#8a5a3a"], [144, "#6a5048", "#d9a87e"], [153, "#5a5070", "#b07850"], [162, "#585058", "#e8c09a"]];
 
 function stars(t, maxY) {
@@ -542,6 +570,12 @@ const SCENES = {
     // luminária
     alpha(.13, () => poly("#ffb648", 151, 50, 136, 71, 172, 71));
     glow(151, 60, 20, "#ffb648", .22);
+    // poeirinha flutuando dentro do cone de luz
+    if (!reduced) for (const d of DUST) {
+      const y = 70 - ((t * d.s * 3 + d.p * 3) % 20), x = d.x + Math.sin(t * .7 + d.p) * 1.2;
+      const half = (y - 50) / 21 * 18;          // largura do cone nessa altura
+      if (Math.abs(x - 151) < half) alpha(.35 + .3 * Math.sin(t * 2 + d.p), () => C(x, y, .22, "#ffe0a0"));
+    }
     RR(146, 69, 10, 2, 1, "#2a2030"); R(150.2, 50, 1.6, 19, "#2a2030"); poly("#4a3a4a", 146, 50, 147.5, 45, 154.5, 45, 156, 50); C(151, 50.5, 1.2, "#ffe0a0");
     // chão e mesa com pernas (o espaço embaixo fica aberto para aparecer a calça e o tênis)
     vgrad(72, H, [[0, "#241a20"], [1, "#120c10"]]);
@@ -600,6 +634,8 @@ function render(now) {
   }
   requestAnimationFrame(render);
 }
+// ease-in-out cúbico: arranca e chega suave (movimento de câmera)
+function easeInOut(k) { return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
 function tween(fn, dur) {
   const run = runId, start = performance.now();
   return new Promise(res => {
@@ -616,8 +652,8 @@ async function zoomInto(x, y, next, stay) {
     await tween(k => fade = k, 300);
   } else {
     await tween(k => {
-      const e = k * k * k, m = 1 - Math.pow(1 - k, 2);
-      cam = { x: 96 + (x - 96) * m, y: 54 + (y - 54) * m, z: 1 + 9 * e };
+      const m = easeInOut(Math.min(1, k * 1.15)), e = easeInOut(k);
+      cam = { x: 96 + (x - 96) * m, y: 54 + (y - 54) * m, z: 1 + 9 * e * e };
       fade = k > .6 ? (k - .6) / .4 : 0;
     }, 1700);
   }
@@ -698,6 +734,7 @@ function done() {
     sel = 0;
     choiceBtns = cur.choices.map(([label, next], i) => {
       const b = document.createElement("button"); b.type = "button"; b.className = "choice"; b.textContent = label;
+      b.style.animationDelay = (i * 50) + "ms";
       b.addEventListener("click", e => { e.stopPropagation(); pick(i); });
       b.addEventListener("mouseenter", () => mark(i));
       choicesEl.appendChild(b); return b;
@@ -788,7 +825,16 @@ ICONS.forEach(ic => {
 function openWin(id) {
   const ic = ICONS.find(i => i.id === id);
   wtitle.textContent = "C:\\" + ic.label.toUpperCase();
-  wbody.innerHTML = WINS[id](); wbody.scrollTop = 0; winEl.hidden = false;
+  wbody.innerHTML = WINS[id](); wbody.scrollTop = 0;
+  // a janela cresce a partir do ícone clicado
+  const btn = iconsEl.querySelector('[data-id="' + id + '"]');
+  winEl.hidden = false;
+  if (btn) {
+    const wr = winEl.getBoundingClientRect(), br = btn.getBoundingClientRect();
+    winEl.style.transformOrigin = (br.left + br.width / 2 - wr.left) + "px " + (br.top + br.height / 2 - wr.top) + "px";
+  }
+  winEl.classList.remove("closed"); winEl.classList.add("opening");
+  void winEl.offsetWidth; winEl.classList.remove("opening");
   iconsEl.querySelectorAll(".icon").forEach(b => b.classList.toggle("on", b.dataset.id === id));
   const cp = document.getElementById("copyMail");
   if (cp) cp.addEventListener("click", () => {
@@ -798,15 +844,22 @@ function openWin(id) {
   blip(700);
 }
 function selectMail() { const r = document.createRange(); r.selectNodeContents(document.getElementById("mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
-function closeWin() { winEl.hidden = true; iconsEl.querySelectorAll(".icon").forEach(b => b.classList.remove("on")); }
+function closeWin() {
+  if (winEl.hidden) return;
+  winEl.classList.add("closed");
+  setTimeout(() => { if (winEl.classList.contains("closed")) winEl.hidden = true; }, 150);
+  iconsEl.querySelectorAll(".icon").forEach(b => b.classList.remove("on"));
+}
 document.getElementById("wclose").addEventListener("click", closeWin);
 
 function openDesktop(skipped) {
   runId++; clearTimeout(typeTimer); typing = false; talking = false; busy = false; fade = 0;
   stageEl.hidden = true; dialogEl.hidden = true; helpEl.hidden = true; deskEl.hidden = false;
+  iconsEl.querySelectorAll(".icon").forEach((b, i) => b.style.animationDelay = (380 + i * 40) + "ms");
+  deskEl.classList.remove("boot"); void deskEl.offsetWidth; deskEl.classList.add("boot");
   document.getElementById("btnSkip").hidden = true;
   document.getElementById("tip").innerHTML = `<b>* ${esc(PERFIL.curto)}:</b> ${skipped ? "Com pressa? Sem problema. Tá tudo aqui." : "Fica à vontade. Clica numa pasta."}`;
-  if (skipped) openWin("sobre"); else closeWin();
+  if (skipped) setTimeout(() => openWin("sobre"), reduced ? 0 : 640); else { winEl.hidden = true; winEl.classList.add("closed"); }
   const first = iconsEl.querySelector(".icon"); first && first.focus({ preventScroll: true });
 }
 function replay() {
