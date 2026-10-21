@@ -20,6 +20,9 @@ export interface Porta {
   // 'tecla': aperta E olhando para a porta; 'pisar': basta entrar na área
   modo: 'tecla' | 'pisar';
   olhandoPara?: Direcao;
+  // sinal para quem não sabe que dá para passar: 'entrar' = balão "!", 'sair' = seta "SAIR" para baixo
+  aviso?: 'entrar' | 'sair';
+  avisoEm?: [number, number];
 }
 
 // Coisa com que o Lucas fala ou mexe (NPC, totem, placa): E dentro da área, ou tocar em `toque`
@@ -85,6 +88,8 @@ const LUGARES_768: Record<string, Lugar> = {
         chegada: { x: 385, y: 448, olhando: 'cima' },
         modo: 'tecla',
         olhandoPara: 'cima',
+        aviso: 'entrar',
+        avisoEm: [433, 144], // no alto da porta
       },
     ],
     interacoes: [],
@@ -111,6 +116,8 @@ const LUGARES_768: Record<string, Lugar> = {
         destino: 'rua-projetos',
         chegada: { x: 433, y: 254, olhando: 'baixo' },
         modo: 'pisar',
+        aviso: 'sair',
+        avisoEm: [384, 440], // logo acima do tapete da saída
       },
     ],
     interacoes: [
@@ -146,7 +153,7 @@ const LUGARES_768: Record<string, Lugar> = {
       // o totem ou o próprio prédio (no toque) abrem o cartão da experiência
       { area: [186, 280, 246, 326], toque: [134, 90, 296, 308], acao: 'experiencia:prefeitura', aviso: true, avisoEm: [216, 262] },
       { area: [403, 280, 463, 326], toque: [350, 104, 518, 308], acao: 'experiencia:zallpy', aviso: true, avisoEm: [433, 262] },
-      { area: [590, 298, 740, 330], toque: [580, 170, 762, 300], acao: 'lote', olhandoPara: 'cima' },
+      { area: [590, 298, 740, 330], toque: [580, 170, 762, 300], acao: 'lote', olhandoPara: 'cima', aviso: true, avisoEm: [614, 220] },
     ],
     npcs: [],
     placas: [
@@ -172,7 +179,7 @@ function converter(l: Lugar): Lugar {
     // a chegada de uma porta é no lugar de destino, então usa a escala de lá
     portas: l.portas.map((p) => {
       const kd = LUGARES_768[p.destino].escala ?? COORD;
-      return { ...p, area: ret(p.area), chegada: { ...p.chegada, x: Math.round(p.chegada.x * kd), y: Math.round(p.chegada.y * kd) } };
+      return { ...p, area: ret(p.area), avisoEm: p.avisoEm && [c(p.avisoEm[0]), c(p.avisoEm[1])], chegada: { ...p.chegada, x: Math.round(p.chegada.x * kd), y: Math.round(p.chegada.y * kd) } };
     }),
     interacoes: l.interacoes.map((i) => ({
       ...i,

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { joystick } from './interface/toque';
+import { acharCaminho } from './caminho';
 import type { Direcao } from './dados/lugares';
 
 // Linhas da folha de sprites (4x4 quadros de 48px)
@@ -31,11 +32,17 @@ export class Jogador {
   olhando: Direcao;
   private teclas: Record<string, Phaser.Input.Keyboard.Key>;
   private alvo: Phaser.Math.Vector2 | null = null;
+  private caminho: [number, number][] = []; // pontos até o alvo, desviando dos bloqueios
   private parado = 0; // ms sem sair do lugar enquanto anda até o alvo
-  private eixo: 'x' | 'y' = 'x';
-  private trocouEixo = false;
 
-  constructor(private cena: Phaser.Scene, x: number, y: number, olhando: Direcao) {
+  // `livre` diz se os pés cabem num ponto (sem ela, anda em linha reta até o alvo)
+  constructor(
+    private cena: Phaser.Scene,
+    x: number,
+    y: number,
+    olhando: Direcao,
+    private livre?: (x: number, y: number) => boolean,
+  ) {
     criarAnimacoes(cena, 'lucas');
     this.sprite = cena.physics.add.sprite(x, y, 'lucas');
     posicionarPersonagem(this.sprite, olhando);
@@ -49,15 +56,18 @@ export class Jogador {
   }
 
   irAte(x: number, y: number) {
-    this.alvo = new Phaser.Math.Vector2(x, y);
+    const { width, height } = this.cena.physics.world.bounds;
+    const caminho = this.livre ? acharCaminho(this.livre, [this.sprite.x, this.sprite.y], [x, y], width, height) : [[x, y] as [number, number]];
+    this.caminho = caminho ?? [];
+    const ultimo = this.caminho[this.caminho.length - 1];
+    this.alvo = ultimo ? new Phaser.Math.Vector2(...ultimo) : null;
     this.parado = 0;
-    this.eixo = Math.abs(x - this.sprite.x) >= Math.abs(y - this.sprite.y) ? 'x' : 'y';
-    this.trocouEixo = false;
   }
 
   // Para no lugar (diálogo, vitrine): sem alvo, sem velocidade, quadro parado
   pararAgora() {
     this.alvo = null;
+    this.caminho = [];
     this.sprite.setVelocity(0, 0);
     this.sprite.anims.stop();
     this.sprite.setFrame(LINHA[this.olhando] * 4);
@@ -87,29 +97,29 @@ export class Jogador {
 
     if (vx || vy) {
       this.alvo = null; // teclado ou joystick mandam
+      this.caminho = [];
     } else if (this.alvo) {
-      const dx = this.alvo.x - this.sprite.x;
-      const dy = this.alvo.y - this.sprite.y;
-      const faltaX = Math.abs(dx) > 1.5;
-      const faltaY = Math.abs(dy) > 1.5;
-      if (!faltaX && !faltaY) {
+      // segue o caminho ponto a ponto; cada trecho é reto (horizontal ou vertical)
+      while (this.caminho.length) {
+        const [px, py] = this.caminho[0];
+        if (Math.abs(px - this.sprite.x) > 1.5 || Math.abs(py - this.sprite.y) > 1.5) break;
+        this.caminho.shift();
+      }
+      const ponto = this.caminho[0];
+      if (!ponto) {
         this.alvo = null;
       } else {
-        // anda em L, um eixo de cada vez, como num jogo em grade
-        const usarX = faltaX && (this.eixo === 'x' || !faltaY);
-        if (usarX) vx = Math.sign(dx);
-        else vy = Math.sign(dy);
+        const dx = ponto[0] - this.sprite.x;
+        const dy = ponto[1] - this.sprite.y;
+        vx = Math.abs(dx) > 1.5 ? Math.sign(dx) : 0;
+        vy = Math.abs(dy) > 1.5 ? Math.sign(dy) : 0;
         const corpo = this.sprite.body;
         if (corpo.deltaAbsX() < 0.1 && corpo.deltaAbsY() < 0.1) this.parado += delta;
         else this.parado = 0;
-        if (this.parado > 150) {
-          // bateu em algo: tenta o outro eixo uma vez, depois desiste
-          if (this.trocouEixo) this.alvo = null;
-          else {
-            this.eixo = this.eixo === 'x' ? 'y' : 'x';
-            this.trocouEixo = true;
-            this.parado = 0;
-          }
+        if (this.parado > 400) {
+          // preso mesmo assim (algo fora do mapa de bloqueios): desiste
+          this.alvo = null;
+          this.caminho = [];
         }
       }
     }

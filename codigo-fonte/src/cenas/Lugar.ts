@@ -72,11 +72,23 @@ export class Lugar extends Phaser.Scene {
       paredes.add(zona);
     }
 
-    this.jogador = new Jogador(this, dados.chegada.x, dados.chegada.y, dados.chegada.olhando);
+    // os pés (14x6, como o corpo em jogador.ts) cabem neste ponto sem encostar em nada?
+    const livre = (x: number, y: number) =>
+      x - 8 >= 0 &&
+      x + 8 <= largura &&
+      y - 7 >= 0 &&
+      y + 1 <= altura &&
+      !this.dados.bloqueios.some(([x0, y0, x1, y1]) => x + 8 > x0 && x - 8 < x1 && y + 1 > y0 && y - 7 < y1);
+    this.jogador = new Jogador(this, dados.chegada.x, dados.chegada.y, dados.chegada.olhando, livre);
     this.physics.add.collider(this.jogador.sprite, paredes);
 
     this.tecla = this.criarTeclaE();
-    this.avisos = this.dados.interacoes.filter((i) => i.aviso).map((i) => this.criarAviso(i));
+    this.avisos = [
+      ...this.dados.interacoes.filter((i) => i.aviso).map((i) => this.criarAviso(i)),
+      ...this.dados.portas
+        .filter((p) => p.aviso && p.avisoEm)
+        .map((p) => (p.aviso === 'sair' ? this.criarSaida(...p.avisoEm!) : this.criarBalao(...p.avisoEm!))),
+    ];
 
     const cam = this.cameras.main;
     cam.startFollow(this.jogador.sprite, true, 0.2, 0.2);
@@ -173,6 +185,11 @@ export class Lugar extends Phaser.Scene {
   private criarAviso(coisa: Interacao) {
     const [x0, y0, x1] = coisa.toque;
     const [ax, ay] = coisa.avisoEm ?? [Math.round((x0 + x1) / 2), y0 - 4]; // padrão: um pouco acima da cabeça
+    return this.criarBalao(ax, ay);
+  }
+
+  // O mesmo balão "!" serve para porta que dá para entrar
+  private criarBalao(ax: number, ay: number) {
     const g = this.add.graphics();
     g.fillStyle(0x1a1205, 0.95).fillRoundedRect(-5, -14, 10, 11, 3);
     g.fillTriangle(-2, -4, 2, -4, 0, -1);
@@ -181,6 +198,19 @@ export class Lugar extends Phaser.Scene {
     marca.setOrigin(0.5).setResolution(4);
     const aviso = this.add.container(ax, ay, [g, marca]).setDepth(9999);
     this.tweens.add({ targets: aviso, y: ay - 2, duration: 500, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
+    return aviso;
+  }
+
+  // Saída de pisar: "SAIR" com uma seta para baixo, descendo de leve
+  private criarSaida(ax: number, ay: number) {
+    const g = this.add.graphics();
+    g.fillStyle(0x1a1205, 0.9).fillRoundedRect(-11, -16, 22, 10, 2);
+    g.lineStyle(1, 0xffc46b).strokeRoundedRect(-11, -16, 22, 10, 2);
+    g.fillStyle(0xffc46b).fillTriangle(-4, -4, 4, -4, 0, 0);
+    const texto = this.add.text(0, -11, 'SAIR', { fontFamily: 'Silkscreen', fontSize: '8px', color: '#ffc46b' });
+    texto.setOrigin(0.5).setResolution(4);
+    const aviso = this.add.container(ax, ay, [g, texto]).setDepth(9999);
+    this.tweens.add({ targets: aviso, y: ay + 2, duration: 500, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
     return aviso;
   }
 
