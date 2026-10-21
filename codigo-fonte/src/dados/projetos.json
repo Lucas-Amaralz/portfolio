@@ -29,7 +29,7 @@
       },
       {
         "titulo": "Por que encerrei",
-        "texto": "Testando com cada pessoa batendo sozinha, provei que o jogo não envia o dano de todos. O meu dano e o total do grupo são confiáveis; a divisão entre os outros, não. Documentei o limite e encerrei o projeto."
+        "texto": "Testando com cada pessoa batendo sozinha, provei que o jogo não envia o dano de todos. O meu dano e o total do grupo são confiáveis, mas a divisão entre os outros não. Documentei o limite e encerrei o projeto."
       }
     ],
     "infra": "Análise de tráfego de rede, diagnóstico com testes controlados, empacotamento e distribuição de software, e documentação honesta de limites.",
@@ -66,7 +66,7 @@
     ],
     "imagem": "arte/objeto-automacao.png",
     "numero": "~3 h → no máximo 1 h",
-    "destaque": "Criei, por iniciativa própria, a automação de provisionamento do Windows 11 (Autounattend.xml, PowerShell e .bat): instala o sistema, remove o que não é de trabalho e instala os aplicativos corporativos com dois cliques. A preparação de cada máquina caiu de cerca de 3 horas para no máximo 1 hora (até 66% menos tempo).",
+    "destaque": "Criei, por iniciativa própria, a automação de provisionamento do Windows 11 (Autounattend.xml, PowerShell e .bat): Instala o sistema, remove o que não é de trabalho e instala os aplicativos corporativos com dois cliques. A preparação de cada máquina caiu de cerca de 3 horas para no máximo 1 hora (até 66% menos tempo).",
     "secoes": [
       {
         "titulo": "A versão pública",
@@ -98,7 +98,7 @@
     "etiqueta": "Este jogo",
     "area": "Web",
     "cor": "#a879ff",
-    "resumo": "A cidade que você está explorando: cada bairro guarda uma parte do meu currículo.",
+    "resumo": "A cidade que você está explorando: Cada bairro guarda uma parte do meu currículo.",
     "selos": [
       "Projeto pessoal",
       "Código aberto"
@@ -108,8 +108,8 @@
       {
         "titulo": "O que eu fiz",
         "itens": [
-          "Jogo em Phaser 3 com TypeScript e Vite: colisão, câmera que segue o personagem e toque para andar no celular.",
-          "Arte gerada por IA e preparada por scripts em Python: redução sem perder o neon e recorte dos objetos.",
+          "Jogo em Phaser 3 com TypeScript e Vite: Colisão, câmera que segue o personagem e toque para andar no celular.",
+          "Arte gerada por IA e preparada por scripts em Python: Redução sem perder o neon e recorte dos objetos.",
           "Painéis em HTML por cima do jogo, legíveis em qualquer tela e com teclado.",
           "Teste automático no navegador (Edge headless) a cada etapa."
         ]
@@ -146,7 +146,7 @@
     "secoes": [
       {
         "titulo": "O que é",
-        "texto": "Meu primeiro portfólio jogável: uma história curta que termina numa casa com a última luz acesa, onde o portfólio aparece no monitor. Foi o protótipo que virou esta cidade."
+        "texto": "Meu primeiro portfólio jogável: Uma história curta que termina numa casa com a última luz acesa, onde o portfólio aparece no monitor. Foi o protótipo que virou esta cidade."
       }
     ],
     "ferramentas": [

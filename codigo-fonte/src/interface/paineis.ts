@@ -209,7 +209,7 @@ function controles() {
     ['E', 'Falar, abrir portas e totens'],
     ['M', 'Voltar ao mapa'],
     ['ESC', 'Fechar janelas'],
-    ['Toque ou clique', 'Andar até o ponto; tocar em alguém ou num prédio vai até ele'],
+    ['Toque ou clique', 'Anda até o ponto. Tocando em alguém ou num prédio, ele vai até lá'],
   ];
   for (const [tecla, o] of linhas) {
     const tr = el('tr');
