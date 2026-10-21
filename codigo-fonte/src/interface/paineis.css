@@ -120,7 +120,10 @@
 .hud-som { display: grid; place-items: center; width: 44px; padding: 0; }
 .hud-som svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .hud-som[aria-pressed="false"] { color: var(--suave); border-color: var(--suave); } /* desligado: apagado, mas visível */
-body.com-menu .hud, body.com-menu .area-baixo { display: none; }
+/* abertura e "Apenas ver": dos botões fixos só fica o de som (dá para desligar a música em qualquer tela),
+   no canto esquerdo e por cima de tudo; à direita ficam o "Pular" e o ESC dos painéis */
+body.com-menu .area-baixo, body.com-menu .hud > :not(.hud-som) { display: none; }
+body.com-menu .hud { z-index: 40; left: 12px; right: auto; }
 @media (max-width: 480px) { .hud-contato { display: none; } } /* janela estreita: o Contato continua no Currículo */
 
 @media (max-width: 720px) {

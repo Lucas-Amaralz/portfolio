@@ -49,6 +49,9 @@
   .abertura-lucas { order: -1; }
 }
 @media (min-width: 760px) and (min-height: 600px) {
+  /* PC: Lucas e caixa no meio da tela */
+  .abertura { align-items: center; padding-bottom: 16px; }
+  .abertura-caixa { margin-bottom: 0; }
   .abertura-lucas { width: 240px; height: 240px; background-position: 0 -720px; background-size: 960px 960px; }
   .abertura-fala { font-size: 19px; }
 }

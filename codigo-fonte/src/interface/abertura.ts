@@ -6,9 +6,8 @@ import { irParaMapa, pausarCenas } from '../navegacao';
 
 // Abertura: o Lucas, de costas, olhando a cidade, se apresenta numa caixa de diálogo (toque passa a fala)
 // e no fim pergunta se a pessoa quer jogar ou só ver o currículo e os projetos.
-// Quem já viu a apresentação neste navegador vai direto para a pergunta.
+// Na volta pelo botão Início, vai direto para a pergunta.
 
-const CHAVE = 'abertura-vista';
 
 const FALAS = [
   'Olá! Eu sou o Lucas, Analista de Infraestrutura Júnior.',
@@ -21,28 +20,16 @@ const FALAS = [
 ];
 const PERGUNTA = 'Deseja jogar e se aventurar pela cidade?';
 
-function jaViu() {
-  try {
-    return localStorage.getItem(CHAVE) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function marcarVista() {
-  try {
-    localStorage.setItem(CHAVE, '1');
-  } catch {
-    // sem armazenamento: a apresentação aparece de novo na próxima visita
-  }
-}
+// As falas aparecem sempre que a página abre (o botão Pular está ali para quem tem pressa).
+// Só a volta pelo botão Início ou depois do "Apenas ver" vai direto para a pergunta.
+let falasVistas = false;
 
 // Mostra a abertura; resolve quando a pessoa escolhe JOGAR (o "só ver" volta para a pergunta ao fechar)
 export async function abertura() {
   document.body.classList.add('com-menu'); // esconde os botões fixos enquanto a abertura está na tela
   for (;;) {
-    const escolha = await mostrar(jaViu());
-    marcarVista();
+    const escolha = await mostrar(falasVistas);
+    falasVistas = true;
     if (escolha === 'jogar') break;
     await abrirResumo();
   }
@@ -63,7 +50,9 @@ function mostrar(pularFalas: boolean) {
     tela.setAttribute('role', 'dialog');
     tela.setAttribute('aria-label', 'Apresentação');
     // a cidade preenche a tela inteira em qualquer formato (caminho relativo, por isso aqui e não no CSS)
-    tela.style.setProperty('--cidade', 'url(arte/mapa.png)');
+    // endereço completo: dentro de uma variável CSS, um caminho relativo seria lido a partir da pasta do
+    // arquivo CSS (assets/) no site publicado, e a imagem não carregava
+    tela.style.setProperty('--cidade', `url("${new URL('arte/mapa.png', document.baseURI).href}")`);
 
     const pular = el('button', 'abertura-pular', 'Pular');
     pular.type = 'button';
