@@ -18,3 +18,7 @@ Acesse: https://lucas-amaralz.github.io/portfolio/
 - `codigo-fonte/`: o código do jogo (Phaser 3, TypeScript e Vite). Para rodar: `npm install` e `npm run dev`.
 - `ultima-luz/`: "Última Luz Acesa", o primeiro portfólio jogável (HTML, CSS e JavaScript puro), protótipo antes da cidade.
 - `curriculo.pdf`: o currículo.
+
+## Créditos
+
+- Música: "Chill Lofi Inspired", de omfgdude, no [OpenGameArt](https://opengameart.org/content/chill-lofi-inspired) (licença CC0, domínio público).

@@ -28,8 +28,8 @@ body.em-pe .area-baixo { position: fixed; left: 0; right: 0; top: 60dvh; bottom:
 .area-botoes .seta { font-size: 22px; }
 body.em-pe .toque-controles { inset: 60dvh 0 0 0; }
 body.em-pe .dica { display: none; }
-/* em pé não cabem 4 botões no topo: o Contato fica dentro do Menu, e Mapa/Voltar ficam menores */
-body.em-pe .hud-contato, body.em-pe .hud-som { display: none; }
+/* em pé não cabem 4 botões no topo: o Contato fica dentro do Currículo (o som é só um ícone e cabe), e Mapa/Voltar ficam menores */
+body.em-pe .hud-contato { display: none; }
 body.em-pe #btn-mapa, body.em-pe #btn-voltar { font-size: 13px; padding: 8px 12px; min-height: 44px; }
 
 /* botão de ação com a palavra "Ver" (quem não joga não sabe o que é "E") */

@@ -13,6 +13,8 @@ const CHAVE = 'abertura-vista';
 const FALAS = [
   'Olá! Eu sou o Lucas, Analista de Infraestrutura Júnior.',
   'Quero te apresentar meu projeto pessoal: um portfólio que você pode jogar, numa cidade em que cada bairro guarda uma parte da minha carreira.',
+  'No telão do centro está o meu currículo; na loja, os meus projetos; no parque, as empresas em que trabalhei; no farol, as certificações; e na torre de rádio, o meu contato.',
+  'Construí a cidade do zero com Phaser e TypeScript, preparei a arte gerada por IA com scripts em Python, e ela funciona tanto no computador quanto no celular.',
   ehToque
     ? 'Para andar, toque nos botões de baixo ou em qualquer lugar da cidade.'
     : 'Para a melhor experiência, ande com WASD ou as setas e use E para interagir.',
